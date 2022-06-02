@@ -1,5 +1,6 @@
 package com.example.application.data.service;
 
+import com.example.application.data.entity.Mitarbeiter;
 import com.example.application.data.entity.SamplePerson;
 import java.util.Optional;
 import java.util.UUID;

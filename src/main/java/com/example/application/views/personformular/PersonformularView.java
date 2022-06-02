@@ -29,23 +29,32 @@ import javax.annotation.security.RolesAllowed;
 @Uses(Icon.class)
 public class PersonformularView extends Div {
 
-    private TextField firstName = new TextField("First name");
-    private TextField lastName = new TextField("Last name");
-    private EmailField email = new EmailField("Email address");
-    private DatePicker dateOfBirth = new DatePicker("Birthday");
-    private PhoneNumberField phone = new PhoneNumberField("Phone number");
-    private TextField occupation = new TextField("Occupation");
+    private TextField firstName = new TextField("Vorname");
+    private TextField lastName = new TextField("Nachname");
+    private EmailField email = new EmailField("E-Mail");
+    private DatePicker dateOfBirth = new DatePicker("Geburtstag");
+    private PhoneNumberField phone = new PhoneNumberField("Telefonnummer");
+    private TextField position = new TextField("Position");
+    private ComboBox<String> abteilung = new ComboBox<>("Abteilung");
+    private TextField street = new TextField("Straße");
+    private TextField streetNumber = new TextField("Hausnummer");
+    private TextField postalcode = new TextField("Postleitzahl");
+    private TextField city = new TextField("Stadt");
+    private ComboBox<String> state = new ComboBox<>("Bundesland");
+    private ComboBox<String> country = new ComboBox<>("Land");
 
-    private Button cancel = new Button("Cancel");
-    private Button save = new Button("Save");
+    private Button cancel = new Button("Abbrechen");
+    private Button save = new Button("Speichern");
 
     private Binder<SamplePerson> binder = new Binder<>(SamplePerson.class);
 
     public PersonformularView(SamplePersonService personService) {
         addClassName("personformular-view");
 
-        add(createTitle());
-        add(createFormLayout());
+        add(createTitle1());
+        add(createFormLayout1());
+        add(createTitle2());
+        add(createFormLayout2());
         add(createButtonLayout());
 
         binder.bindInstanceFields(this);
@@ -54,7 +63,7 @@ public class PersonformularView extends Div {
         cancel.addClickListener(e -> clearForm());
         save.addClickListener(e -> {
             personService.update(binder.getBean());
-            Notification.show(binder.getBean().getClass().getSimpleName() + " details stored.");
+            Notification.show(binder.getBean().getClass().getSimpleName() + " - Daten gespeichert.");
             clearForm();
         });
     }
@@ -63,14 +72,28 @@ public class PersonformularView extends Div {
         binder.setBean(new SamplePerson());
     }
 
-    private Component createTitle() {
-        return new H3("Personal information");
+    private Component createTitle1() {
+        return new H3("Persönliche Informationen");
     }
 
-    private Component createFormLayout() {
+    private Component createFormLayout1() {
         FormLayout formLayout = new FormLayout();
-        email.setErrorMessage("Please enter a valid email address");
-        formLayout.add(firstName, lastName, dateOfBirth, phone, email, occupation);
+        email.setErrorMessage("Bitte geben Sie eine gültige E-Mail ein!");
+        formLayout.add(firstName, lastName, dateOfBirth, phone, email, position, abteilung);
+        abteilung.setItems("Controlling","Finance","HR","IT","Legal Affairs", "Management", "Operations");
+        return formLayout;
+    }
+
+    private Component createTitle2() {
+        return new H3("Adresse");
+    }
+
+    private Component createFormLayout2() {
+        FormLayout formLayout = new FormLayout();
+        email.setErrorMessage("Bitte geben Sie eine gültige E-Mail ein!");
+        formLayout.add(street, streetNumber, postalcode, city, state, country);
+        country.setItems("Deutschland", "Österreich", "Schweiz", "Atlantis");
+        state.setItems("Baden-Württemberg", "Bayern", "Berlin", "Brandenburg", "Bremen", "Hamburg", "Hessen", "Mecklenburg-Vorpommern", "Niedersachsen", "Nordrhein-Westfalen", "Rheinland-Pfalz", "Saarland", "Sachsen", "Sachsen-Anhalt", "Schleswig-Holstein", "Thüringen");
         return formLayout;
     }
 
@@ -90,10 +113,10 @@ public class PersonformularView extends Div {
         public PhoneNumberField(String label) {
             setLabel(label);
             countryCode.setWidth("120px");
-            countryCode.setPlaceholder("Country");
+            countryCode.setPlaceholder("Land");
             countryCode.setPattern("\\+\\d*");
             countryCode.setPreventInvalidInput(true);
-            countryCode.setItems("+354", "+91", "+62", "+98", "+964", "+353", "+44", "+972", "+39", "+225");
+            countryCode.setItems("+41", "+42", "+43", "+44", "+45", "+46", "+47", "+48", "+49", "+50");
             countryCode.addCustomValueSetListener(e -> countryCode.setValue(e.getDetail()));
             number.setPattern("\\d*");
             number.setPreventInvalidInput(true);
