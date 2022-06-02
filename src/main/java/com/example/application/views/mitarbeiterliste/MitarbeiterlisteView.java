@@ -31,7 +31,6 @@ import org.springframework.data.domain.PageRequest;
 
 @PageTitle("Mitarbeiterliste")
 @Route(value = "mitarbeiterliste/:mitarbeiterID?/:action?(edit)", layout = MainLayout.class)
-@RouteAlias(value = "", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
 public class MitarbeiterlisteView extends Div implements BeforeEnterObserver {
 

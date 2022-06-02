@@ -4,6 +4,7 @@ import com.example.application.data.entity.User;
 import com.example.application.security.AuthenticatedUser;
 import com.example.application.views.adressformular.AdressformularView;
 import com.example.application.views.aufgaben.AufgabenView;
+import com.example.application.views.dashboard.DashboardView;
 import com.example.application.views.einstellungen.EinstellungenView;
 import com.example.application.views.mitarbeiterakte.MitarbeiterakteView;
 import com.example.application.views.mitarbeiterliste.MitarbeiterlisteView;
@@ -137,6 +138,9 @@ public class MainLayout extends AppLayout {
 
     private MenuItemInfo[] createMenuItems() {
         return new MenuItemInfo[]{ //
+
+                new MenuItemInfo("Dashboard", "la la-house", DashboardView.class), //
+
                 new MenuItemInfo("Mitarbeiterliste", "la la-address-book", MitarbeiterlisteView.class), //
 
                 new MenuItemInfo("Mitarbeiterakte", "la la-ghost", MitarbeiterakteView.class), //
@@ -151,7 +155,7 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("Adressformular", "la la-ghost", AdressformularView.class), //
 
-                new MenuItemInfo("Personformular", "la la-ghost", PersonformularView.class), //
+                //new MenuItemInfo("Personformular", "la la-ghost", PersonformularView.class), //
 
                 new MenuItemInfo("Problemformular", "la la-question-circle", ProblemformularView.class), //
 
