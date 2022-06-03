@@ -3,6 +3,7 @@ package com.example.application.views.mitarbeiterliste;
 import com.example.application.data.entity.Mitarbeiter;
 import com.example.application.data.service.MitarbeiterService;
 import com.example.application.views.MainLayout;
+import com.example.application.views.personformular.PersonformularView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -39,6 +40,9 @@ public class MitarbeiterlisteView extends Div implements BeforeEnterObserver {
 
     private Grid<Mitarbeiter> grid = new Grid<>(Mitarbeiter.class, false);
 
+    private Button create = new Button("Erstellen");
+    private Button delete = new Button("Entfernen");
+
     private TextField mitarbeiterid;
     private TextField vorname;
     private TextField nachname;
@@ -68,7 +72,11 @@ public class MitarbeiterlisteView extends Div implements BeforeEnterObserver {
         createGridLayout(splitLayout);
         createEditorLayout(splitLayout);
 
+        add(createButtonLayout());
         add(splitLayout);
+
+        create.addClickListener(e -> create.getUI().ifPresent(ui -> ui.navigate(
+                PersonformularView.class)));
 
         // Configure Grid
         grid.addColumn("mitarbeiterid").setAutoWidth(true);
@@ -142,6 +150,15 @@ public class MitarbeiterlisteView extends Div implements BeforeEnterObserver {
                 event.forwardTo(MitarbeiterlisteView.class);
             }
         }
+    }
+
+    private Component createButtonLayout() {
+        HorizontalLayout buttonLayout = new HorizontalLayout();
+        buttonLayout.addClassName("button-layout");
+        save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        buttonLayout.add(create);
+        buttonLayout.add(delete);
+        return buttonLayout;
     }
 
     private void createEditorLayout(SplitLayout splitLayout) {
