@@ -4,6 +4,7 @@ import com.example.application.data.entity.SamplePerson;
 import com.example.application.data.service.SamplePersonService;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -11,21 +12,26 @@ import com.vaadin.flow.component.customfield.CustomField;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.tabs.Tab;
+import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import javax.annotation.security.RolesAllowed;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-@PageTitle("Personformular")
+@PageTitle("Mitarbeiter erstellen")
 @Route(value = "personformular", layout = MainLayout.class)
-@RolesAllowed("USER")
+@RolesAllowed("ADMIN")
 @Uses(Icon.class)
 public class PersonformularView extends Div {
 
@@ -48,14 +54,32 @@ public class PersonformularView extends Div {
 
     private Binder<SamplePerson> binder = new Binder<>(SamplePerson.class);
 
+    private Tabs tabs = new Tabs();
+    private Component currentContent = new Div();
+
+    private Map<Tab, Component> parts = new LinkedHashMap<>();
+    private Map<Component, Tab> rootToTab = new HashMap<>();
+
     public PersonformularView(SamplePersonService personService) {
         addClassName("personformular-view");
 
-        add(createTitle1());
-        add(createFormLayout1());
-        add(createTitle2());
-        add(createFormLayout2());
-        add(createButtonLayout());
+        parts.put(new Tab("Information"), new VerticalLayout(firstName, lastName, email, dateOfBirth, phone, position, abteilung));
+        parts.put(new Tab("Adresse"), new VerticalLayout(street, streetNumber, postalcode, city, state, country));
+
+        parts.forEach((tab, root) -> rootToTab.put(root, tab));
+        parts.keySet().forEach(tabs::add);
+
+        add(tabs, currentContent, new VerticalLayout(save));
+
+        tabs.addSelectedChangeListener(event -> showTab(event.getSelectedTab()));
+        showTab(tabs.getSelectedTab());
+
+        //add(createDescription());
+        //add(createTitle1());
+        //add(createFormLayout1());
+        //add(createTitle2());
+        //add(createFormLayout2());
+        //add(createButtonLayout());
 
         binder.bindInstanceFields(this);
         clearForm();
@@ -68,8 +92,18 @@ public class PersonformularView extends Div {
         });
     }
 
+    private void showTab(Tab tab) {
+        Component newContent = parts.get(tab);
+        replace(currentContent, newContent);
+        currentContent = newContent;
+    }
+
     private void clearForm() {
         binder.setBean(new SamplePerson());
+    }
+
+    private Component createDescription(){
+        return new H6("In diesem Formular können Sie neue Mitarbeiter anlegen.");
     }
 
     private Component createTitle1() {
@@ -81,6 +115,12 @@ public class PersonformularView extends Div {
         email.setErrorMessage("Bitte geben Sie eine gültige E-Mail ein!");
         formLayout.add(firstName, lastName, dateOfBirth, phone, email, position, abteilung);
         abteilung.setItems("Controlling","Finance","HR","IT","Legal Affairs", "Management", "Operations");
+
+        firstName.setRequired(true);
+        lastName.setRequired(true);
+        dateOfBirth.setRequired(true);
+        abteilung.setRequired(true);
+
         return formLayout;
     }
 
@@ -94,6 +134,14 @@ public class PersonformularView extends Div {
         formLayout.add(street, streetNumber, postalcode, city, state, country);
         country.setItems("Deutschland", "Österreich", "Schweiz", "Atlantis");
         state.setItems("Baden-Württemberg", "Bayern", "Berlin", "Brandenburg", "Bremen", "Hamburg", "Hessen", "Mecklenburg-Vorpommern", "Niedersachsen", "Nordrhein-Westfalen", "Rheinland-Pfalz", "Saarland", "Sachsen", "Sachsen-Anhalt", "Schleswig-Holstein", "Thüringen");
+
+        street.setRequired(true);
+        streetNumber.setRequired(true);
+        postalcode.setRequired(true);
+        city.setRequired(true);
+        state.setRequired(true);
+        country.setRequired(true);
+
         return formLayout;
     }
 
