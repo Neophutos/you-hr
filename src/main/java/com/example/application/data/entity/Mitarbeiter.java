@@ -1,28 +1,29 @@
 package com.example.application.data.entity;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
 public class Mitarbeiter extends AbstractEntity {
 
-    private String mitarbeiterid;
+    @NotEmpty
     private String vorname;
+
+    @NotEmpty
     private String nachname;
+
     private String geburtsdatum;
+
+    @Email
     private String email;
     private String telefonnr;
     private String position;
     private String abteilung;
     private String adresse;
 
-    public String getMitarbeiterid() {
-        return mitarbeiterid;
-    }
-    public void setMitarbeiterid(String mitarbeiterid) {
-        this.mitarbeiterid = mitarbeiterid;
-    }
     public String getVorname() {
         return vorname;
     }

@@ -2,6 +2,7 @@ package com.example.application.views.personformular;
 
 import com.example.application.data.entity.Mitarbeiter;
 import com.example.application.data.entity.SamplePerson;
+import com.example.application.data.service.HRService;
 import com.example.application.data.service.MitarbeiterService;
 import com.example.application.data.service.SamplePersonService;
 import com.example.application.views.MainLayout;
@@ -58,18 +59,19 @@ public class PersonformularView extends Div {
 
     private Mitarbeiter mitarbeiter;
 
-    private final MitarbeiterService mitarbeiterService;
+    private HRService service;
+
+    MitarbeiterForm form;
 
     @Autowired
-    public PersonformularView(MitarbeiterService mitarbeiterService) {
-        this.mitarbeiterService = mitarbeiterService;
+    public PersonformularView(HRService service) {
+        this.service = service;
         addClassNames("personformular-view");
 
-        add(createTitle1());
-        add(createFormLayout1());
-        add(createTitle2());
-        add(createFormLayout2());
-        add(createButtonLayout());
+        configureForm();
+
+        add(
+            getContent());
 
         binder = new BeanValidationBinder<>(Mitarbeiter.class);
 
@@ -82,8 +84,6 @@ public class PersonformularView extends Div {
                this.mitarbeiter = new Mitarbeiter();
 
                binder.writeBean(this.mitarbeiter);
-
-               mitarbeiterService.update(this.mitarbeiter);
                clearForm();
                UI.getCurrent().navigate(MitarbeiterlisteView.class);
                Notification.show("Daten gespeichert.");
@@ -91,6 +91,19 @@ public class PersonformularView extends Div {
                Notification.show("Eine Exception ist während der Speicherung aufgetreten.");
            }
         });
+    }
+
+    private Component getContent() {
+        HorizontalLayout content = new HorizontalLayout(form);
+        content.addClassName("content");
+        content.setSizeFull();
+
+        return content;
+    }
+
+    private void configureForm() {
+        form = new MitarbeiterForm();
+        form.setWidth("25em");
     }
 
     private void clearForm() {

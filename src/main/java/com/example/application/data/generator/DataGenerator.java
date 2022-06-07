@@ -4,9 +4,9 @@ import com.example.application.data.Role;
 import com.example.application.data.entity.Mitarbeiter;
 import com.example.application.data.entity.Rechteverwaltung;
 import com.example.application.data.entity.User;
-import com.example.application.data.service.MitarbeiterRepository;
-import com.example.application.data.service.RechteverwaltungRepository;
-import com.example.application.data.service.UserRepository;
+import com.example.application.data.repository.MitarbeiterRepository;
+import com.example.application.data.repository.RechteverwaltungRepository;
+import com.example.application.data.repository.UserRepository;
 import com.vaadin.exampledata.DataType;
 import com.vaadin.exampledata.ExampleDataGenerator;
 import com.vaadin.flow.spring.annotation.SpringComponent;
@@ -55,7 +55,6 @@ public class DataGenerator {
             logger.info("... generating 100 Mitarbeiter entities...");
             ExampleDataGenerator<Mitarbeiter> mitarbeiterRepositoryGenerator = new ExampleDataGenerator<>(
                     Mitarbeiter.class, LocalDateTime.of(2022, 5, 30, 0, 0, 0));
-            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setMitarbeiterid, DataType.EAN13);
             mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setVorname, DataType.FIRST_NAME);
             mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setNachname, DataType.LAST_NAME);
             mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setEmail, DataType.EMAIL);
