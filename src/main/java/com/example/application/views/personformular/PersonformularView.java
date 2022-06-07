@@ -58,7 +58,7 @@ public class PersonformularView extends Div {
 
     private Mitarbeiter mitarbeiter;
 
-    private MitarbeiterService mitarbeiterService;
+    private final MitarbeiterService mitarbeiterService;
 
     @Autowired
     public PersonformularView(MitarbeiterService mitarbeiterService) {
@@ -79,12 +79,11 @@ public class PersonformularView extends Div {
 
         save.addClickListener(e -> {
            try {
-               if (this.mitarbeiter == null) {
-                   this.mitarbeiter = new Mitarbeiter();
-               }
+               this.mitarbeiter = new Mitarbeiter();
+
                binder.writeBean(this.mitarbeiter);
 
-               mitarbeiterService.update(binder.getBean());
+               mitarbeiterService.update(this.mitarbeiter);
                clearForm();
                UI.getCurrent().navigate(MitarbeiterlisteView.class);
                Notification.show("Daten gespeichert.");

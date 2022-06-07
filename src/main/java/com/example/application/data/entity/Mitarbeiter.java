@@ -1,6 +1,7 @@
 package com.example.application.data.entity;
 
 import javax.persistence.Entity;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
