@@ -20,5 +20,3 @@ drivers/
 error-screenshots/
 webpack.generated.js
 
-# propertiesFile for local program tests
-application.properties
