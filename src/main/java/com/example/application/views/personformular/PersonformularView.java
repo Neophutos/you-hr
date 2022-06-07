@@ -1,10 +1,13 @@
 package com.example.application.views.personformular;
 
+import com.example.application.data.entity.Mitarbeiter;
 import com.example.application.data.entity.SamplePerson;
+import com.example.application.data.service.MitarbeiterService;
 import com.example.application.data.service.SamplePersonService;
 import com.example.application.views.MainLayout;
+import com.example.application.views.mitarbeiterliste.MitarbeiterlisteView;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -12,34 +15,33 @@ import com.vaadin.flow.component.customfield.CustomField;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.tabs.Tab;
-import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import javax.annotation.security.RolesAllowed;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 
-@PageTitle("Mitarbeiter erstellen")
+import javax.annotation.security.RolesAllowed;
+
+@PageTitle("Personformular")
 @Route(value = "personformular", layout = MainLayout.class)
-@RolesAllowed("ADMIN")
+@RolesAllowed("USER")
 @Uses(Icon.class)
 public class PersonformularView extends Div {
 
-    private TextField firstName = new TextField("Vorname");
-    private TextField lastName = new TextField("Nachname");
+    private TextField vorname = new TextField("Vorname");
+    private TextField nachname = new TextField("Nachname");
     private EmailField email = new EmailField("E-Mail");
-    private DatePicker dateOfBirth = new DatePicker("Geburtstag");
-    private PhoneNumberField phone = new PhoneNumberField("Telefonnummer");
+    private TextField geburtsdatum = new TextField("Geburtstag");
+    private PhoneNumberField telefonnr = new PhoneNumberField("Telefonnummer");
     private TextField position = new TextField("Position");
     private ComboBox<String> abteilung = new ComboBox<>("Abteilung");
     private TextField street = new TextField("Straße");
@@ -52,58 +54,48 @@ public class PersonformularView extends Div {
     private Button cancel = new Button("Abbrechen");
     private Button save = new Button("Speichern");
 
-    private Binder<SamplePerson> binder = new Binder<>(SamplePerson.class);
+    private BeanValidationBinder<Mitarbeiter> binder;
 
-    private Tabs tabs = new Tabs();
-    private Component currentContent = new Div();
+    private Mitarbeiter mitarbeiter;
 
-    private Map<Tab, Component> parts = new LinkedHashMap<>();
-    private Map<Component, Tab> rootToTab = new HashMap<>();
+    private MitarbeiterService mitarbeiterService;
 
-    public PersonformularView(SamplePersonService personService) {
-        addClassName("personformular-view");
+    @Autowired
+    public PersonformularView(MitarbeiterService mitarbeiterService) {
+        this.mitarbeiterService = mitarbeiterService;
+        addClassNames("personformular-view");
 
-        parts.put(new Tab("Information"), new VerticalLayout(firstName, lastName, email, dateOfBirth, phone, position, abteilung));
-        parts.put(new Tab("Adresse"), new VerticalLayout(street, streetNumber, postalcode, city, state, country));
+        add(createTitle1());
+        add(createFormLayout1());
+        add(createTitle2());
+        add(createFormLayout2());
+        add(createButtonLayout());
 
-        parts.forEach((tab, root) -> rootToTab.put(root, tab));
-        parts.keySet().forEach(tabs::add);
-
-        add(tabs, currentContent, new VerticalLayout(save));
-
-        tabs.addSelectedChangeListener(event -> showTab(event.getSelectedTab()));
-        showTab(tabs.getSelectedTab());
-
-        //add(createDescription());
-        //add(createTitle1());
-        //add(createFormLayout1());
-        //add(createTitle2());
-        //add(createFormLayout2());
-        //add(createButtonLayout());
+        binder = new BeanValidationBinder<>(Mitarbeiter.class);
 
         binder.bindInstanceFields(this);
-        clearForm();
 
         cancel.addClickListener(e -> clearForm());
+
         save.addClickListener(e -> {
-            personService.update(binder.getBean());
-            Notification.show(binder.getBean().getClass().getSimpleName() + " - Daten gespeichert.");
-            clearForm();
+           try {
+               if (this.mitarbeiter == null) {
+                   this.mitarbeiter = new Mitarbeiter();
+               }
+               binder.writeBean(this.mitarbeiter);
+
+               mitarbeiterService.update(binder.getBean());
+               clearForm();
+               UI.getCurrent().navigate(MitarbeiterlisteView.class);
+               Notification.show("Daten gespeichert.");
+           } catch (ValidationException validationException){
+               Notification.show("Eine Exception ist während der Speicherung aufgetreten.");
+           }
         });
     }
 
-    private void showTab(Tab tab) {
-        Component newContent = parts.get(tab);
-        replace(currentContent, newContent);
-        currentContent = newContent;
-    }
-
     private void clearForm() {
-        binder.setBean(new SamplePerson());
-    }
-
-    private Component createDescription(){
-        return new H6("In diesem Formular können Sie neue Mitarbeiter anlegen.");
+        binder.setBean(new Mitarbeiter());
     }
 
     private Component createTitle1() {
@@ -113,14 +105,8 @@ public class PersonformularView extends Div {
     private Component createFormLayout1() {
         FormLayout formLayout = new FormLayout();
         email.setErrorMessage("Bitte geben Sie eine gültige E-Mail ein!");
-        formLayout.add(firstName, lastName, dateOfBirth, phone, email, position, abteilung);
+        formLayout.add(vorname, nachname, geburtsdatum, telefonnr, email, position, abteilung);
         abteilung.setItems("Controlling","Finance","HR","IT","Legal Affairs", "Management", "Operations");
-
-        firstName.setRequired(true);
-        lastName.setRequired(true);
-        dateOfBirth.setRequired(true);
-        abteilung.setRequired(true);
-
         return formLayout;
     }
 
@@ -134,14 +120,6 @@ public class PersonformularView extends Div {
         formLayout.add(street, streetNumber, postalcode, city, state, country);
         country.setItems("Deutschland", "Österreich", "Schweiz", "Atlantis");
         state.setItems("Baden-Württemberg", "Bayern", "Berlin", "Brandenburg", "Bremen", "Hamburg", "Hessen", "Mecklenburg-Vorpommern", "Niedersachsen", "Nordrhein-Westfalen", "Rheinland-Pfalz", "Saarland", "Sachsen", "Sachsen-Anhalt", "Schleswig-Holstein", "Thüringen");
-
-        street.setRequired(true);
-        streetNumber.setRequired(true);
-        postalcode.setRequired(true);
-        city.setRequired(true);
-        state.setRequired(true);
-        country.setRequired(true);
-
         return formLayout;
     }
 

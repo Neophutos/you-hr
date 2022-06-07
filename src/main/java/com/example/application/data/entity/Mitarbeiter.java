@@ -1,6 +1,7 @@
 package com.example.application.data.entity;
 
 import javax.persistence.Entity;
+import java.util.Date;
 
 @Entity
 public class Mitarbeiter extends AbstractEntity {
@@ -8,6 +9,7 @@ public class Mitarbeiter extends AbstractEntity {
     private String mitarbeiterid;
     private String vorname;
     private String nachname;
+    private String geburtsdatum;
     private String email;
     private String telefonnr;
     private String position;
@@ -26,12 +28,12 @@ public class Mitarbeiter extends AbstractEntity {
     public void setVorname(String vorname) {
         this.vorname = vorname;
     }
-    public String getNachname() {
-        return nachname;
-    }
+    public String getNachname() { return nachname; }
     public void setNachname(String nachname) {
         this.nachname = nachname;
     }
+    public String getGeburtsdatum(){return geburtsdatum;}
+    public void setGeburtsdatum(String geburtsdatum) { this.geburtsdatum = geburtsdatum;}
     public String getEmail() {
         return email;
     }
