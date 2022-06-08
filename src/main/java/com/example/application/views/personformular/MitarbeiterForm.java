@@ -1,15 +1,17 @@
 package com.example.application.views.personformular;
 
 import com.example.application.data.entity.Mitarbeiter;
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.ComponentEvent;
-import com.vaadin.flow.component.ComponentEventListener;
-import com.vaadin.flow.component.Key;
+import com.example.application.data.service.HRService;
+import com.example.application.data.service.MitarbeiterService;
+import com.example.application.views.mitarbeiterliste.MitarbeiterlisteView;
+import com.example.application.views.rechteverwaltung.RechteverwaltungView;
+import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.crud.Crud;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -17,9 +19,10 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.shared.Registration;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class MitarbeiterForm extends FormLayout {
-    Binder<Mitarbeiter> binder = new BeanValidationBinder<>(Mitarbeiter.class);
+    private Binder<Mitarbeiter> binder;
 
     private TextField vorname = new TextField("Vorname");
     private TextField nachname = new TextField("Nachname");
@@ -34,8 +37,14 @@ public class MitarbeiterForm extends FormLayout {
 
     private Mitarbeiter mitarbeiter;
 
-    public MitarbeiterForm() {
+    private final MitarbeiterService mitarbeiterService;
+
+    @Autowired
+    public MitarbeiterForm(MitarbeiterService mitarbeiterService) {
+        this.mitarbeiterService = mitarbeiterService;
         addClassName("Mitarbeiter-Formular");
+
+        binder = new BeanValidationBinder<>(Mitarbeiter.class);
 
         binder.bindInstanceFields(this);
 
@@ -76,8 +85,16 @@ public class MitarbeiterForm extends FormLayout {
 
     private void checkUndSpeichern() {
         try {
+            if (this.mitarbeiter == null) {
+                this.mitarbeiter = new Mitarbeiter();
+            }
             binder.writeBean(mitarbeiter);
-            fireEvent(new SaveEvent(this, mitarbeiter));
+            mitarbeiterService.update(mitarbeiter);
+
+            Notification.show("Mitarbeiter details stored.");
+
+            UI.getCurrent().navigate(MitarbeiterlisteView.class);
+
         } catch (ValidationException e) {
             e.printStackTrace();
         }
