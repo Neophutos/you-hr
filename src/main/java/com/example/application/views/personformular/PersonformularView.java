@@ -59,13 +59,17 @@ public class PersonformularView extends Div {
 
     private Mitarbeiter mitarbeiter;
 
+    private final MitarbeiterService mitarbeiterService;
+
     HRService service;
 
     MitarbeiterForm form;
 
     @Autowired
-    public PersonformularView(HRService service) {
+    public PersonformularView(HRService service, MitarbeiterService mitarbeiterService) {
         this.service = service;
+        this.mitarbeiterService = mitarbeiterService;
+
         addClassNames("personformular-view");
 
         configureForm();
@@ -102,7 +106,7 @@ public class PersonformularView extends Div {
     }
 
     private void configureForm() {
-        form = new MitarbeiterForm();
+        form = new MitarbeiterForm(mitarbeiterService);
         form.setWidth("25em");
     }
 
