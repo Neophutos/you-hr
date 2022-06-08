@@ -12,7 +12,7 @@ public class Adresse {
     @NotEmpty
     private int plz;
     @NotEmpty
-    private String strassennamen;
+    private String strassenname;
     @NotEmpty
     private int hausnummer;
     @NotEmpty
@@ -36,12 +36,12 @@ public class Adresse {
         this.plz = plz;
     }
 
-    public String getStrassennamen() {
-        return strassennamen;
+    public String getStrassenname() {
+        return strassenname;
     }
 
-    public void setStrassennamen(String strassennamen) {
-        this.strassennamen = strassennamen;
+    public void setStrassenname(String strassenname) {
+        this.strassenname = strassenname;
     }
 
     public int getHausnummer() {
