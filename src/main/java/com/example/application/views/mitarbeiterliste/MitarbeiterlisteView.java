@@ -34,7 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 
 @PageTitle("Mitarbeiterliste")
-@Route(value = "", layout = MainLayout.class)
+@Route(value = "Mitarbeiterliste", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
 public class MitarbeiterlisteView extends Div {
 
@@ -52,9 +52,6 @@ public class MitarbeiterlisteView extends Div {
         add(getToolbar(), getContent());
         updateList();
 
-        //create.addClickListener(e -> create.getUI().ifPresent(ui -> ui.navigate(
-                //PersonformularView.class)));
-
     }
 
     private Component getContent(){
@@ -71,6 +68,9 @@ public class MitarbeiterlisteView extends Div {
         filterText.addValueChangeListener(e -> updateList());
 
         Button addMitarbeiter = new Button("Mitarbeiter erstellen");
+
+        addMitarbeiter.addClickListener(e -> addMitarbeiter.getUI().ifPresent(ui -> ui.navigate(
+                PersonformularView.class)));
 
         HorizontalLayout toolbar = new HorizontalLayout(filterText, addMitarbeiter);
         toolbar.addClassName("toolbar");

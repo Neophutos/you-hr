@@ -59,7 +59,7 @@ public class PersonformularView extends Div {
 
     private Mitarbeiter mitarbeiter;
 
-    private HRService service;
+    HRService service;
 
     MitarbeiterForm form;
 
