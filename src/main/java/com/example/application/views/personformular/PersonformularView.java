@@ -38,9 +38,6 @@ import javax.annotation.security.RolesAllowed;
 @Uses(Icon.class)
 public class PersonformularView extends Div {
 
-    private Button cancel = new Button("Abbrechen");
-    private Button save = new Button("Speichern");
-
     private BeanValidationBinder<Mitarbeiter> binder;
 
     private Mitarbeiter mitarbeiter;
@@ -62,24 +59,6 @@ public class PersonformularView extends Div {
 
         add(
             getContent());
-
-        binder = new BeanValidationBinder<>(Mitarbeiter.class);
-
-        binder.bindInstanceFields(this);
-
-        cancel.addClickListener(e -> clearForm());
-
-        save.addClickListener(e -> {
-           try {
-               this.mitarbeiter = new Mitarbeiter();
-               binder.writeBean(this.mitarbeiter);
-               clearForm();
-               UI.getCurrent().navigate(MitarbeiterlisteView.class);
-               Notification.show("Daten gespeichert.");
-           } catch (ValidationException validationException){
-               Notification.show("Eine Exception ist während der Speicherung aufgetreten.");
-           }
-        });
     }
 
     private Component getContent() {

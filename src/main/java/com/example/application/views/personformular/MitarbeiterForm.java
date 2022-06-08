@@ -36,7 +36,7 @@ public class MitarbeiterForm extends FormLayout {
     private TextField position = new TextField("Position");
     private ComboBox<String> abteilung = new ComboBox<>("Abteilung");
 
-    private TextField strassenname = new TextField("Straße");
+    private TextField strassenname = new TextField("Strasse");
     private IntegerField hausnummer = new IntegerField ("Hausnummer");
     private IntegerField plz = new IntegerField("Postleitzahl");
     private TextField stadt = new TextField("Stadt");
@@ -59,8 +59,10 @@ public class MitarbeiterForm extends FormLayout {
         mitarbeiterBinder = new BeanValidationBinder<>(Mitarbeiter.class);
         adresseBinder = new BeanValidationBinder<>(Adresse.class);
 
-        mitarbeiterBinder.bindInstanceFields(this);
-        adresseBinder.bindInstanceFields(this);
+        mitarbeiterBinder.bind(hausnummer,
+                mitarbeiter -> mitarbeiter.getAdresse().getHausnummer(),
+                (mitarbeiter, hausnummer) -> mitarbeiter.getAdresse().setHausnummer(hausnummer));
+
 
         abteilung.setItems("Buchhaltung","Forschung & Entwicklung","Geschäftsleitung","IT & EDV","Kundendienst", "Marketing", "Personalwesen");
 
@@ -103,10 +105,11 @@ public class MitarbeiterForm extends FormLayout {
         try {
             if (this.mitarbeiter == null) {
                 this.mitarbeiter = new Mitarbeiter();
-                this.adresse = this.mitarbeiter.getAdresse();
+                this.adresse = new Adresse();
             }
             mitarbeiterBinder.writeBean(mitarbeiter);
             adresseBinder.writeBean(adresse);
+            this.mitarbeiter.setAdresse(this.adresse);
             mitarbeiterService.update(mitarbeiter);
 
             Notification.show("Mitarbeiter details stored.");
