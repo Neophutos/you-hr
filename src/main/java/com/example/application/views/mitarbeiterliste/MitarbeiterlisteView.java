@@ -34,7 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 
 @PageTitle("Mitarbeiterliste")
-@Route(value = "Mitarbeiterliste", layout = MainLayout.class)
+@Route(value = "mitarbeiterliste", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
 public class MitarbeiterlisteView extends Div {
 

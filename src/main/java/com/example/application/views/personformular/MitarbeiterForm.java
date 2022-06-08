@@ -1,5 +1,6 @@
 package com.example.application.views.personformular;
 
+import com.example.application.data.entity.Adresse;
 import com.example.application.data.entity.Mitarbeiter;
 import com.example.application.data.service.HRService;
 import com.example.application.data.service.MitarbeiterService;
@@ -11,9 +12,11 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.crud.Crud;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
+import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
@@ -22,7 +25,8 @@ import com.vaadin.flow.shared.Registration;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class MitarbeiterForm extends FormLayout {
-    private Binder<Mitarbeiter> binder;
+    private Binder<Mitarbeiter> mitarbeiterBinder;
+    private Binder<Adresse> adresseBinder;
 
     private TextField vorname = new TextField("Vorname");
     private TextField nachname = new TextField("Nachname");
@@ -32,10 +36,18 @@ public class MitarbeiterForm extends FormLayout {
     private TextField position = new TextField("Position");
     private ComboBox<String> abteilung = new ComboBox<>("Abteilung");
 
+    private TextField strassenname = new TextField("Straße");
+    private IntegerField hausnummer = new IntegerField ("Hausnummer");
+    private IntegerField plz = new IntegerField("Postleitzahl");
+    private TextField stadt = new TextField("Stadt");
+    private ComboBox<String> Bundesland = new ComboBox<>("Bundesland");
+
     Button speichern = new Button("Speichern");
     Button schliessen = new Button("Schließen");
 
     private Mitarbeiter mitarbeiter;
+
+    private Adresse adresse;
 
     private final MitarbeiterService mitarbeiterService;
 
@@ -44,13 +56,16 @@ public class MitarbeiterForm extends FormLayout {
         this.mitarbeiterService = mitarbeiterService;
         addClassName("Mitarbeiter-Formular");
 
-        binder = new BeanValidationBinder<>(Mitarbeiter.class);
+        mitarbeiterBinder = new BeanValidationBinder<>(Mitarbeiter.class);
+        adresseBinder = new BeanValidationBinder<>(Adresse.class);
 
-        binder.bindInstanceFields(this);
+        mitarbeiterBinder.bindInstanceFields(this);
+        adresseBinder.bindInstanceFields(this);
 
         abteilung.setItems("Buchhaltung","Forschung & Entwicklung","Geschäftsleitung","IT & EDV","Kundendienst", "Marketing", "Personalwesen");
 
         add(
+                new H6("Persönliche Informationen"),
                 vorname,
                 nachname,
                 email,
@@ -58,14 +73,14 @@ public class MitarbeiterForm extends FormLayout {
                 telefonnr,
                 position,
                 abteilung,
+                new H6("Anschrift"),
+                strassenname,
+                hausnummer,
+                plz,
+                stadt,
+                Bundesland,
                 createButtonLayout()
         );
-    }
-
-
-    public void setMitarbeiter(Mitarbeiter mitarbeiter){
-        this.mitarbeiter = mitarbeiter;
-        binder.readBean(mitarbeiter);
     }
 
     private Component createButtonLayout() {
@@ -73,12 +88,13 @@ public class MitarbeiterForm extends FormLayout {
         schliessen.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
         speichern.addClickListener(event -> checkUndSpeichern());
-        schliessen.addClickListener(event -> fireEvent(new CloseEvent(this)));
+        schliessen.addClickListener(event -> schliessen.getUI().ifPresent(ui ->
+                ui.navigate("mitarbeiterliste")));
 
         speichern.addClickShortcut(Key.ENTER);
         schliessen.addClickShortcut(Key.ESCAPE);
 
-        binder.addStatusChangeListener(e -> speichern.setEnabled(binder.isValid()));
+        mitarbeiterBinder.addStatusChangeListener(e -> speichern.setEnabled(mitarbeiterBinder.isValid()));
 
         return new HorizontalLayout(speichern, schliessen);
     }
@@ -87,8 +103,10 @@ public class MitarbeiterForm extends FormLayout {
         try {
             if (this.mitarbeiter == null) {
                 this.mitarbeiter = new Mitarbeiter();
+                this.adresse = this.mitarbeiter.getAdresse();
             }
-            binder.writeBean(mitarbeiter);
+            mitarbeiterBinder.writeBean(mitarbeiter);
+            adresseBinder.writeBean(adresse);
             mitarbeiterService.update(mitarbeiter);
 
             Notification.show("Mitarbeiter details stored.");
@@ -97,39 +115,6 @@ public class MitarbeiterForm extends FormLayout {
 
         } catch (ValidationException e) {
             e.printStackTrace();
-        }
-    }
-
-    // Events
-    public static abstract class MitarbeiterFormEvent extends ComponentEvent<MitarbeiterForm> {
-        private Mitarbeiter mitarbeiter;
-
-        protected MitarbeiterFormEvent(MitarbeiterForm source, Mitarbeiter mitarbeiter) {
-            super(source, false);
-            this.mitarbeiter = mitarbeiter;
-        }
-
-        public Mitarbeiter getMitarbeiter() {
-            return mitarbeiter;
-        }
-    }
-
-    public static class SaveEvent extends MitarbeiterFormEvent {
-        SaveEvent(MitarbeiterForm source, Mitarbeiter mitarbeiter) {
-            super(source, mitarbeiter);
-        }
-    }
-
-    public static class DeleteEvent extends MitarbeiterFormEvent {
-        DeleteEvent(MitarbeiterForm source, Mitarbeiter mitarbeiter) {
-            super(source, mitarbeiter);
-        }
-
-    }
-
-    public static class CloseEvent extends MitarbeiterFormEvent {
-        CloseEvent(MitarbeiterForm source) {
-            super(source, null);
         }
     }
 }
