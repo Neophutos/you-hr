@@ -31,8 +31,8 @@ public class MitarbeiterForm extends FormLayout {
 
     Button speichern = new Button("Speichern");
     Button schliessen = new Button("Schließen");
-    private Mitarbeiter mitarbeiter;
 
+    private Mitarbeiter mitarbeiter;
 
     public MitarbeiterForm() {
         addClassName("Mitarbeiter-Formular");
@@ -53,6 +53,7 @@ public class MitarbeiterForm extends FormLayout {
         );
     }
 
+
     public void setMitarbeiter(Mitarbeiter mitarbeiter){
         this.mitarbeiter = mitarbeiter;
         binder.readBean(mitarbeiter);
@@ -67,6 +68,8 @@ public class MitarbeiterForm extends FormLayout {
 
         speichern.addClickShortcut(Key.ENTER);
         schliessen.addClickShortcut(Key.ESCAPE);
+
+        binder.addStatusChangeListener(e -> speichern.setEnabled(binder.isValid()));
 
         return new HorizontalLayout(speichern, schliessen);
     }
@@ -114,7 +117,7 @@ public class MitarbeiterForm extends FormLayout {
     }
 
     public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType,
-                                                                  ComponentEventListener<T> listener) {
+        ComponentEventListener<T> listener) {
         return getEventBus().addListener(eventType, listener);
     }
 }
