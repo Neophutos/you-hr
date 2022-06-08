@@ -61,7 +61,6 @@ public class DataGenerator {
             mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setTelefonnr, DataType.PHONE_NUMBER);
             mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setPosition, DataType.OCCUPATION);
             mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setAbteilung, DataType.WORD);
-            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setAdresse, DataType.WORD);
             mitarbeiterRepository.saveAll(mitarbeiterRepositoryGenerator.create(100, seed));
 
             logger.info("... generating 100 Rechteverwaltung entities...");

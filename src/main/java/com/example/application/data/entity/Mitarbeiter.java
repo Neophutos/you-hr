@@ -1,10 +1,14 @@
 package com.example.application.data.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Mitarbeiter extends AbstractEntity {
@@ -26,7 +30,8 @@ public class Mitarbeiter extends AbstractEntity {
 
     private String abteilung;
 
-    private String adresse;
+    @OneToOne(mappedBy = "mitarbeiter")
+    private Adresse adresse;
 
     public String getVorname() {
         return vorname;
@@ -78,12 +83,11 @@ public class Mitarbeiter extends AbstractEntity {
         this.abteilung = abteilung;
     }
 
-    public String getAdresse() {
+    public Adresse getAdresse() {
         return adresse;
     }
 
-    public void setAdresse(String adresse) {
+    public void setAdresse(Adresse adresse) {
         this.adresse = adresse;
     }
-
 }
