@@ -115,9 +115,4 @@ public class MitarbeiterForm extends FormLayout {
             super(source, null);
         }
     }
-
-    public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType,
-        ComponentEventListener<T> listener) {
-        return getEventBus().addListener(eventType, listener);
-    }
 }
