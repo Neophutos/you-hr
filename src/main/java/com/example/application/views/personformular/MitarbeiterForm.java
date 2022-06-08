@@ -40,14 +40,14 @@ public class MitarbeiterForm extends FormLayout {
     private IntegerField hausnummer = new IntegerField ("Hausnummer");
     private IntegerField plz = new IntegerField("Postleitzahl");
     private TextField stadt = new TextField("Stadt");
-    private ComboBox<String> Bundesland = new ComboBox<>("Bundesland");
+    private ComboBox<String> bundesland = new ComboBox<>("Bundesland");
 
     Button speichern = new Button("Speichern");
     Button schliessen = new Button("Schließen");
 
     private Mitarbeiter mitarbeiter;
 
-    private Adresse adresse;
+    private Adresse adresse = new Adresse(1,"",2,"","");
 
     private final MitarbeiterService mitarbeiterService;
 
@@ -59,12 +59,16 @@ public class MitarbeiterForm extends FormLayout {
         mitarbeiterBinder = new BeanValidationBinder<>(Mitarbeiter.class);
         adresseBinder = new BeanValidationBinder<>(Adresse.class);
 
-        mitarbeiterBinder.bind(hausnummer,
-                mitarbeiter -> mitarbeiter.getAdresse().getHausnummer(),
-                (mitarbeiter, hausnummer) -> mitarbeiter.getAdresse().setHausnummer(hausnummer));
+        mitarbeiterBinder.bindInstanceFields(this);
 
+        mitarbeiterBinder.forField(strassenname).bind("adresse.strassenname");
+        mitarbeiterBinder.forField(hausnummer).bind("adresse.hausnummer");
+        mitarbeiterBinder.forField(bundesland).bind("adresse.bundesland");
+        mitarbeiterBinder.forField(stadt).bind("adresse.stadt");
+        mitarbeiterBinder.forField(plz).bind("adresse.plz");
 
         abteilung.setItems("Buchhaltung","Forschung & Entwicklung","Geschäftsleitung","IT & EDV","Kundendienst", "Marketing", "Personalwesen");
+        bundesland.setItems("Baden-Württemberg", "Bayern", "Berlin", "Brandenburg", "Bremen", "Hamburg", "Hessen", "Mecklenburg-Vorpommern", "Niedersachsen", "Nordrhein-Westfalen", "Rheinland-Pfalz", "Saarland", "Sachsen", "Sachsen-Anhalt", "Schleswig-Holstein", "Thüringen");
 
         add(
                 new H6("Persönliche Informationen"),
@@ -80,7 +84,7 @@ public class MitarbeiterForm extends FormLayout {
                 hausnummer,
                 plz,
                 stadt,
-                Bundesland,
+                bundesland,
                 createButtonLayout()
         );
     }
@@ -103,13 +107,10 @@ public class MitarbeiterForm extends FormLayout {
 
     private void checkUndSpeichern() {
         try {
-            if (this.mitarbeiter == null) {
-                this.mitarbeiter = new Mitarbeiter();
-                this.adresse = new Adresse();
-            }
+            this.mitarbeiter = new Mitarbeiter();
+            this.mitarbeiter.setAdresse(adresse);
+            System.out.println(mitarbeiter);
             mitarbeiterBinder.writeBean(mitarbeiter);
-            adresseBinder.writeBean(adresse);
-            this.mitarbeiter.setAdresse(this.adresse);
             mitarbeiterService.update(mitarbeiter);
 
             Notification.show("Mitarbeiter details stored.");

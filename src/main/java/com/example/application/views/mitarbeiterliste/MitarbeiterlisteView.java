@@ -80,7 +80,7 @@ public class MitarbeiterlisteView extends Div {
     private void configureGrid() {
         grid.addClassNames("mitarbeiter-grid");
         grid.setSizeFull();
-        grid.setColumns("vorname", "nachname", "email", "position", "abteilung");
+        grid.setColumns("vorname", "nachname", "email", "position", "abteilung","adresse");
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
     }
 

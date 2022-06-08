@@ -1,6 +1,7 @@
 package com.example.application.data.generator;
 
 import com.example.application.data.Role;
+import com.example.application.data.entity.Adresse;
 import com.example.application.data.entity.Mitarbeiter;
 import com.example.application.data.entity.Rechteverwaltung;
 import com.example.application.data.entity.User;
@@ -53,15 +54,15 @@ public class DataGenerator {
             admin.setRoles(Set.of(Role.USER, Role.ADMIN));
             userRepository.save(admin);
             logger.info("... generating 100 Mitarbeiter entities...");
-            ExampleDataGenerator<Mitarbeiter> mitarbeiterRepositoryGenerator = new ExampleDataGenerator<>(
-                    Mitarbeiter.class, LocalDateTime.of(2022, 5, 30, 0, 0, 0));
-            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setVorname, DataType.FIRST_NAME);
-            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setNachname, DataType.LAST_NAME);
-            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setEmail, DataType.EMAIL);
-            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setTelefonnr, DataType.PHONE_NUMBER);
-            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setPosition, DataType.OCCUPATION);
-            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setAbteilung, DataType.WORD);
-            mitarbeiterRepository.saveAll(mitarbeiterRepositoryGenerator.create(100, seed));
+//            ExampleDataGenerator<Mitarbeiter> mitarbeiterRepositoryGenerator = new ExampleDataGenerator<>(
+//                    Mitarbeiter.class, LocalDateTime.of(2022, 5, 30, 0, 0, 0));
+//            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setVorname, DataType.FIRST_NAME);
+//            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setNachname, DataType.LAST_NAME);
+//            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setEmail, DataType.EMAIL);
+//            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setTelefonnr, DataType.PHONE_NUMBER);
+//            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setPosition, DataType.OCCUPATION);
+//            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setAbteilung, DataType.WORD);
+//            mitarbeiterRepository.saveAll(mitarbeiterRepositoryGenerator.create(100, seed));
 
             logger.info("... generating 100 Rechteverwaltung entities...");
             ExampleDataGenerator<Rechteverwaltung> rechteverwaltungRepositoryGenerator = new ExampleDataGenerator<>(

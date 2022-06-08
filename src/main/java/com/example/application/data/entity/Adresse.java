@@ -2,30 +2,39 @@ package com.example.application.data.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.UUID;
 
 @Entity
 public class Adresse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
-    @NotEmpty
-    private int plz;
-    @NotEmpty
-    private String strassenname;
-    @NotEmpty
-    private int hausnummer;
-    @NotEmpty
-    private String stadt;
-    @NotEmpty
-    private String Bundesland;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    private int plz;
+
+    private String strassenname;
+
+    private int hausnummer;
+
+    private String stadt;
+
+    private String bundesland;
+
+    @OneToOne(mappedBy = "adresse")
     private Mitarbeiter mitarbeiter;
 
+    public Adresse(){
 
-    public Long getId() {
-        return id;
+    }
+
+    public Adresse(int plz, String strassenname, int hausnummer, String stadt, String bundesland) {
+        this.plz = plz;
+        this.strassenname = strassenname;
+        this.hausnummer = hausnummer;
+        this.stadt = stadt;
+        this.bundesland = bundesland;
     }
 
     public int getPlz() {
@@ -61,14 +70,19 @@ public class Adresse {
     }
 
     public String getBundesland() {
-        return Bundesland;
+        return bundesland;
     }
 
     public void setBundesland(String bundesland) {
-        Bundesland = bundesland;
+        this.bundesland = bundesland;
     }
 
     public Mitarbeiter getMitarbeiter() {
         return mitarbeiter;
+    }
+
+    @Override
+    public String toString() {
+        return strassenname + " " + hausnummer + ", " + plz + " " + stadt + ", " + bundesland;
     }
 }

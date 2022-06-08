@@ -1,6 +1,8 @@
 package com.example.application.data.service;
 
+import com.example.application.data.entity.Adresse;
 import com.example.application.data.entity.Mitarbeiter;
+import com.example.application.data.repository.AdresseRepository;
 import com.example.application.data.repository.MitarbeiterRepository;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +12,12 @@ import java.util.List;
 public class HRService {
 
     private final MitarbeiterRepository mitarbeiterRepository;
+    private final AdresseRepository adresseRepository;
 
-    public HRService(MitarbeiterRepository mitarbeiterRepository) {
+    public HRService(MitarbeiterRepository mitarbeiterRepository, AdresseRepository adresseRepository) {
 
         this.mitarbeiterRepository = mitarbeiterRepository;
+        this.adresseRepository = adresseRepository;
     }
 
     public List<Mitarbeiter> findAllMitarbeiter(String filterText) {
@@ -39,5 +43,14 @@ public class HRService {
         }
 
         mitarbeiterRepository.save(mitarbeiter);
+    }
+
+    public void saveAdresse(Adresse adresse) {
+        if(adresse == null){
+            System.err.println("Contact ist null.");
+            return;
+        }
+
+        adresseRepository.save(adresse);
     }
 }

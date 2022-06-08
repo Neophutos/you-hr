@@ -1,9 +1,6 @@
 package com.example.application.data.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
@@ -11,7 +8,11 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Mitarbeiter extends AbstractEntity {
+public class Mitarbeiter {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
 
     @NotEmpty
     private String vorname = "";
@@ -19,18 +20,19 @@ public class Mitarbeiter extends AbstractEntity {
     @NotEmpty
     private String nachname = "";
 
-    private String geburtsdatum;
+    private String geburtsdatum = "";
 
     @Email
     private String email = "";
 
-    private String telefonnr;
+    private String telefonnr = "";
 
-    private String position;
+    private String position = "";
 
-    private String abteilung;
+    private String abteilung = "";
 
-    @OneToOne(mappedBy = "mitarbeiter")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "adresse_id", referencedColumnName = "id")
     private Adresse adresse;
 
     public String getVorname() {
@@ -89,5 +91,20 @@ public class Mitarbeiter extends AbstractEntity {
 
     public void setAdresse(Adresse adresse) {
         this.adresse = adresse;
+    }
+
+    @Override
+    public String toString() {
+        return "Mitarbeiter{" +
+                "id=" + id +
+                ", vorname='" + vorname + '\'' +
+                ", nachname='" + nachname + '\'' +
+                ", geburtsdatum='" + geburtsdatum + '\'' +
+                ", email='" + email + '\'' +
+                ", telefonnr='" + telefonnr + '\'' +
+                ", position='" + position + '\'' +
+                ", abteilung='" + abteilung + '\'' +
+                ", adresse=" + adresse +
+                '}';
     }
 }
