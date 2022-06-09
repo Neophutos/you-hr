@@ -1,7 +1,7 @@
 package com.example.application.data.service;
 
 import com.example.application.data.entity.Mitarbeiter;
-import com.example.application.data.entity.Problemformular;
+import com.example.application.data.entity.Problem;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,11 +22,11 @@ public class ProblemformularService  {
         this.repository = repository;
     }
 
-    public Optional<Problemformular> get(UUID id) {
+    public Optional<Problem> get(UUID id) {
         return repository.findById(id);
     }
 
-    public Problemformular update(Problemformular entity) {
+    public Problem update(Problem entity) {
         return repository.save(entity);
     }
 
@@ -34,7 +34,7 @@ public class ProblemformularService  {
         repository.deleteById(id);
     }
 
-    public Page<Problemformular> list(Pageable pageable) {
+    public Page<Problem> list(Pageable pageable) {
         return repository.findAll(pageable);
     }
 

@@ -1,9 +1,6 @@
 package com.example.application.data.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
@@ -11,19 +8,24 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Problemformular extends AbstractEntity {
+public class Problem {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
 
     @NotEmpty
-    private String datum;
+    private LocalDate datum;
     @NotEmpty
     private String problemart;
     @NotEmpty
     private String beschreibung;
 
-    public String getdatum() {
+    public LocalDate getDatum() {
         return datum;
     }
-    public void setDatum(String datum) {
+    public void setDatum(LocalDate datum) {
         this.datum = datum;
     }
     public String getProblemart() {
