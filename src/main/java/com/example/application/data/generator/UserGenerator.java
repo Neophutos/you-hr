@@ -16,6 +16,7 @@ public class UserGenerator {
         user.setName(String.format("%s %s", vorname, nachname));
         user.setUsername(String.format("%s.%s", vorname, nachname));
         user.setHashedPassword(passwordEncoder.encode(String.format("%s.%s", vorname, nachname)));
+
         user.setRoles(Set.of(Role.USER));
 
         int results = (int) DataGenerator
