@@ -6,6 +6,9 @@ import com.vaadin.flow.component.notification.Notification;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Mitarbeiter {
@@ -20,7 +23,7 @@ public class Mitarbeiter {
     @NotEmpty
     private String nachname = "";
 
-    private String geburtsdatum = "";
+    private LocalDate geburtsdatum;
 
     @Email
     private String email = "";
@@ -56,21 +59,15 @@ public class Mitarbeiter {
         this.vorname = vorname;
     }
 
-    public String getNachname() {
-        return nachname;
-    }
+    public String getNachname() { return nachname; }
 
     public void setNachname(String nachname) {
         this.nachname = nachname;
     }
 
-    public String getGeburtsdatum() {
-        return geburtsdatum;
-    }
+    public LocalDate getGeburtsdatum(){return geburtsdatum;}
 
-    public void setGeburtsdatum(String geburtsdatum) {
-        this.geburtsdatum = geburtsdatum;
-    }
+    public void setGeburtsdatum(LocalDate geburtsdatum) { this.geburtsdatum = geburtsdatum;}
 
     public String getEmail() {
         return email;

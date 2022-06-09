@@ -16,6 +16,9 @@ import com.vaadin.flow.router.Route;
 import javax.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+
 @PageTitle("Mitarbeiterliste")
 @Route(value = "mitarbeiterliste", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
@@ -60,8 +63,11 @@ public class MitarbeiterlisteView extends Div {
 
     private void configureGrid() {
         grid.addClassNames("mitarbeiter-grid");
+
+        //grid.addColumn(mitarbeiter -> mitarbeiter.getGeburtsdatum().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+
         grid.setSizeFull();
-        grid.setColumns("vorname", "nachname", "email", "position", "abteilung");
+        grid.addColumns("vorname", "nachname", "email", "position", "abteilung", "adresse");
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
     }
 
