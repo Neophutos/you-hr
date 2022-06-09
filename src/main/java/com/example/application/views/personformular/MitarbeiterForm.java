@@ -2,15 +2,12 @@ package com.example.application.views.personformular;
 
 import com.example.application.data.entity.Adresse;
 import com.example.application.data.entity.Mitarbeiter;
-import com.example.application.data.service.HRService;
 import com.example.application.data.service.MitarbeiterService;
 import com.example.application.views.mitarbeiterliste.MitarbeiterlisteView;
-import com.example.application.views.rechteverwaltung.RechteverwaltungView;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.crud.Crud;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.notification.Notification;
@@ -21,12 +18,10 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
-import com.vaadin.flow.shared.Registration;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class MitarbeiterForm extends FormLayout {
     private Binder<Mitarbeiter> mitarbeiterBinder;
-    private Binder<Adresse> adresseBinder;
 
     private TextField vorname = new TextField("Vorname");
     private TextField nachname = new TextField("Nachname");
@@ -57,7 +52,6 @@ public class MitarbeiterForm extends FormLayout {
         addClassName("Mitarbeiter-Formular");
 
         mitarbeiterBinder = new BeanValidationBinder<>(Mitarbeiter.class);
-        adresseBinder = new BeanValidationBinder<>(Adresse.class);
 
         mitarbeiterBinder.bindInstanceFields(this);
 
@@ -109,11 +103,11 @@ public class MitarbeiterForm extends FormLayout {
         try {
             this.mitarbeiter = new Mitarbeiter();
             this.mitarbeiter.setAdresse(adresse);
-            System.out.println(mitarbeiter);
+
             mitarbeiterBinder.writeBean(mitarbeiter);
             mitarbeiterService.update(mitarbeiter);
 
-            Notification.show("Mitarbeiter details stored.");
+            Notification.show(mitarbeiter.getNachname() + " " + mitarbeiter.getVorname() + " wurde erstellt.");
 
             UI.getCurrent().navigate(MitarbeiterlisteView.class);
 
