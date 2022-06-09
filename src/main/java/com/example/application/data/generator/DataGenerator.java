@@ -1,12 +1,13 @@
 package com.example.application.data.generator;
 
 import com.example.application.data.Role;
+import com.example.application.data.entity.Adresse;
 import com.example.application.data.entity.Mitarbeiter;
 import com.example.application.data.entity.Rechteverwaltung;
 import com.example.application.data.entity.User;
-import com.example.application.data.service.MitarbeiterRepository;
-import com.example.application.data.service.RechteverwaltungRepository;
-import com.example.application.data.service.UserRepository;
+import com.example.application.data.repository.MitarbeiterRepository;
+import com.example.application.data.repository.RechteverwaltungRepository;
+import com.example.application.data.repository.UserRepository;
 import com.vaadin.exampledata.DataType;
 import com.vaadin.exampledata.ExampleDataGenerator;
 import com.vaadin.flow.spring.annotation.SpringComponent;
@@ -22,9 +23,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @SpringComponent
 public class DataGenerator {
 
+    private static PasswordEncoder passwordEncoder;
+    private static UserRepository userRepository;
+
     @Bean
     public CommandLineRunner loadData(PasswordEncoder passwordEncoder, UserRepository userRepository,
             MitarbeiterRepository mitarbeiterRepository, RechteverwaltungRepository rechteverwaltungRepository) {
+
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+
+
         return args -> {
             Logger logger = LoggerFactory.getLogger(getClass());
             if (userRepository.count() != 0L) {
@@ -53,17 +62,15 @@ public class DataGenerator {
             admin.setRoles(Set.of(Role.USER, Role.ADMIN));
             userRepository.save(admin);
             logger.info("... generating 100 Mitarbeiter entities...");
-            ExampleDataGenerator<Mitarbeiter> mitarbeiterRepositoryGenerator = new ExampleDataGenerator<>(
-                    Mitarbeiter.class, LocalDateTime.of(2022, 5, 30, 0, 0, 0));
-            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setMitarbeiterid, DataType.EAN13);
-            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setVorname, DataType.FIRST_NAME);
-            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setNachname, DataType.LAST_NAME);
-            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setEmail, DataType.EMAIL);
-            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setTelefonnr, DataType.PHONE_NUMBER);
-            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setPosition, DataType.OCCUPATION);
-            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setAbteilung, DataType.WORD);
-            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setAdresse, DataType.WORD);
-            mitarbeiterRepository.saveAll(mitarbeiterRepositoryGenerator.create(100, seed));
+//            ExampleDataGenerator<Mitarbeiter> mitarbeiterRepositoryGenerator = new ExampleDataGenerator<>(
+//                    Mitarbeiter.class, LocalDateTime.of(2022, 5, 30, 0, 0, 0));
+//            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setVorname, DataType.FIRST_NAME);
+//            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setNachname, DataType.LAST_NAME);
+//            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setEmail, DataType.EMAIL);
+//            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setTelefonnr, DataType.PHONE_NUMBER);
+//            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setPosition, DataType.OCCUPATION);
+//            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setAbteilung, DataType.WORD);
+//            mitarbeiterRepository.saveAll(mitarbeiterRepositoryGenerator.create(100, seed));
 
             logger.info("... generating 100 Rechteverwaltung entities...");
             ExampleDataGenerator<Rechteverwaltung> rechteverwaltungRepositoryGenerator = new ExampleDataGenerator<>(
@@ -82,4 +89,11 @@ public class DataGenerator {
         };
     }
 
+    public static PasswordEncoder getPasswordEncoder() {
+        return passwordEncoder;
+    }
+
+    public static UserRepository getUserRepository() {
+        return userRepository;
+    }
 }

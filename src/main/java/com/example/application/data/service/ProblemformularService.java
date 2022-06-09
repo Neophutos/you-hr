@@ -1,30 +1,32 @@
 package com.example.application.data.service;
 
-import com.example.application.data.entity.Rechteverwaltung;
+import com.example.application.data.entity.Mitarbeiter;
+import com.example.application.data.entity.Problem;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.example.application.data.repository.RechteverwaltungRepository;
+import com.example.application.data.repository.MitarbeiterRepository;
+import com.example.application.data.repository.ProblemformularRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RechteverwaltungService {
+public class ProblemformularService  {
 
-    private final RechteverwaltungRepository repository;
+    private final ProblemformularRepository repository;
 
     @Autowired
-    public RechteverwaltungService(RechteverwaltungRepository repository) {
+    public ProblemformularService(ProblemformularRepository repository) {
         this.repository = repository;
     }
 
-    public Optional<Rechteverwaltung> get(UUID id) {
+    public Optional<Problem> get(UUID id) {
         return repository.findById(id);
     }
 
-    public Rechteverwaltung update(Rechteverwaltung entity) {
+    public Problem update(Problem entity) {
         return repository.save(entity);
     }
 
@@ -32,12 +34,11 @@ public class RechteverwaltungService {
         repository.deleteById(id);
     }
 
-    public Page<Rechteverwaltung> list(Pageable pageable) {
+    public Page<Problem> list(Pageable pageable) {
         return repository.findAll(pageable);
     }
 
     public int count() {
         return (int) repository.count();
     }
-
 }

@@ -1,33 +1,110 @@
 package com.example.application.views.problemformular;
 
+import com.example.application.data.entity.Problem;
+import com.example.application.data.service.ProblemformularService;
 import com.example.application.views.MainLayout;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Image;
-import com.vaadin.flow.component.html.Paragraph;
+import com.example.application.views.dashboard.DashboardView;
+import com.example.application.views.personformular.MitarbeiterForm;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextArea;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
+import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.annotation.security.RolesAllowed;
+import java.text.Normalizer;
+import java.time.LocalDate;
 
 @PageTitle("Problemformular")
 @Route(value = "Problemformular", layout = MainLayout.class)
 @RolesAllowed("USER")
-public class ProblemformularView extends VerticalLayout {
+public class ProblemformularView extends Div {
+    private Binder<Problem> problemformularBinder;
 
-    public ProblemformularView() {
-        setSpacing(false);
+    private LocalDate datum;
+    private ComboBox<String> problemart = new ComboBox<>("Problemart");
+    private TextArea beschreibung = new TextArea("Problembeschreibung");
 
-        Image img = new Image("images/empty-plant.png", "placeholder plant");
-        img.setWidth("200px");
-        add(img);
+    Button absenden = new Button("Abschicken");
+    Button schliessen = new Button("Schließen");
 
-        add(new H2("This place intentionally left empty"));
-        add(new Paragraph("It’s a place where you can grow your own UI 🤗"));
+    private ProblemformularService problemformularservice;
 
-        setSizeFull();
-        setJustifyContentMode(JustifyContentMode.CENTER);
-        setDefaultHorizontalComponentAlignment(Alignment.CENTER);
-        getStyle().set("text-align", "center");
+    private Problem problem;
+
+    @Autowired
+    public ProblemformularView(ProblemformularService problemformularService) {
+        this.problemformularservice = problemformularService;
+        addClassName("Problem-Formular");
+
+        problemformularBinder = new BeanValidationBinder<>(Problem.class);
+
+        problemformularBinder.bindInstanceFields(this);
+
+        add(createFormLayout(),createButtonLayout());
     }
+
+
+    private Component createFormLayout() {
+        FormLayout formLayout = new FormLayout();
+        formLayout.add(problemart, beschreibung);
+        problemart.setItems("IT-Sicherheit", "Bug/Systemfehler", "Passwort vergessen", "Sonstige Probleme");
+        formLayout.setColspan(problemart, 1);
+        formLayout.setColspan(beschreibung, 2);
+        formLayout.setMaxWidth("700px");
+        formLayout.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 2));
+        return formLayout;
+    }
+
+    private Component createButtonLayout() {
+        HorizontalLayout buttonLayout = new HorizontalLayout();
+
+        absenden.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        schliessen.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+
+        absenden.addClickListener(event -> checkundSend());
+        schliessen.addClickListener(event -> schliessen.getUI().ifPresent(ui ->
+                ui.navigate("dashboard")));
+
+        absenden.addClickShortcut(Key.ENTER);
+        schliessen.addClickShortcut(Key.ESCAPE);
+
+        buttonLayout.add(absenden);
+        buttonLayout.add(schliessen);
+        return buttonLayout;
+    }
+
+    private void checkundSend() {
+        try {
+            this.problem = new Problem();
+
+            this.problem.setDatum(LocalDate.now());
+
+            problemformularBinder.writeBean(problem);
+
+            problemformularservice.update(problem);
+
+            Notification.show("Ihr Problem wurde erfolgreich gemeldet!");
+
+            UI.getCurrent().navigate(DashboardView.class);
+        } catch (ValidationException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
