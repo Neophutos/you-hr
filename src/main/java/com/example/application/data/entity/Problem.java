@@ -10,6 +10,7 @@ import java.util.List;
 
 @Entity
 public class Problem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")

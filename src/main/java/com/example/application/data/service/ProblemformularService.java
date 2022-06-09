@@ -2,11 +2,14 @@ package com.example.application.data.service;
 
 import com.example.application.data.entity.Mitarbeiter;
 import com.example.application.data.entity.Problem;
+
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import com.example.application.data.repository.MitarbeiterRepository;
 import com.example.application.data.repository.ProblemformularRepository;
+import com.vaadin.flow.data.provider.DataProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,5 +43,9 @@ public class ProblemformularService  {
 
     public int count() {
         return (int) repository.count();
+    }
+
+    public List<Problem> findAllProblems() {
+            return repository.findAll();
     }
 }

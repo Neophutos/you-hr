@@ -11,6 +11,7 @@ import com.example.application.views.mitarbeiterliste.MitarbeiterlisteView;
 import com.example.application.views.personformular.PersonformularView;
 import com.example.application.views.privat.PrivatView;
 import com.example.application.views.problemformular.ProblemformularView;
+import com.example.application.views.problemmanagement.ProblemManagementView;
 import com.example.application.views.rechteformular.RechteformularView;
 import com.example.application.views.rechteverwaltung.RechteverwaltungView;
 import com.vaadin.flow.component.Component;
@@ -145,7 +146,7 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("Mitarbeiterakte", "la la-ghost", MitarbeiterakteView.class), //
 
-                new MenuItemInfo("Aufgaben", "la la-check-circle", AufgabenView.class), //
+                new MenuItemInfo("Problem-Management", "la la-check-circle", ProblemManagementView.class), //
 
                 new MenuItemInfo("Rechteverwaltung", "la la-cog", RechteverwaltungView.class), //
 

@@ -63,7 +63,7 @@ public class ProblemformularView extends Div {
     private Component createFormLayout() {
         FormLayout formLayout = new FormLayout();
         formLayout.add(problemart, beschreibung);
-        problemart.setItems("IT-Sicherheit", "Bug/Systemfehler", "Passwort vergessen", "Sonstige Probleme");
+        problemart.setItems("Potenzielle Gefahr", "Bug/Systemfehler", "Profil/Nutzerkonto", "Sonstiges Problem");
         formLayout.setColspan(problemart, 1);
         formLayout.setColspan(beschreibung, 2);
         formLayout.setMaxWidth("700px");
