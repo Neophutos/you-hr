@@ -1,11 +1,11 @@
 package com.example.application.data.entity;
 
+import com.example.application.data.generator.UserGenerator;
+import com.vaadin.flow.component.notification.Notification;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 
 @Entity
 public class Mitarbeiter {
@@ -35,6 +35,19 @@ public class Mitarbeiter {
     @JoinColumn(name = "adresse_id", referencedColumnName = "id")
     private Adresse adresse;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "application_user_id", referencedColumnName = "id")
+    private User user;
+
+    public void generateUser() {
+        if (vorname == null || nachname == null) {
+            System.out.println("vorname und nachname müssen gesetzt werden, " +
+                    "bevor ein neuer User Account generiert werden kann");
+        }
+        this.user = new User();
+        this.user = UserGenerator.generate(vorname, nachname, this.user);
+    }
+
     public String getVorname() {
         return vorname;
     }
@@ -43,15 +56,21 @@ public class Mitarbeiter {
         this.vorname = vorname;
     }
 
-    public String getNachname() { return nachname; }
+    public String getNachname() {
+        return nachname;
+    }
 
     public void setNachname(String nachname) {
         this.nachname = nachname;
     }
 
-    public String getGeburtsdatum(){return geburtsdatum;}
+    public String getGeburtsdatum() {
+        return geburtsdatum;
+    }
 
-    public void setGeburtsdatum(String geburtsdatum) { this.geburtsdatum = geburtsdatum;}
+    public void setGeburtsdatum(String geburtsdatum) {
+        this.geburtsdatum = geburtsdatum;
+    }
 
     public String getEmail() {
         return email;

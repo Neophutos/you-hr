@@ -23,9 +23,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @SpringComponent
 public class DataGenerator {
 
+    private static PasswordEncoder passwordEncoder;
+    private static UserRepository userRepository;
+
     @Bean
     public CommandLineRunner loadData(PasswordEncoder passwordEncoder, UserRepository userRepository,
             MitarbeiterRepository mitarbeiterRepository, RechteverwaltungRepository rechteverwaltungRepository) {
+
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+
+
         return args -> {
             Logger logger = LoggerFactory.getLogger(getClass());
             if (userRepository.count() != 0L) {
@@ -81,4 +89,11 @@ public class DataGenerator {
         };
     }
 
+    public static PasswordEncoder getPasswordEncoder() {
+        return passwordEncoder;
+    }
+
+    public static UserRepository getUserRepository() {
+        return userRepository;
+    }
 }

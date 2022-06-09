@@ -105,6 +105,9 @@ public class MitarbeiterForm extends FormLayout {
             this.mitarbeiter.setAdresse(adresse);
 
             mitarbeiterBinder.writeBean(mitarbeiter);
+
+            this.mitarbeiter.generateUser();
+
             mitarbeiterService.update(mitarbeiter);
 
             Notification.show(mitarbeiter.getNachname() + " " + mitarbeiter.getVorname() + " wurde erstellt.");
