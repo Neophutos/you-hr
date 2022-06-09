@@ -3,25 +3,27 @@ package com.example.application.data.entity;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 public class Problem {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
 
-    @NotEmpty
-    private LocalDate datum;
+    private LocalDate datum; //darf nicht @NotEmpty gesetzt werden
     @NotEmpty
     private String problemart;
     @NotEmpty
     private String beschreibung;
 
+    public Long getId() {
+        return id;
+    }
     public LocalDate getDatum() {
         return datum;
     }
@@ -41,4 +43,14 @@ public class Problem {
         this.beschreibung = beschreibung;
     }
 
+
+    @Override
+    public String toString() {
+        return "Problem{" +
+                "id=" + id +
+                ", datum=" + datum +
+                ", problemart='" + problemart + '\'' +
+                ", beschreibung='" + beschreibung + '\'' +
+                '}';
+    }
 }

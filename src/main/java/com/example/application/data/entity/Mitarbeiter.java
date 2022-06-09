@@ -19,19 +19,13 @@ public class Mitarbeiter {
 
     @NotEmpty
     private String vorname = "";
-
     @NotEmpty
     private String nachname = "";
-
-    private LocalDate geburtsdatum;
-
+    private LocalDate geburtsdatum; //darf nicht @NotEmpty gesetzt werden
     @Email
     private String email = "";
-
     private String telefonnr = "";
-
     private String position = "";
-
     private String abteilung = "";
 
     @OneToOne(cascade = CascadeType.ALL)

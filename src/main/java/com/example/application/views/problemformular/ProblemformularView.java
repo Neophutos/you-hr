@@ -28,14 +28,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.security.RolesAllowed;
 import java.text.Normalizer;
 import java.time.LocalDate;
+import java.util.Locale;
 
 @PageTitle("Problemformular")
 @Route(value = "Problemformular", layout = MainLayout.class)
 @RolesAllowed("USER")
 public class ProblemformularView extends Div {
-    private Binder<Problem> problemformularBinder;
+//    private Binder<Problem> problemformularBinder;
+    private BeanValidationBinder<Problem> problemformularBinder;
 
-    private LocalDate datum;
     private ComboBox<String> problemart = new ComboBox<>("Problemart");
     private TextArea beschreibung = new TextArea("Problembeschreibung");
 
@@ -83,6 +84,8 @@ public class ProblemformularView extends Div {
         absenden.addClickShortcut(Key.ENTER);
         schliessen.addClickShortcut(Key.ESCAPE);
 
+        problemformularBinder.addStatusChangeListener(e -> absenden.setEnabled(problemformularBinder.isValid()));
+
         buttonLayout.add(absenden);
         buttonLayout.add(schliessen);
         return buttonLayout;
@@ -95,6 +98,12 @@ public class ProblemformularView extends Div {
             this.problem.setDatum(LocalDate.now());
 
             problemformularBinder.writeBean(problem);
+
+
+            Problem problem2 = new Problem();
+            problem2.setProblemart("TEST");
+            problem2.setBeschreibung("WASD");
+            problemformularservice.update(problem2);
 
             problemformularservice.update(problem);
 
