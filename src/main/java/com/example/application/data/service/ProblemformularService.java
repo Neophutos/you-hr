@@ -41,11 +41,8 @@ public class ProblemformularService  {
         return repository.findAll(pageable);
     }
 
-    public int count() {
+    public int countProblems() {
         return (int) repository.count();
     }
 
-    public List<Problem> findAllProblems() {
-            return repository.findAll();
-    }
 }

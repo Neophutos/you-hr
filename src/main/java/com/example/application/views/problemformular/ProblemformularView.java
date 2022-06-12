@@ -99,12 +99,6 @@ public class ProblemformularView extends Div {
 
             problemformularBinder.writeBean(problem);
 
-
-            Problem problem2 = new Problem();
-            problem2.setProblemart("TEST");
-            problem2.setBeschreibung("WASD");
-            problemformularservice.update(problem2);
-
             problemformularservice.update(problem);
 
             Notification.show("Ihr Problem wurde erfolgreich gemeldet!");

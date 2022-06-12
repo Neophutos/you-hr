@@ -18,28 +18,38 @@ public class Problem {
 
     private LocalDate datum; //darf nicht @NotEmpty gesetzt werden
     @NotEmpty
-    private String problemart;
+    private String problemart = "";
     @NotEmpty
-    private String beschreibung;
+    private String beschreibung = "";
+
+    public void setId(Long id){
+        this.id = id;
+    }
 
     public Long getId() {
         return id;
     }
+
     public LocalDate getDatum() {
         return datum;
     }
+
     public void setDatum(LocalDate datum) {
         this.datum = datum;
     }
+
     public String getProblemart() {
         return problemart;
     }
+
     public void setProblemart(String problemart) {
         this.problemart = problemart;
     }
+
     public String getBeschreibung() {
         return beschreibung;
     }
+
     public void setBeschreibung(String beschreibung) {
         this.beschreibung = beschreibung;
     }
