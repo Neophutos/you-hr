@@ -15,6 +15,8 @@ import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -38,11 +40,10 @@ import java.util.List;
 public class ProblemManagementView extends Div {
     Grid<Problem> grid = new Grid<>(Problem.class, false);
     TextField filterText = new TextField();
-    TaskService service;
-    Dialog solveProblemDialog = new Dialog();
+    ProblemformularService service;
 
     @Autowired
-    public ProblemManagementView(TaskService service) {
+    public ProblemManagementView(ProblemformularService service) {
         this.service = service;
         addClassName("problem-management-view");
 
@@ -67,7 +68,7 @@ public class ProblemManagementView extends Div {
         filterText.addValueChangeListener(e -> updateList());
 
         Button addProblem = new Button("Problem erstellen");
-        Button editProblem = new Button("Bearbeiten", e -> solveProblemDialog.open());
+        Button editProblem = new Button("Gelöst?", e -> solveProblem(grid.asSingleSelect().getValue()));
 
         addProblem.addClickListener(e -> addProblem.getUI().ifPresent(ui -> ui.navigate(
                 ProblemformularView.class)));
@@ -77,50 +78,28 @@ public class ProblemManagementView extends Div {
         return toolbar;
     }
 
-    private static VerticalLayout createDialogLayout(Problem problem) {
-
-        Text description = new Text(problem.getBeschreibung());
-        Text type = new Text(problem.getProblemart());
-
-        VerticalLayout dialogLayout = new VerticalLayout(type, description);
-
-        dialogLayout.setPadding(false);
-        dialogLayout.setSpacing(false);
-        dialogLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
-        dialogLayout.getStyle().set("width", "18rem").set("max-width", "100%");
-
-
-        return dialogLayout;
+    private void solveProblem(Problem problem) {
+        if(problem == null) {
+            Notification.show("Es wurde kein Problem ausgewählt!").addThemeVariants(NotificationVariant.LUMO_ERROR);
+        } else {
+            service.delete(problem);
+            Notification.show("Problem " + problem.getId() + " wurde erfolgreich gelöst!").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            updateList();
+        }
     }
+
 
     private void configureGrid() {
         grid.addClassNames("problem-grid");
         grid.setSizeFull();
         grid.addColumn("id");
-        //grid.addColumn(problem -> problem.getDatum().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
-        grid.addColumns("problemart","beschreibung");
+        grid.addColumn(problem -> problem.getDatum().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))).setHeader("Erstellungsdatum");
+        grid.addColumns("problemart","beschreibung","antragsteller");
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
-
-        grid.asSingleSelect().addValueChangeListener(event -> getCurrent(event.getValue()));
-    }
-
-    private void getCurrent(Problem problem) {
-        if(problem != null) {
-
-            VerticalLayout dialogLayout = createDialogLayout(problem);
-            solveProblemDialog.add(dialogLayout);
-
-            Button solveButton = new Button("Fertigstellen", e -> solveProblemDialog.close());
-            Button cancelButton = new Button("Abbrechen", e -> solveProblemDialog.close());
-            solveProblemDialog.add(solveButton);
-            solveProblemDialog.add(cancelButton);
-
-            solveProblemDialog.open();
-        }
     }
 
     private void updateList(){
-        grid.setItems(service.findAllProblems(filterText.getValue()));
+        grid.setItems(service.findAllProblems());
     }
 
 }

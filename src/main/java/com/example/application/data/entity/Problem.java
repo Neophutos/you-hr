@@ -1,5 +1,7 @@
 package com.example.application.data.entity;
 
+import com.example.application.security.AuthenticatedUser;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -17,6 +19,8 @@ public class Problem {
     private Long id;
 
     private LocalDate datum; //darf nicht @NotEmpty gesetzt werden
+
+    private String antragstellername = "";
     @NotEmpty
     private String problemart = "";
     @NotEmpty
@@ -63,5 +67,13 @@ public class Problem {
                 ", problemart='" + problemart + '\'' +
                 ", beschreibung='" + beschreibung + '\'' +
                 '}';
+    }
+
+    public String getAntragstellername() {
+        return antragstellername;
+    }
+
+    public void setAntragstellername(String antragstellername) {
+        this.antragstellername = antragstellername;
     }
 }
