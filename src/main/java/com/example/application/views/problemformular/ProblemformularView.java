@@ -1,7 +1,11 @@
 package com.example.application.views.problemformular;
 
 import com.example.application.data.entity.Problem;
+import com.example.application.data.generator.DataGenerator;
+import com.example.application.data.repository.UserRepository;
 import com.example.application.data.service.ProblemformularService;
+import com.example.application.data.service.UserService;
+import com.example.application.security.AuthenticatedUser;
 import com.example.application.views.MainLayout;
 import com.example.application.views.dashboard.DashboardView;
 import com.example.application.views.personformular.MitarbeiterForm;
@@ -36,6 +40,7 @@ import java.util.Locale;
 public class ProblemformularView extends Div {
 //    private Binder<Problem> problemformularBinder;
     private BeanValidationBinder<Problem> problemformularBinder;
+    private AuthenticatedUser authenticatedUser = new AuthenticatedUser(DataGenerator.getUserRepository());
 
     private ComboBox<String> problemart = new ComboBox<>("Problemart");
     private TextArea beschreibung = new TextArea("Problembeschreibung");
@@ -96,6 +101,8 @@ public class ProblemformularView extends Div {
             this.problem = new Problem();
 
             this.problem.setDatum(LocalDate.now());
+
+            this.problem.setAntragstellername(authenticatedUser.get().get().getName());
 
             problemformularBinder.writeBean(problem);
 
