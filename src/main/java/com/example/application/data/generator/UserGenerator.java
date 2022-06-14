@@ -3,8 +3,10 @@ package com.example.application.data.generator;
 import com.example.application.data.Role;
 import com.example.application.data.entity.User;
 import com.example.application.data.service.UserService;
+import com.vaadin.flow.component.notification.Notification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.security.SecureRandom;
 import java.util.Set;
 
 public class UserGenerator {
@@ -15,7 +17,9 @@ public class UserGenerator {
     public static User generate(String vorname, String nachname, User user) {
         user.setName(String.format("%s %s", vorname, nachname));
         user.setUsername(String.format("%s.%s", vorname, nachname));
-        user.setHashedPassword(passwordEncoder.encode(String.format("%s.%s", vorname, nachname)));
+        String pw = generateRandomPassword(10);
+        Notification.show("Passwort: " + pw);
+        user.setHashedPassword(passwordEncoder.encode(pw));
 
         user.setRoles(Set.of(Role.USER));
 
@@ -32,4 +36,26 @@ public class UserGenerator {
 
     return user;
     }
+
+
+    public static String generateRandomPassword(int len)
+    {
+        // ASCII range – alphanumeric (0-9, a-z, A-Z)
+        final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        SecureRandom random = new SecureRandom();
+        StringBuilder sb = new StringBuilder();
+
+        // each iteration of the loop randomly chooses a character from the given
+        // ASCII range and appends it to the `StringBuilder` instance
+
+        for (int i = 0; i < len; i++)
+        {
+            int randomIndex = random.nextInt(chars.length());
+            sb.append(chars.charAt(randomIndex));
+        }
+
+        return sb.toString();
+    }
+
 }
