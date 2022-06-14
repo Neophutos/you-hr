@@ -5,8 +5,7 @@ import javax.persistence.Entity;
 @Entity
 public class Rechteverwaltung extends AbstractEntity {
 
-    private String vorname;
-    private String nachname;
+
     private String mitarbeiterid;
     private boolean lesen;
     private boolean erstellen;
@@ -14,18 +13,6 @@ public class Rechteverwaltung extends AbstractEntity {
     private boolean loeschen;
     private boolean admin;
 
-    public String getVorname() {
-        return vorname;
-    }
-    public void setVorname(String vorname) {
-        this.vorname = vorname;
-    }
-    public String getNachname() {
-        return nachname;
-    }
-    public void setNachname(String nachname) {
-        this.nachname = nachname;
-    }
     public String getMitarbeiterid() {
         return mitarbeiterid;
     }

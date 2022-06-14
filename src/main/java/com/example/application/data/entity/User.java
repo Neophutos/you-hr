@@ -3,13 +3,7 @@ package com.example.application.data.entity;
 import com.example.application.data.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Set;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "application_user")
@@ -24,6 +18,8 @@ public class User extends AbstractEntity {
     private Set<Role> roles;
     @Lob
     private String profilePictureUrl;
+    @OneToOne(mappedBy = "user")
+    private Mitarbeiter mitarbeiter;
 
     public String getUsername() {
         return username;
@@ -55,5 +51,7 @@ public class User extends AbstractEntity {
     public void setProfilePictureUrl(String profilePictureUrl) {
         this.profilePictureUrl = profilePictureUrl;
     }
-
+    public Mitarbeiter getMitarbeiter() {
+        return mitarbeiter;
+    }
 }

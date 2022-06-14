@@ -40,4 +40,7 @@ public class MitarbeiterService {
         return (int) repository.count();
     }
 
+    public MitarbeiterRepository getRepository() {
+        return repository;
+    }
 }

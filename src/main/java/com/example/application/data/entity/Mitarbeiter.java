@@ -36,6 +36,14 @@ public class Mitarbeiter {
     @JoinColumn(name = "application_user_id", referencedColumnName = "id")
     private User user;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "rechteverwaltung_id", referencedColumnName = "id")
+    private Rechteverwaltung rechteverwaltung;
+
+    public Mitarbeiter() {
+     this.rechteverwaltung = new Rechteverwaltung();
+    }
+
     public void generateUser() {
         if (vorname == null || nachname == null) {
             System.out.println("vorname und nachname müssen gesetzt werden, " +
@@ -103,6 +111,14 @@ public class Mitarbeiter {
         this.adresse = adresse;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public Rechteverwaltung getRechteverwaltung() {
+        return rechteverwaltung;
+    }
+
     @Override
     public String toString() {
         return "Mitarbeiter{" +
@@ -117,4 +133,7 @@ public class Mitarbeiter {
                 ", adresse=" + adresse +
                 '}';
     }
+
+
+
 }
