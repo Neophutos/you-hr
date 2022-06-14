@@ -1,24 +1,22 @@
 package com.example.application.data.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Rechteverwaltung extends AbstractEntity {
 
+    @OneToOne(mappedBy = "rechteverwaltung")
+    private Mitarbeiter mitarbeiter;
 
-    private String mitarbeiterid;
     private boolean lesen;
     private boolean erstellen;
     private boolean bearbeiten;
     private boolean loeschen;
     private boolean admin;
 
-    public String getMitarbeiterid() {
-        return mitarbeiterid;
-    }
-    public void setMitarbeiterid(String mitarbeiterid) {
-        this.mitarbeiterid = mitarbeiterid;
-    }
+
+
     public boolean isLesen() {
         return lesen;
     }

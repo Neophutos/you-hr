@@ -73,17 +73,21 @@ public class DataGenerator {
 //            mitarbeiterRepository.saveAll(mitarbeiterRepositoryGenerator.create(100, seed));
 
             logger.info("... generating 100 Rechteverwaltung entities...");
-            ExampleDataGenerator<Rechteverwaltung> rechteverwaltungRepositoryGenerator = new ExampleDataGenerator<>(
-                    Rechteverwaltung.class, LocalDateTime.of(2022, 5, 30, 0, 0, 0));
-            rechteverwaltungRepositoryGenerator.setData(Rechteverwaltung::setVorname, DataType.FIRST_NAME);
-            rechteverwaltungRepositoryGenerator.setData(Rechteverwaltung::setNachname, DataType.LAST_NAME);
-            rechteverwaltungRepositoryGenerator.setData(Rechteverwaltung::setMitarbeiterid, DataType.EAN13);
-            rechteverwaltungRepositoryGenerator.setData(Rechteverwaltung::setLesen, DataType.BOOLEAN_50_50);
-            rechteverwaltungRepositoryGenerator.setData(Rechteverwaltung::setErstellen, DataType.BOOLEAN_50_50);
-            rechteverwaltungRepositoryGenerator.setData(Rechteverwaltung::setBearbeiten, DataType.BOOLEAN_50_50);
-            rechteverwaltungRepositoryGenerator.setData(Rechteverwaltung::setLoeschen, DataType.BOOLEAN_50_50);
-            rechteverwaltungRepositoryGenerator.setData(Rechteverwaltung::setAdmin, DataType.BOOLEAN_50_50);
-            rechteverwaltungRepository.saveAll(rechteverwaltungRepositoryGenerator.create(100, seed));
+            {
+                {
+//                    ExampleDataGenerator<Rechteverwaltung> rechteverwaltungRepositoryGenerator = new ExampleDataGenerator<>(
+//                            Rechteverwaltung.class, LocalDateTime.of(2022, 5, 30, 0, 0, 0));
+//                    rechteverwaltungRepositoryGenerator.setData(Rechteverwaltung::setVorname, DataType.FIRST_NAME);
+//                    rechteverwaltungRepositoryGenerator.setData(Rechteverwaltung::setNachname, DataType.LAST_NAME);
+//                    rechteverwaltungRepositoryGenerator.setData(Rechteverwaltung::setMitarbeiterid, DataType.EAN13);
+//                    rechteverwaltungRepositoryGenerator.setData(Rechteverwaltung::setLesen, DataType.BOOLEAN_50_50);
+//                    rechteverwaltungRepositoryGenerator.setData(Rechteverwaltung::setErstellen, DataType.BOOLEAN_50_50);
+//                    rechteverwaltungRepositoryGenerator.setData(Rechteverwaltung::setBearbeiten, DataType.BOOLEAN_50_50);
+//                    rechteverwaltungRepositoryGenerator.setData(Rechteverwaltung::setLoeschen, DataType.BOOLEAN_50_50);
+//                    rechteverwaltungRepositoryGenerator.setData(Rechteverwaltung::setAdmin, DataType.BOOLEAN_50_50);
+//                    rechteverwaltungRepository.saveAll(rechteverwaltungRepositoryGenerator.create(100, seed));
+                }
+            }
 
             logger.info("Generated demo data");
         };
