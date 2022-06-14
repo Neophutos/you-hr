@@ -8,6 +8,7 @@ import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.notification.Notification;
@@ -18,15 +19,23 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
+import com.vaadin.flow.data.converter.Converter;
+import com.vaadin.flow.data.converter.LocalDateToDateConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class MitarbeiterForm extends FormLayout {
     private Binder<Mitarbeiter> mitarbeiterBinder;
 
+    Locale finnishLocale = new Locale("fi","FI");
+
     private TextField vorname = new TextField("Vorname");
     private TextField nachname = new TextField("Nachname");
     private EmailField email = new EmailField("E-Mail");
-    private TextField geburtsdatum = new TextField("Geburtstag");
+    private DatePicker geburtsdatum = new DatePicker("Geburtstag");
     private TextField telefonnr = new TextField("Telefonnummer");
     private TextField position = new TextField("Position");
     private ComboBox<String> abteilung = new ComboBox<>("Abteilung");
@@ -44,7 +53,7 @@ public class MitarbeiterForm extends FormLayout {
 
     private Adresse adresse = new Adresse(1,"",2,"","");
 
-    private final MitarbeiterService mitarbeiterService;
+    private MitarbeiterService mitarbeiterService;
 
     @Autowired
     public MitarbeiterForm(MitarbeiterService mitarbeiterService) {
@@ -60,6 +69,8 @@ public class MitarbeiterForm extends FormLayout {
         mitarbeiterBinder.forField(bundesland).bind("adresse.bundesland");
         mitarbeiterBinder.forField(stadt).bind("adresse.stadt");
         mitarbeiterBinder.forField(plz).bind("adresse.plz");
+
+        geburtsdatum.setLocale(finnishLocale);
 
         abteilung.setItems("Buchhaltung","Forschung & Entwicklung","Geschäftsleitung","IT & EDV","Kundendienst", "Marketing", "Personalwesen");
         bundesland.setItems("Baden-Württemberg", "Bayern", "Berlin", "Brandenburg", "Bremen", "Hamburg", "Hessen", "Mecklenburg-Vorpommern", "Niedersachsen", "Nordrhein-Westfalen", "Rheinland-Pfalz", "Saarland", "Sachsen", "Sachsen-Anhalt", "Schleswig-Holstein", "Thüringen");

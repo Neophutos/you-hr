@@ -36,21 +36,4 @@ public class HRService {
         mitarbeiterRepository.delete(mitarbeiter);
     }
 
-    public void saveMitarbeiter(Mitarbeiter mitarbeiter) {
-        if(mitarbeiter == null){
-            System.err.println("Contact ist null.");
-            return;
-        }
-
-        mitarbeiterRepository.save(mitarbeiter);
-    }
-
-    public void saveAdresse(Adresse adresse) {
-        if(adresse == null){
-            System.err.println("Contact ist null.");
-            return;
-        }
-
-        adresseRepository.save(adresse);
-    }
 }
