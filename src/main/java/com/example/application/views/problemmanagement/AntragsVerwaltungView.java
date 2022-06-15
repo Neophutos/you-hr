@@ -3,20 +3,17 @@ package com.example.application.views.problemmanagement;
 import com.example.application.data.entity.Problem;
 import com.example.application.data.service.ProblemformularService;
 import com.example.application.views.MainLayout;
-import com.example.application.views.problemformular.ProblemformularView;
+import com.example.application.views.problemformular.AntragView;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Footer;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +21,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.security.RolesAllowed;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-@PageTitle("Problem-Management")
-@Route(value = "problem-management", layout = MainLayout.class)
+@PageTitle("Antragsverwaltung")
+@Route(value = "antragsverwaltung", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
-public class ProblemManagementView extends Div {
+public class AntragsVerwaltungView extends Div {
     Grid<Problem> grid = new Grid<>(Problem.class, false);
     TextField filterText = new TextField();
     Dialog confirmDialog = new Dialog();
@@ -37,9 +33,9 @@ public class ProblemManagementView extends Div {
     ProblemformularService service;
 
     @Autowired
-    public ProblemManagementView(ProblemformularService service) {
+    public AntragsVerwaltungView(ProblemformularService service) {
         this.service = service;
-        addClassName("problem-management-view");
+        addClassName("antragsverwaltungs-view");
 
         setSizeFull();
         configureGrid();
@@ -56,16 +52,12 @@ public class ProblemManagementView extends Div {
     }
 
     private HorizontalLayout getToolbar() {
-        filterText.setPlaceholder("Nach Name filtern...");
-        filterText.setClearButtonVisible(true);
-        filterText.setValueChangeMode(ValueChangeMode.LAZY);
-        filterText.addValueChangeListener(e -> updateList());
 
         Button addProblem = new Button("Problem erstellen");
         Button editProblem = new Button("Gelöst?", e -> solveProblem(grid.asSingleSelect().getValue()));
 
         addProblem.addClickListener(e -> addProblem.getUI().ifPresent(ui -> ui.navigate(
-                ProblemformularView.class)));
+                AntragView.class)));
 
         HorizontalLayout toolbar = new HorizontalLayout(addProblem, editProblem);
         toolbar.addClassName("toolbar");
@@ -91,7 +83,7 @@ public class ProblemManagementView extends Div {
         Button cancelButton = new Button("Abbrechen", e -> {
             confirmDialog.close();
             Notification.show("Antragsbearbeitung wurde abgebrochen");
-            UI.getCurrent().getPage().reload();
+            updateList();
         });
         return cancelButton;
     }
@@ -101,11 +93,9 @@ public class ProblemManagementView extends Div {
             service.delete(problem);
             Notification.show("Antrag " + problem.getId() + " wurde erfolgreich abgeschlossen!").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             confirmDialog.close();
-            UI.getCurrent().getPage().reload();
+            updateList();
         });
-        updateList();
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-
         return saveButton;
     }
 
@@ -115,7 +105,8 @@ public class ProblemManagementView extends Div {
         grid.setSizeFull();
         grid.addColumn("id");
         grid.addColumn(problem -> problem.getDatum().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))).setHeader("Erstellungsdatum");
-        grid.addColumns("problemart","beschreibung","antragstellername");
+        grid.addColumns("problemart","beschreibung");
+        grid.addColumn("antragstellername").setHeader("Antragsteller");
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
     }
 

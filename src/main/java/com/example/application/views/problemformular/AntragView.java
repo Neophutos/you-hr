@@ -11,6 +11,7 @@ import com.example.application.views.dashboard.DashboardView;
 import com.example.application.views.personformular.MitarbeiterForm;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -37,11 +38,11 @@ import java.util.Locale;
 @PageTitle("Problemformular")
 @Route(value = "Problemformular", layout = MainLayout.class)
 @RolesAllowed("USER")
-public class ProblemformularView extends Div {
-//    private Binder<Problem> problemformularBinder;
+public class AntragView extends Div {
     private BeanValidationBinder<Problem> problemformularBinder;
     private AuthenticatedUser authenticatedUser = new AuthenticatedUser(DataGenerator.getUserRepository());
 
+    Text text = new Text("Wählen Sie die Art des Antrags aus!");
     private ComboBox<String> problemart = new ComboBox<>("Problemart");
     private TextArea beschreibung = new TextArea("Problembeschreibung");
 
@@ -53,7 +54,7 @@ public class ProblemformularView extends Div {
     private Problem problem;
 
     @Autowired
-    public ProblemformularView(ProblemformularService problemformularService) {
+    public AntragView(ProblemformularService problemformularService) {
         this.problemformularservice = problemformularService;
         addClassName("Problem-Formular");
 
@@ -61,14 +62,17 @@ public class ProblemformularView extends Div {
 
         problemformularBinder.bindInstanceFields(this);
 
+        add(text);
+
         add(createFormLayout(),createButtonLayout());
     }
 
 
     private Component createFormLayout() {
         FormLayout formLayout = new FormLayout();
+
         formLayout.add(problemart, beschreibung);
-        problemart.setItems("Potenzielle Gefahr", "Bug/Systemfehler", "Profil/Nutzerkonto", "Sonstiges Problem");
+        problemart.setItems("Rechteänderung", "Bug/Systemfehler", "Profil/Nutzerkonto", "Sonstiges Problem");
         formLayout.setColspan(problemart, 1);
         formLayout.setColspan(beschreibung, 2);
         formLayout.setMaxWidth("700px");
