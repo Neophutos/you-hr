@@ -58,6 +58,7 @@ public class MitarbeiterlisteView extends Div {
 
         HorizontalLayout toolbar = new HorizontalLayout(filterText, addMitarbeiter);
         toolbar.addClassName("toolbar");
+        toolbar.setMargin(true);
         return toolbar;
     }
 
