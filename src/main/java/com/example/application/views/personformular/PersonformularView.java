@@ -38,10 +38,6 @@ import javax.annotation.security.RolesAllowed;
 @Uses(Icon.class)
 public class PersonformularView extends Div {
 
-    private BeanValidationBinder<Mitarbeiter> binder;
-
-    private Mitarbeiter mitarbeiter;
-
     private final MitarbeiterService mitarbeiterService;
 
     HRService service;
@@ -73,7 +69,4 @@ public class PersonformularView extends Div {
         form.setWidth("25em");
     }
 
-    private void clearForm() {
-        binder.setBean(new Mitarbeiter());
-    }
 }

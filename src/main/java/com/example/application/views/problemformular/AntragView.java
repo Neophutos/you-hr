@@ -1,5 +1,6 @@
 package com.example.application.views.problemformular;
 
+import com.example.application.data.entity.Mitarbeiter;
 import com.example.application.data.entity.Problem;
 import com.example.application.data.generator.DataGenerator;
 import com.example.application.data.repository.UserRepository;
@@ -16,8 +17,10 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -31,94 +34,38 @@ import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.security.RolesAllowed;
-import java.text.Normalizer;
-import java.time.LocalDate;
-import java.util.Locale;
 
 @PageTitle("Problemformular")
-@Route(value = "Problemformular", layout = MainLayout.class)
+@Route(value = "problemformular", layout = MainLayout.class)
 @RolesAllowed("USER")
+@Uses(Icon.class)
 public class AntragView extends Div {
-    private BeanValidationBinder<Problem> problemformularBinder;
-    private AuthenticatedUser authenticatedUser = new AuthenticatedUser(DataGenerator.getUserRepository());
-
-    Text text = new Text("Wählen Sie die Art des Antrags aus!");
-    private ComboBox<String> problemart = new ComboBox<>("Problemart");
-    private TextArea beschreibung = new TextArea("Problembeschreibung");
-
-    Button absenden = new Button("Abschicken");
-    Button schliessen = new Button("Schließen");
 
     private ProblemformularService problemformularservice;
 
-    private Problem problem;
+    AntragForm form;
 
     @Autowired
     public AntragView(ProblemformularService problemformularService) {
         this.problemformularservice = problemformularService;
-        addClassName("Problem-Formular");
+        addClassName("antrag-view");
 
-        problemformularBinder = new BeanValidationBinder<>(Problem.class);
+        configureForm();
 
-        problemformularBinder.bindInstanceFields(this);
+        add(getContent());
 
-        add(text);
-
-        add(createFormLayout(),createButtonLayout());
     }
 
-
-    private Component createFormLayout() {
-        FormLayout formLayout = new FormLayout();
-
-        formLayout.add(problemart, beschreibung);
-        problemart.setItems("Rechteänderung", "Bug/Systemfehler", "Profil/Nutzerkonto", "Sonstiges Problem");
-        formLayout.setColspan(problemart, 1);
-        formLayout.setColspan(beschreibung, 2);
-        formLayout.setMaxWidth("700px");
-        formLayout.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 2));
-        return formLayout;
+    private Component getContent() {
+        HorizontalLayout content = new HorizontalLayout(form);
+        content.addClassName("content");
+        content.setSizeFull();
+        content.setMargin(true);
+        return content;
     }
 
-    private Component createButtonLayout() {
-        HorizontalLayout buttonLayout = new HorizontalLayout();
-
-        absenden.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        schliessen.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-
-        absenden.addClickListener(event -> checkundSend());
-        schliessen.addClickListener(event -> schliessen.getUI().ifPresent(ui ->
-                ui.navigate("dashboard")));
-
-        absenden.addClickShortcut(Key.ENTER);
-        schliessen.addClickShortcut(Key.ESCAPE);
-
-        problemformularBinder.addStatusChangeListener(e -> absenden.setEnabled(problemformularBinder.isValid()));
-
-        buttonLayout.add(absenden);
-        buttonLayout.add(schliessen);
-        return buttonLayout;
+    private void configureForm() {
+        form = new AntragForm(problemformularservice);
+        form.setWidth("25em");
     }
-
-    private void checkundSend() {
-        try {
-            this.problem = new Problem();
-
-            this.problem.setDatum(LocalDate.now());
-
-            this.problem.setAntragstellername(authenticatedUser.get().get().getName());
-
-            problemformularBinder.writeBean(problem);
-
-            problemformularservice.update(problem);
-
-            Notification.show("Ihr Problem wurde erfolgreich gemeldet!");
-
-            UI.getCurrent().navigate(DashboardView.class);
-        } catch (ValidationException e) {
-            e.printStackTrace();
-        }
-    }
-
-
 }

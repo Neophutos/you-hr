@@ -61,6 +61,7 @@ public class AntragsVerwaltungView extends Div {
 
         HorizontalLayout toolbar = new HorizontalLayout(addProblem, editProblem);
         toolbar.addClassName("toolbar");
+        toolbar.setMargin(true);
         return toolbar;
     }
 
