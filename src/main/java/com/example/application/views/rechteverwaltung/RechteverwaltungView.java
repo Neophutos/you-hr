@@ -1,13 +1,17 @@
 package com.example.application.views.rechteverwaltung;
 
+import com.example.application.data.entity.Mitarbeiter;
 import com.example.application.data.entity.Rechteverwaltung;
+import com.example.application.data.service.MitarbeiterService;
 import com.example.application.data.service.RechteverwaltungService;
 import com.example.application.views.MainLayout;
+import com.sun.xml.bind.v2.TODO;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
@@ -26,11 +30,12 @@ import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.data.VaadinSpringDataHelpers;
-import java.util.Optional;
-import java.util.UUID;
-import javax.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+
+import javax.annotation.security.RolesAllowed;
+import java.util.Optional;
+import java.util.UUID;
 
 @PageTitle("Rechteverwaltung")
 @Route(value = "rechteverwaltung/:rechteverwaltungID?/:action?(edit)", layout = MainLayout.class)
@@ -45,7 +50,7 @@ public class RechteverwaltungView extends Div implements BeforeEnterObserver {
     private final String RECHTEVERWALTUNG_ID = "rechteverwaltungID";
     private final String RECHTEVERWALTUNG_EDIT_ROUTE_TEMPLATE = "rechteverwaltung/%s/edit";
 
-    private Grid<Rechteverwaltung> grid = new Grid<>(Rechteverwaltung.class, false);
+    private Grid<Mitarbeiter> grid = new Grid<>(Mitarbeiter.class, false);
 
     private TextField vorname;
     private TextField nachname;
@@ -59,14 +64,17 @@ public class RechteverwaltungView extends Div implements BeforeEnterObserver {
     private Button cancel = new Button("Cancel");
     private Button save = new Button("Save");
 
-    private BeanValidationBinder<Rechteverwaltung> binder;
+    private BeanValidationBinder<Mitarbeiter> binder;
 
-    private Rechteverwaltung rechteverwaltung;
+    private Mitarbeiter mitarbeiter;
+
+    private final MitarbeiterService mitarbeiterService;
 
     private final RechteverwaltungService rechteverwaltungService;
 
     @Autowired
-    public RechteverwaltungView(RechteverwaltungService rechteverwaltungService) {
+    public RechteverwaltungView(MitarbeiterService mitarbeiterService, RechteverwaltungService rechteverwaltungService) {
+        this.mitarbeiterService = mitarbeiterService;
         this.rechteverwaltungService = rechteverwaltungService;
         addClassNames("rechteverwaltung-view");
 
@@ -81,53 +89,53 @@ public class RechteverwaltungView extends Div implements BeforeEnterObserver {
         // Configure Grid
         grid.addColumn("vorname").setAutoWidth(true);
         grid.addColumn("nachname").setAutoWidth(true);
-        grid.addColumn("mitarbeiterid").setAutoWidth(true);
-        LitRenderer<Rechteverwaltung> lesenRenderer = LitRenderer.<Rechteverwaltung>of(
+        grid.addColumn("id").setAutoWidth(true);
+        LitRenderer<Mitarbeiter> lesenRenderer = LitRenderer.<Mitarbeiter>of(
                 "<vaadin-icon icon='vaadin:${item.icon}' style='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: ${item.color};'></vaadin-icon>")
-                .withProperty("icon", lesen -> lesen.isLesen() ? "check" : "minus").withProperty("color",
-                        lesen -> lesen.isLesen()
+                .withProperty("icon", lesen -> lesen.getRechteverwaltung().isLesen() ? "check" : "minus").withProperty("color",
+                        lesen -> lesen.getRechteverwaltung().isLesen()
                                 ? "var(--lumo-primary-text-color)"
                                 : "var(--lumo-disabled-text-color)");
 
         grid.addColumn(lesenRenderer).setHeader("Lesen").setAutoWidth(true);
 
-        LitRenderer<Rechteverwaltung> erstellenRenderer = LitRenderer.<Rechteverwaltung>of(
+        LitRenderer<Mitarbeiter> erstellenRenderer = LitRenderer.<Mitarbeiter>of(
                 "<vaadin-icon icon='vaadin:${item.icon}' style='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: ${item.color};'></vaadin-icon>")
-                .withProperty("icon", erstellen -> erstellen.isErstellen() ? "check" : "minus").withProperty("color",
-                        erstellen -> erstellen.isErstellen()
+                .withProperty("icon", erstellen -> erstellen.getRechteverwaltung().isErstellen() ? "check" : "minus").withProperty("color",
+                        erstellen -> erstellen.getRechteverwaltung().isErstellen()
                                 ? "var(--lumo-primary-text-color)"
                                 : "var(--lumo-disabled-text-color)");
 
         grid.addColumn(erstellenRenderer).setHeader("Erstellen").setAutoWidth(true);
 
-        LitRenderer<Rechteverwaltung> bearbeitenRenderer = LitRenderer.<Rechteverwaltung>of(
+        LitRenderer<Mitarbeiter> bearbeitenRenderer = LitRenderer.<Mitarbeiter>of(
                 "<vaadin-icon icon='vaadin:${item.icon}' style='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: ${item.color};'></vaadin-icon>")
-                .withProperty("icon", bearbeiten -> bearbeiten.isBearbeiten() ? "check" : "minus").withProperty("color",
-                        bearbeiten -> bearbeiten.isBearbeiten()
+                .withProperty("icon", bearbeiten -> bearbeiten.getRechteverwaltung().isBearbeiten() ? "check" : "minus").withProperty("color",
+                        bearbeiten -> bearbeiten.getRechteverwaltung().isBearbeiten()
                                 ? "var(--lumo-primary-text-color)"
                                 : "var(--lumo-disabled-text-color)");
 
         grid.addColumn(bearbeitenRenderer).setHeader("Bearbeiten").setAutoWidth(true);
 
-        LitRenderer<Rechteverwaltung> loeschenRenderer = LitRenderer.<Rechteverwaltung>of(
+        LitRenderer<Mitarbeiter> loeschenRenderer = LitRenderer.<Mitarbeiter>of(
                 "<vaadin-icon icon='vaadin:${item.icon}' style='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: ${item.color};'></vaadin-icon>")
-                .withProperty("icon", loeschen -> loeschen.isLoeschen() ? "check" : "minus").withProperty("color",
-                        loeschen -> loeschen.isLoeschen()
+                .withProperty("icon", loeschen -> loeschen.getRechteverwaltung().isLoeschen() ? "check" : "minus").withProperty("color",
+                        loeschen -> loeschen.getRechteverwaltung().isLoeschen()
                                 ? "var(--lumo-primary-text-color)"
                                 : "var(--lumo-disabled-text-color)");
 
         grid.addColumn(loeschenRenderer).setHeader("Loeschen").setAutoWidth(true);
 
-        LitRenderer<Rechteverwaltung> adminRenderer = LitRenderer.<Rechteverwaltung>of(
+        LitRenderer<Mitarbeiter> adminRenderer = LitRenderer.<Mitarbeiter>of(
                 "<vaadin-icon icon='vaadin:${item.icon}' style='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: ${item.color};'></vaadin-icon>")
-                .withProperty("icon", admin -> admin.isAdmin() ? "check" : "minus").withProperty("color",
-                        admin -> admin.isAdmin()
+                .withProperty("icon", admin -> admin.getRechteverwaltung().isAdmin() ? "check" : "minus").withProperty("color",
+                        admin -> admin.getRechteverwaltung().isAdmin()
                                 ? "var(--lumo-primary-text-color)"
                                 : "var(--lumo-disabled-text-color)");
 
         grid.addColumn(adminRenderer).setHeader("Admin").setAutoWidth(true);
 
-        grid.setItems(query -> rechteverwaltungService.list(
+        grid.setItems(query -> mitarbeiterService.list(
                 PageRequest.of(query.getPage(), query.getPageSize(), VaadinSpringDataHelpers.toSpringDataSort(query)))
                 .stream());
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
@@ -136,6 +144,9 @@ public class RechteverwaltungView extends Div implements BeforeEnterObserver {
         grid.asSingleSelect().addValueChangeListener(event -> {
             if (event.getValue() != null) {
                 UI.getCurrent().navigate(String.format(RECHTEVERWALTUNG_EDIT_ROUTE_TEMPLATE, event.getValue().getId()));
+
+                this.mitarbeiter = event.getValue();
+
             } else {
                 clearForm();
                 UI.getCurrent().navigate(RechteverwaltungView.class);
@@ -143,11 +154,54 @@ public class RechteverwaltungView extends Div implements BeforeEnterObserver {
         });
 
         // Configure Form
-        binder = new BeanValidationBinder<>(Rechteverwaltung.class);
+        binder = new BeanValidationBinder<>(Mitarbeiter.class);
 
         // Bind fields. This is where you'd define e.g. validation rules
+        //binder.bindInstanceFields(this);
+        binder.forField(lesen).bind("rechteverwaltung.lesen");
+        binder.forField(erstellen).bind("rechteverwaltung.erstellen");
+        binder.forField(bearbeiten).bind("rechteverwaltung.bearbeiten");
+        binder.forField(loeschen).bind("rechteverwaltung.loeschen");
+        binder.forField(admin).bind("rechteverwaltung.admin");
 
-        binder.bindInstanceFields(this);
+        lesen.addValueChangeListener(event -> {
+            if(!lesen.getValue()){
+                admin.setValue(false);
+            }
+        });
+
+        erstellen.addValueChangeListener(event -> {
+           if(!erstellen.getValue()){
+               admin.setValue(false);
+           }
+        });
+
+        bearbeiten.addValueChangeListener(event -> {
+            if(!bearbeiten.getValue()){
+                admin.setValue(false);
+            }
+        });
+
+        loeschen.addValueChangeListener(event -> {
+            if(!loeschen.getValue()){
+                admin.setValue(false);
+            }
+        });
+
+        //TODO tfr 15.06.2022 | checkbox admin logic must be implemented
+        admin.addValueChangeListener(event -> {
+            if (admin.getValue()) {
+                lesen.setValue(true);
+                erstellen.setValue(true);
+                bearbeiten.setValue(true);
+                loeschen.setValue(true);
+            } else {
+                lesen.setValue(false);
+                erstellen.setValue(false);
+                bearbeiten.setValue(false);
+                loeschen.setValue(false);
+            }
+        });
 
         cancel.addClickListener(e -> {
             clearForm();
@@ -156,14 +210,12 @@ public class RechteverwaltungView extends Div implements BeforeEnterObserver {
 
         save.addClickListener(e -> {
             try {
-                if (this.rechteverwaltung == null) {
-                    this.rechteverwaltung = new Rechteverwaltung();
-                }
-                binder.writeBean(this.rechteverwaltung);
+                binder.writeBean(this.mitarbeiter);
 
-                rechteverwaltungService.update(this.rechteverwaltung);
+                mitarbeiterService.update(this.mitarbeiter);
                 clearForm();
                 refreshGrid();
+                System.out.println("Grid refreshed");
                 Notification.show("Rechteverwaltung details stored.");
                 UI.getCurrent().navigate(RechteverwaltungView.class);
             } catch (ValidationException validationException) {
@@ -175,9 +227,9 @@ public class RechteverwaltungView extends Div implements BeforeEnterObserver {
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
-        Optional<UUID> rechteverwaltungId = event.getRouteParameters().get(RECHTEVERWALTUNG_ID).map(UUID::fromString);
+        Optional<Long> rechteverwaltungId = event.getRouteParameters().get(RECHTEVERWALTUNG_ID).map(Long::parseLong);
         if (rechteverwaltungId.isPresent()) {
-            Optional<Rechteverwaltung> rechteverwaltungFromBackend = rechteverwaltungService
+            Optional<Mitarbeiter> rechteverwaltungFromBackend = mitarbeiterService
                     .get(rechteverwaltungId.get());
             if (rechteverwaltungFromBackend.isPresent()) {
                 populateForm(rechteverwaltungFromBackend.get());
@@ -201,16 +253,13 @@ public class RechteverwaltungView extends Div implements BeforeEnterObserver {
         editorLayoutDiv.add(editorDiv);
 
         FormLayout formLayout = new FormLayout();
-        vorname = new TextField("Vorname");
-        nachname = new TextField("Nachname");
-        mitarbeiterid = new TextField("Mitarbeiterid");
         lesen = new Checkbox("Lesen");
         erstellen = new Checkbox("Erstellen");
         bearbeiten = new Checkbox("Bearbeiten");
         loeschen = new Checkbox("Loeschen");
         admin = new Checkbox("Admin");
-        Component[] fields = new Component[]{vorname, nachname, mitarbeiterid, lesen, erstellen, bearbeiten, loeschen,
-                admin};
+
+        Component[] fields = new Component[]{lesen, erstellen, bearbeiten, loeschen, admin};
 
         formLayout.add(fields);
         editorDiv.add(formLayout);
@@ -244,9 +293,8 @@ public class RechteverwaltungView extends Div implements BeforeEnterObserver {
         populateForm(null);
     }
 
-    private void populateForm(Rechteverwaltung value) {
-        this.rechteverwaltung = value;
-        binder.readBean(this.rechteverwaltung);
-
+    private void populateForm(Mitarbeiter value) {
+        this.mitarbeiter = value;
+        binder.readBean(this.mitarbeiter);
     }
 }

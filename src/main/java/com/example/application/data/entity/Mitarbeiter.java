@@ -71,6 +71,10 @@ public class Mitarbeiter {
 
     public void setGeburtsdatum(LocalDate geburtsdatum) { this.geburtsdatum = geburtsdatum;}
 
+    public void setRechteverwaltung(Rechteverwaltung rechteverwaltung) {
+        this.rechteverwaltung = rechteverwaltung;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -115,6 +119,10 @@ public class Mitarbeiter {
         return user;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public Rechteverwaltung getRechteverwaltung() {
         return rechteverwaltung;
     }
@@ -125,15 +133,14 @@ public class Mitarbeiter {
                 "id=" + id +
                 ", vorname='" + vorname + '\'' +
                 ", nachname='" + nachname + '\'' +
-                ", geburtsdatum='" + geburtsdatum + '\'' +
+                ", geburtsdatum=" + geburtsdatum +
                 ", email='" + email + '\'' +
                 ", telefonnr='" + telefonnr + '\'' +
                 ", position='" + position + '\'' +
                 ", abteilung='" + abteilung + '\'' +
                 ", adresse=" + adresse +
+                ", user=" + user +
+                ", rechteverwaltung=" + rechteverwaltung +
                 '}';
     }
-
-
-
 }

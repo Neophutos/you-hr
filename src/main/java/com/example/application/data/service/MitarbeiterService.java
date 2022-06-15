@@ -20,8 +20,8 @@ public class MitarbeiterService {
         this.repository = repository;
     }
 
-    public Optional<Mitarbeiter> get(UUID id) {
-        return repository.findById(id);
+    public Optional<Mitarbeiter> get(Long id) {
+        return repository.getByID(id).stream().findFirst();
     }
 
     public Mitarbeiter update(Mitarbeiter entity) {

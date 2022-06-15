@@ -47,5 +47,18 @@ public class Rechteverwaltung extends AbstractEntity {
     public void setAdmin(boolean admin) {
         this.admin = admin;
     }
+    public Mitarbeiter getMitarbeiter() {
+        return mitarbeiter;
+    }
 
+    @Override
+    public String toString() {
+        return "Rechteverwaltung{" +
+                ", lesen=" + lesen +
+                ", erstellen=" + erstellen +
+                ", bearbeiten=" + bearbeiten +
+                ", loeschen=" + loeschen +
+                ", admin=" + admin +
+                '}';
+    }
 }
