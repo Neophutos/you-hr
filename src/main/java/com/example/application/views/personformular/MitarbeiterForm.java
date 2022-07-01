@@ -51,6 +51,11 @@ public class MitarbeiterForm extends FormLayout {
 
     private Mitarbeiter mitarbeiter;
 
+    public void setMitarbeiter(Mitarbeiter mitarbeiter){
+        this.mitarbeiter = mitarbeiter;
+        mitarbeiterBinder.readBean(mitarbeiter);
+    }
+
     private Adresse adresse = new Adresse(1,"",2,"","");
 
     private MitarbeiterService mitarbeiterService;

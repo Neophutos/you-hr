@@ -4,6 +4,7 @@ import com.example.application.data.entity.Mitarbeiter;
 import com.example.application.data.entity.Problem;
 import com.example.application.data.service.HRService;
 import com.example.application.views.MainLayout;
+import com.example.application.views.personformular.MitarbeiterForm;
 import com.example.application.views.personformular.PersonformularView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -59,20 +60,25 @@ public class MitarbeiterlisteView extends Div {
 
         Button addMitarbeiter = new Button("Mitarbeiter erstellen");
         Button editMitarbeiter = new Button("Bearbeiten");
-        Button deleteMitarbeiter = new Button("Löschen");
+        Button removeMitarbeiter = new Button("Löschen");
 
         addMitarbeiter.addClickListener(e -> addMitarbeiter.getUI().ifPresent(ui -> ui.navigate(
                 PersonformularView.class)));
 
-        editMitarbeiter.addClickListener(e -> editMitarbeiter.getUI().ifPresent(ui -> ui.navigate(
-                PersonformularView.class)));
+        editMitarbeiter.addClickListener(e -> editMitarbeiter(grid.asSingleSelect().getValue()));
 
-        deleteMitarbeiter.addClickListener(e -> removeMitarbeiter(grid.asSingleSelect().getValue()));
+        removeMitarbeiter.addClickListener(e -> removeMitarbeiter(grid.asSingleSelect().getValue()));
 
-        HorizontalLayout toolbar = new HorizontalLayout(filterText, addMitarbeiter);
+        HorizontalLayout toolbar = new HorizontalLayout(filterText, addMitarbeiter, editMitarbeiter, removeMitarbeiter);
         toolbar.addClassName("toolbar");
         toolbar.setMargin(true);
         return toolbar;
+    }
+
+    private void editMitarbeiter(Mitarbeiter mitarbeiter) {
+        if (mitarbeiter == null){
+            
+        }
     }
 
     private void configureGrid() {
@@ -119,6 +125,7 @@ public class MitarbeiterlisteView extends Div {
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         return saveButton;
     }
+
 
     private void updateList(){
         grid.setItems(service.findAllMitarbeiter(filterText.getValue()));
