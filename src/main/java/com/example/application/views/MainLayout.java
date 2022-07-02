@@ -154,8 +154,6 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("Adressformular", "la la-ghost", AdressformularView.class), //
 
-                //new MenuItemInfo("Personformular", "la la-ghost", PersonformularView.class), //
-
                 new MenuItemInfo("Problemformular", "la la-question-circle", AntragView.class), //
 
                 new MenuItemInfo("Rechteformular", "la la-ghost", RechteformularView.class), //

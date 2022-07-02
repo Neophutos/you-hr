@@ -28,7 +28,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class MitarbeiterForm extends FormLayout {
-    private Binder<Mitarbeiter> mitarbeiterBinder;
+    private Binder<Mitarbeiter> mitarbeiterBinder = new BeanValidationBinder<>(Mitarbeiter.class);
 
     Locale finnishLocale = new Locale("fi","FI");
 
@@ -61,11 +61,8 @@ public class MitarbeiterForm extends FormLayout {
     private MitarbeiterService mitarbeiterService;
 
     @Autowired
-    public MitarbeiterForm(MitarbeiterService mitarbeiterService) {
-        this.mitarbeiterService = mitarbeiterService;
+    public MitarbeiterForm() {
         addClassName("Mitarbeiter-Formular");
-
-        mitarbeiterBinder = new BeanValidationBinder<>(Mitarbeiter.class);
 
         mitarbeiterBinder.bindInstanceFields(this);
 
@@ -117,12 +114,12 @@ public class MitarbeiterForm extends FormLayout {
 
     private void checkUndSpeichern() {
         try {
-            this.mitarbeiter = new Mitarbeiter();
+            if (mitarbeiter == null) {
+                this.mitarbeiter = new Mitarbeiter();
+                this.mitarbeiter.generateUser();
+            }
             this.mitarbeiter.setAdresse(adresse);
-
             mitarbeiterBinder.writeBean(mitarbeiter);
-
-            this.mitarbeiter.generateUser();
 
             mitarbeiterService.update(mitarbeiter);
 
