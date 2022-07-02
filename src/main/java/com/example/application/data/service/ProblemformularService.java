@@ -33,8 +33,8 @@ public class ProblemformularService  {
         return repository.save(entity);
     }
 
-    public void delete(Problem id) {
-        repository.delete(id);
+    public void delete(Problem problem) {
+        repository.delete(problem);
     }
 
     public Page<Problem> list(Pageable pageable) {
@@ -45,7 +45,8 @@ public class ProblemformularService  {
         return (int) repository.count();
     }
 
-    public List<Problem> findAllProblems() {
+    public List<Problem> findAll(){
         return repository.findAll();
     }
+
 }

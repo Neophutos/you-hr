@@ -112,7 +112,7 @@ public class AntragsVerwaltungView extends Div {
     }
 
     private void updateList(){
-        grid.setItems(service.findAllProblems());
+        grid.setItems(service.findAll());
     }
 
 }
