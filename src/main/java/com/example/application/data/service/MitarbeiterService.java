@@ -1,6 +1,8 @@
 package com.example.application.data.service;
 
 import com.example.application.data.entity.Mitarbeiter;
+
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,8 +30,8 @@ public class MitarbeiterService {
         return repository.save(entity);
     }
 
-    public void delete(UUID id) {
-        repository.deleteById(id);
+    public void delete(Mitarbeiter mitarbeiter) {
+        repository.delete(mitarbeiter);
     }
 
     public Page<Mitarbeiter> list(Pageable pageable) {
@@ -38,6 +40,14 @@ public class MitarbeiterService {
 
     public int count() {
         return (int) repository.count();
+    }
+
+    public List<Mitarbeiter> findAllByString(String filterText) {
+        if(filterText == null || filterText.isEmpty()) {
+            return repository.findAll();
+        } else {
+            return repository.search(filterText);
+        }
     }
 
     public MitarbeiterRepository getRepository() {
