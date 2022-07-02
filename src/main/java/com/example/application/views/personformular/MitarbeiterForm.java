@@ -7,6 +7,7 @@ import com.example.application.views.mitarbeiterliste.MitarbeiterlisteView;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.charts.events.ChartLoadEvent;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -19,12 +20,9 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
-import com.vaadin.flow.data.converter.Converter;
-import com.vaadin.flow.data.converter.LocalDateToDateConverter;
+import com.vaadin.flow.shared.Registration;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class MitarbeiterForm extends FormLayout {
@@ -50,13 +48,12 @@ public class MitarbeiterForm extends FormLayout {
     Button schliessen = new Button("Schließen");
 
     private Mitarbeiter mitarbeiter;
+    private Adresse adresse;
 
     public void setMitarbeiter(Mitarbeiter mitarbeiter){
         this.mitarbeiter = mitarbeiter;
         mitarbeiterBinder.readBean(mitarbeiter);
     }
-
-    private Adresse adresse = new Adresse(1,"",2,"","");
 
     private MitarbeiterService mitarbeiterService;
 
@@ -101,8 +98,7 @@ public class MitarbeiterForm extends FormLayout {
         schliessen.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
         speichern.addClickListener(event -> checkUndSpeichern());
-        schliessen.addClickListener(event -> schliessen.getUI().ifPresent(ui ->
-                ui.navigate("mitarbeiterliste")));
+        schliessen.addClickListener(event -> fireEvent(new CloseEvent(this)));
 
         speichern.addClickShortcut(Key.ENTER);
         schliessen.addClickShortcut(Key.ESCAPE);
@@ -114,21 +110,42 @@ public class MitarbeiterForm extends FormLayout {
 
     private void checkUndSpeichern() {
         try {
-            if (mitarbeiter == null) {
-                this.mitarbeiter = new Mitarbeiter();
-                this.mitarbeiter.generateUser();
-            }
-            this.mitarbeiter.setAdresse(adresse);
             mitarbeiterBinder.writeBean(mitarbeiter);
-
-            mitarbeiterService.update(mitarbeiter);
-
+            fireEvent(new SaveEvent(this, mitarbeiter));
+            this.mitarbeiter.generateUser();
             Notification.show(mitarbeiter.getNachname() + " " + mitarbeiter.getVorname() + " wurde erstellt.");
-
-            UI.getCurrent().navigate(MitarbeiterlisteView.class);
-
         } catch (ValidationException e) {
             e.printStackTrace();
         }
+    }
+
+    //Events
+    public static abstract class MitarbeiterFormEvent extends ComponentEvent<MitarbeiterForm> {
+        private Mitarbeiter mitarbeiter;
+
+        protected MitarbeiterFormEvent(MitarbeiterForm source, Mitarbeiter mitarbeiter) {
+            super(source, false);
+            this.mitarbeiter = mitarbeiter;
+        }
+
+        public Mitarbeiter getMitarbeiter() {
+            return mitarbeiter;
+        }
+    }
+
+    public static class SaveEvent extends MitarbeiterFormEvent {
+        SaveEvent(MitarbeiterForm source, Mitarbeiter mitarbeiter) {
+            super(source, mitarbeiter);
+        }
+    }
+
+    public static class CloseEvent extends MitarbeiterFormEvent {
+        CloseEvent(MitarbeiterForm source) {
+            super(source, null);
+        }
+    }
+
+    public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType, ComponentEventListener<T> listener) {
+        return getEventBus().addListener(eventType, listener);
     }
 }

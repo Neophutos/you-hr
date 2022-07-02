@@ -12,15 +12,15 @@ public class Adresse {
     @Column(name = "id")
     private Long id;
 
-    private int plz;
+    private int plz = 0;
 
-    private String strassenname;
+    private String strassenname = "";
 
-    private int hausnummer;
+    private int hausnummer = 0;
 
-    private String stadt;
+    private String stadt = "";
 
-    private String bundesland;
+    private String bundesland = "";
 
     @OneToOne(mappedBy = "adresse")
     private Mitarbeiter mitarbeiter;

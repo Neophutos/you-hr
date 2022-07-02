@@ -1,9 +1,12 @@
 package com.example.application.views.mitarbeiterliste;
 
+import com.example.application.data.entity.Adresse;
 import com.example.application.data.entity.Mitarbeiter;
 import com.example.application.data.service.HRService;
+import com.example.application.data.service.MitarbeiterService;
 import com.example.application.views.MainLayout;
 import com.example.application.views.personformular.MitarbeiterForm;
+import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -32,6 +35,7 @@ public class MitarbeiterlisteView extends Div {
     Dialog editDialog = new Dialog();
     Dialog deletionDialog = new Dialog();
     MitarbeiterForm form;
+    MitarbeiterService mitarbeiterService;
     HRService service;
 
     @Autowired
@@ -40,7 +44,7 @@ public class MitarbeiterlisteView extends Div {
         addClassName("mitarbeiterliste-view");
         setSizeFull();
         configureGrid();
-        form = new MitarbeiterForm();
+        configureForm();
         add(getToolbar(), getContent());
         updateList();
 
@@ -64,6 +68,17 @@ public class MitarbeiterlisteView extends Div {
         return content;
     }
 
+    private void configureForm(){
+        form = new MitarbeiterForm();
+        form.addListener(MitarbeiterForm.SaveEvent.class, this::saveMitarbeiter);
+        form.addListener(MitarbeiterForm.CloseEvent.class, e -> editDialog.close());
+    }
+
+    private void saveMitarbeiter(MitarbeiterForm.SaveEvent event){
+        mitarbeiterService.update(event.getMitarbeiter());
+        updateList();
+        editDialog.close();
+    }
 
     private HorizontalLayout getToolbar() {
         filterText.setPlaceholder("Nach Name filtern...");
@@ -89,7 +104,10 @@ public class MitarbeiterlisteView extends Div {
 
     private void addMitarbeiter() {
         grid.asSingleSelect().clear();
-        editMitarbeiter(new Mitarbeiter());
+        Mitarbeiter mitarbeiter = new Mitarbeiter();
+        Adresse adresse = new Adresse();
+        mitarbeiter.setAdresse(adresse);
+        editMitarbeiter(mitarbeiter);
     }
 
     private void editMitarbeiter(Mitarbeiter mitarbeiter) {
@@ -122,10 +140,6 @@ public class MitarbeiterlisteView extends Div {
 
             deletionDialog.open();
         }
-    }
-
-    private void deleteMitarbeiter(Mitarbeiter mitarbeiter){
-        service.deleteMitarbeiter(mitarbeiter);
     }
 
     private Button createCancelButton(Dialog confirmDialog) {
