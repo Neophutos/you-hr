@@ -1,13 +1,12 @@
 package com.example.application.views.personformular;
 
-import com.example.application.data.entity.Adresse;
 import com.example.application.data.entity.Mitarbeiter;
-import com.example.application.data.service.MitarbeiterService;
-import com.example.application.views.mitarbeiterliste.MitarbeiterlisteView;
-import com.vaadin.flow.component.*;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.ComponentEvent;
+import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.charts.events.ChartLoadEvent;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -28,7 +27,7 @@ import java.util.Locale;
 public class MitarbeiterForm extends FormLayout {
     private Binder<Mitarbeiter> mitarbeiterBinder = new BeanValidationBinder<>(Mitarbeiter.class);
 
-    Locale finnishLocale = new Locale("fi","FI");
+    Locale finnishLocale = new Locale("fi", "FI");
 
     private TextField vorname = new TextField("Vorname");
     private TextField nachname = new TextField("Nachname");
@@ -39,7 +38,7 @@ public class MitarbeiterForm extends FormLayout {
     private ComboBox<String> abteilung = new ComboBox<>("Abteilung");
 
     private TextField strassenname = new TextField("Strasse");
-    private IntegerField hausnummer = new IntegerField ("Hausnummer");
+    private IntegerField hausnummer = new IntegerField("Hausnummer");
     private IntegerField plz = new IntegerField("Postleitzahl");
     private TextField stadt = new TextField("Stadt");
     private ComboBox<String> bundesland = new ComboBox<>("Bundesland");
@@ -47,15 +46,12 @@ public class MitarbeiterForm extends FormLayout {
     Button speichern = new Button("Speichern");
     Button schliessen = new Button("Schließen");
 
-    private Mitarbeiter mitarbeiter;
-    private Adresse adresse;
+    private Mitarbeiter selectedMitarbeiter;
 
-    public void setMitarbeiter(Mitarbeiter mitarbeiter){
-        this.mitarbeiter = mitarbeiter;
-        mitarbeiterBinder.readBean(mitarbeiter);
+    public void setSelectedMitarbeiter(Mitarbeiter selectedMitarbeiter) {
+        this.selectedMitarbeiter = selectedMitarbeiter;
+        mitarbeiterBinder.readBean(selectedMitarbeiter);
     }
-
-    private MitarbeiterService mitarbeiterService;
 
     @Autowired
     public MitarbeiterForm() {
@@ -71,7 +67,7 @@ public class MitarbeiterForm extends FormLayout {
 
         geburtsdatum.setLocale(finnishLocale);
 
-        abteilung.setItems("Buchhaltung","Forschung & Entwicklung","Geschäftsleitung","IT & EDV","Kundendienst", "Marketing", "Personalwesen");
+        abteilung.setItems("Buchhaltung", "Forschung & Entwicklung", "Geschäftsleitung", "IT & EDV", "Kundendienst", "Marketing", "Personalwesen");
         bundesland.setItems("Baden-Württemberg", "Bayern", "Berlin", "Brandenburg", "Bremen", "Hamburg", "Hessen", "Mecklenburg-Vorpommern", "Niedersachsen", "Nordrhein-Westfalen", "Rheinland-Pfalz", "Saarland", "Sachsen", "Sachsen-Anhalt", "Schleswig-Holstein", "Thüringen");
 
         add(
@@ -97,7 +93,7 @@ public class MitarbeiterForm extends FormLayout {
         speichern.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         schliessen.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
-        speichern.addClickListener(event -> checkUndSpeichern());
+        speichern.addClickListener(event -> checkAndSave());
         schliessen.addClickListener(event -> fireEvent(new CloseEvent(this)));
 
         speichern.addClickShortcut(Key.ENTER);
@@ -108,12 +104,11 @@ public class MitarbeiterForm extends FormLayout {
         return new HorizontalLayout(speichern, schliessen);
     }
 
-    private void checkUndSpeichern() {
+    private void checkAndSave() {
         try {
-            mitarbeiterBinder.writeBean(mitarbeiter);
-            fireEvent(new SaveEvent(this, mitarbeiter));
-            this.mitarbeiter.generateUser();
-            Notification.show(mitarbeiter.getNachname() + " " + mitarbeiter.getVorname() + " wurde erstellt.");
+            mitarbeiterBinder.writeBean(selectedMitarbeiter);
+            fireEvent(new SaveEvent(this, selectedMitarbeiter));
+            Notification.show(selectedMitarbeiter.getNachname() + " " + selectedMitarbeiter.getVorname() + " wurde erstellt.");
         } catch (ValidationException e) {
             e.printStackTrace();
         }

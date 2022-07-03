@@ -15,6 +15,7 @@ public class UserGenerator {
     private static UserService userService = new UserService(DataGenerator.getUserRepository());
 
     public static User generate(String vorname, String nachname, User user) {
+
         user.setName(String.format("%s %s", vorname, nachname));
         user.setUsername(String.format("%s.%s", vorname, nachname));
         String pw = generateRandomPassword(10);
@@ -32,13 +33,22 @@ public class UserGenerator {
 
         if (results != 0) {
             System.out.println("User does already exists");
+        } else {
+            userService.update(user);
+            System.out.println("user login successfully generated!");
         }
 
     return user;
     }
 
+    public static String generateHashedPassword() {
+        String pw = generateRandomPassword(10);
+        Notification.show("Passwort: " + pw);
+        return passwordEncoder.encode(pw);
+    }
 
-    public static String generateRandomPassword(int len)
+
+    private static String generateRandomPassword(int len)
     {
         // ASCII range – alphanumeric (0-9, a-z, A-Z)
         final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

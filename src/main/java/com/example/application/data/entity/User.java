@@ -18,6 +18,7 @@ public class User extends AbstractEntity {
     private Set<Role> roles;
     @Lob
     private String profilePictureUrl;
+
     @OneToOne(mappedBy = "user")
     private Mitarbeiter mitarbeiter;
 
@@ -48,6 +49,12 @@ public class User extends AbstractEntity {
     }
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
+    public void removeRole(Role role) {
+        this.roles.remove(role);
     }
     public String getProfilePictureUrl() {
         return profilePictureUrl;

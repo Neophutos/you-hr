@@ -52,9 +52,6 @@ public class RechteverwaltungView extends Div implements BeforeEnterObserver {
 
     private Grid<Mitarbeiter> grid = new Grid<>(Mitarbeiter.class, false);
 
-    private TextField vorname;
-    private TextField nachname;
-    private TextField mitarbeiterid;
     private Checkbox lesen;
     private Checkbox erstellen;
     private Checkbox bearbeiten;
@@ -70,12 +67,11 @@ public class RechteverwaltungView extends Div implements BeforeEnterObserver {
 
     private final MitarbeiterService mitarbeiterService;
 
-    private final RechteverwaltungService rechteverwaltungService;
 
     @Autowired
-    public RechteverwaltungView(MitarbeiterService mitarbeiterService, RechteverwaltungService rechteverwaltungService) {
+    public RechteverwaltungView(MitarbeiterService mitarbeiterService) {
         this.mitarbeiterService = mitarbeiterService;
-        this.rechteverwaltungService = rechteverwaltungService;
+
         addClassNames("rechteverwaltung-view");
 
         // Create UI
@@ -188,7 +184,6 @@ public class RechteverwaltungView extends Div implements BeforeEnterObserver {
             }
         });
 
-        //TODO tfr 15.06.2022 | checkbox admin logic must be implemented
         admin.addValueChangeListener(event -> {
             if (admin.getValue()) {
                 lesen.setValue(true);
@@ -211,6 +206,8 @@ public class RechteverwaltungView extends Div implements BeforeEnterObserver {
         save.addClickListener(e -> {
             try {
                 binder.writeBean(this.mitarbeiter);
+
+                System.out.println(this.mitarbeiter);
 
                 mitarbeiterService.update(this.mitarbeiter);
                 clearForm();

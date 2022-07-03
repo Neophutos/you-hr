@@ -1,6 +1,5 @@
 package com.example.application.data.service;
 
-import com.example.application.data.entity.Adresse;
 import com.example.application.data.entity.Mitarbeiter;
 import com.example.application.data.repository.AdresseRepository;
 import com.example.application.data.repository.MitarbeiterRepository;

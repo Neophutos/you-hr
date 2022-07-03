@@ -1,14 +1,13 @@
 package com.example.application.data.entity;
 
+import com.example.application.data.Role;
 import com.example.application.data.generator.UserGenerator;
-import com.vaadin.flow.component.notification.Notification;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Mitarbeiter {
@@ -41,16 +40,20 @@ public class Mitarbeiter {
     private Rechteverwaltung rechteverwaltung;
 
     public Mitarbeiter() {
-     this.rechteverwaltung = new Rechteverwaltung();
+        this.rechteverwaltung = new Rechteverwaltung();
+        this.user = new User();
     }
 
     public void generateUser() {
         if (vorname == null || nachname == null) {
             System.out.println("vorname und nachname müssen gesetzt werden, " +
                     "bevor ein neuer User Account generiert werden kann");
+        } else {
+            this.user.setName(String.format("%s %s", vorname, nachname));
+            this.user.setUsername(String.format("%s.%s", vorname, nachname));
+            this.user.setHashedPassword(UserGenerator.generateHashedPassword());
+            this.user.setRoles(Set.of(Role.USER));
         }
-        this.user = new User();
-        this.user = UserGenerator.generate(vorname, nachname, this.user);
     }
 
     public String getVorname() {
@@ -73,6 +76,10 @@ public class Mitarbeiter {
 
     public void setRechteverwaltung(Rechteverwaltung rechteverwaltung) {
         this.rechteverwaltung = rechteverwaltung;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getEmail() {

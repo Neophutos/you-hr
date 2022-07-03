@@ -2,6 +2,7 @@ package com.example.application.views.mitarbeiterliste;
 
 import com.example.application.data.entity.Adresse;
 import com.example.application.data.entity.Mitarbeiter;
+import com.example.application.data.entity.User;
 import com.example.application.data.service.MitarbeiterService;
 import com.example.application.views.MainLayout;
 import com.example.application.views.personformular.MitarbeiterForm;
@@ -31,13 +32,14 @@ public class MitarbeiterlisteView extends Div {
     Grid<Mitarbeiter> grid = new Grid<>(Mitarbeiter.class, false);
     TextField filterText = new TextField();
     Dialog editDialog = new Dialog();
-    Dialog deletionDialog = new Dialog();
 
     Button cancelButton;
     Button confirmButton;
 
     MitarbeiterForm form;
     MitarbeiterService mitarbeiterService;
+
+    Mitarbeiter mitarbeiter;
 
     @Autowired
     public MitarbeiterlisteView(MitarbeiterService mitarbeiterService) {
@@ -76,6 +78,7 @@ public class MitarbeiterlisteView extends Div {
     }
 
     private void saveMitarbeiter(MitarbeiterForm.SaveEvent event){
+        event.getMitarbeiter().generateUser();
         mitarbeiterService.update(event.getMitarbeiter());
         updateList();
         editDialog.close();
@@ -105,7 +108,7 @@ public class MitarbeiterlisteView extends Div {
 
     private void addMitarbeiter() {
         grid.asSingleSelect().clear();
-        Mitarbeiter mitarbeiter = new Mitarbeiter();
+        mitarbeiter = new Mitarbeiter();
         Adresse adresse = new Adresse();
         mitarbeiter.setAdresse(adresse);
         editMitarbeiter(mitarbeiter);
@@ -115,7 +118,7 @@ public class MitarbeiterlisteView extends Div {
         if (mitarbeiter == null){
             Notification.show("Es wurde kein Mitarbeiter ausgewählt!").addThemeVariants(NotificationVariant.LUMO_ERROR);
         } else {
-            form.setMitarbeiter(mitarbeiter);
+            form.setSelectedMitarbeiter(mitarbeiter);
             editDialog.open();
         }
     }
@@ -132,16 +135,15 @@ public class MitarbeiterlisteView extends Div {
         if(mitarbeiter == null) {
             Notification.show("Es wurde kein Mitarbeiter ausgewählt!").addThemeVariants(NotificationVariant.LUMO_ERROR);
         } else {
+            Dialog deletionDialog = new Dialog();
+
             deletionDialog.setHeaderTitle("Mitarbeiter wirklich löschen?");
 
-            if (cancelButton == null) {
-                cancelButton = createCancelButton(deletionDialog);
-                deletionDialog.getFooter().add(cancelButton);
-            }
-            if(confirmButton == null) {
-                confirmButton = createConfirmButton(deletionDialog, mitarbeiter);
-                deletionDialog.getFooter().add(confirmButton);
-            }
+            cancelButton = createCancelButton(deletionDialog);
+            deletionDialog.getFooter().add(cancelButton);
+            confirmButton = createConfirmButton(deletionDialog, mitarbeiter);
+            deletionDialog.getFooter().add(confirmButton);
+
 
             deletionDialog.open();
         }
