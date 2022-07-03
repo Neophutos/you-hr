@@ -9,20 +9,27 @@ import com.example.application.views.personformular.MitarbeiterForm;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.contextmenu.GridContextMenu;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.security.RolesAllowed;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.stream.Stream;
 
 @PageTitle("Mitarbeiterliste")
 @Route(value = "mitarbeiterliste", layout = MainLayout.class)
@@ -53,6 +60,12 @@ public class MitarbeiterlisteView extends Div {
 
         VerticalLayout editDialogLayout = createEditDialogLayout();
         editDialog.add(editDialogLayout);
+
+        GridContextMenu<Mitarbeiter> menu = grid.addContextMenu();
+        menu.add(new Hr());
+        menu.addItem("Bearbeiten", event -> editMitarbeiter(grid.asSingleSelect().getValue()));
+        menu.addItem("Löschen", event -> removeMitarbeiter(grid.asSingleSelect().getValue()));
+
     }
 
     private VerticalLayout createEditDialogLayout() {
@@ -128,7 +141,41 @@ public class MitarbeiterlisteView extends Div {
         //grid.addColumn(mitarbeiter -> mitarbeiter.getGeburtsdatum().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
         grid.setSizeFull();
         grid.addColumns("vorname", "nachname", "email", "position", "abteilung", "adresse");
+
+        grid.setItemDetailsRenderer(createMitarbeiterDetailsRenderer());
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
+    }
+
+    private static ComponentRenderer<MitarbeiterDetailsFormLayout, Mitarbeiter> createMitarbeiterDetailsRenderer() {
+        return new ComponentRenderer<>(MitarbeiterDetailsFormLayout::new,
+                MitarbeiterDetailsFormLayout::setMitarbeiter);
+    }
+
+    private static class MitarbeiterDetailsFormLayout extends FormLayout {
+        private final TextField geburtsdatum = new TextField("Geburtsdatum");
+        private final TextField email = new TextField("Email");
+        private final TextField telefonnr = new TextField("Telefon");
+        private final TextField abteilung = new TextField("Abteilung");
+        private final TextField position = new TextField("Position");
+
+        public MitarbeiterDetailsFormLayout(){
+            Stream.of(geburtsdatum,email,telefonnr,abteilung,position).forEach(field -> {
+                field.setReadOnly(true);
+                add(field);
+            });
+
+            setResponsiveSteps(new ResponsiveStep("0",3));
+            setColspan(email, 3);
+            setColspan(telefonnr, 3);
+        }
+
+        public void setMitarbeiter(Mitarbeiter mitarbeiter) {
+            geburtsdatum.setValue(mitarbeiter.getGeburtsdatum().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+            email.setValue(mitarbeiter.getEmail());
+            telefonnr.setValue(mitarbeiter.getTelefonnr());
+            abteilung.setValue(mitarbeiter.getAbteilung());
+            position.setValue(mitarbeiter.getPosition());
+        }
     }
 
     private void removeMitarbeiter(Mitarbeiter mitarbeiter) {
