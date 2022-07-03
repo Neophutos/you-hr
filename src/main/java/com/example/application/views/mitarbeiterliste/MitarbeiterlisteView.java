@@ -8,20 +8,27 @@ import com.example.application.views.personformular.MitarbeiterForm;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.contextmenu.GridContextMenu;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.security.RolesAllowed;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.stream.Stream;
 
 @PageTitle("Mitarbeiterliste")
 @Route(value = "mitarbeiterliste", layout = MainLayout.class)
@@ -30,6 +37,7 @@ public class MitarbeiterlisteView extends Div {
 
     Grid<Mitarbeiter> grid = new Grid<>(Mitarbeiter.class, false);
     TextField filterText = new TextField();
+    Dialog viewDialog = new Dialog();
     Dialog editDialog = new Dialog();
     Dialog deletionDialog = new Dialog();
 
@@ -49,15 +57,21 @@ public class MitarbeiterlisteView extends Div {
         add(getToolbar(), getContent());
         updateList();
 
-        VerticalLayout editDialogLayout = createEditDialogLayout();
+        FormLayout editDialogLayout = createEditDialogLayout();
         editDialog.add(editDialogLayout);
+
+        GridContextMenu<Mitarbeiter> menu = grid.addContextMenu();
+        menu.add(new Hr());
+        menu.addItem("Bearbeiten", event -> editMitarbeiter(grid.asSingleSelect().getValue()));
+        menu.addItem("Löschen", event -> removeMitarbeiter(grid.asSingleSelect().getValue()));
+
     }
 
-    private VerticalLayout createEditDialogLayout() {
-        VerticalLayout editDialogLayout = new VerticalLayout(form);
-        editDialogLayout.setPadding(false);
-        editDialogLayout.setSpacing(false);
-        editDialogLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
+    private FormLayout createEditDialogLayout() {
+        FormLayout editDialogLayout = new FormLayout(form);
+        editDialogLayout.setResponsiveSteps(
+                new FormLayout.ResponsiveStep("0",1)
+        );
 
         return editDialogLayout;
     }
@@ -88,16 +102,9 @@ public class MitarbeiterlisteView extends Div {
         filterText.addValueChangeListener(e -> updateList());
 
         Button addMitarbeiter = new Button("Hinzufügen");
-        Button editMitarbeiter = new Button("Bearbeiten");
-        Button removeMitarbeiter = new Button("Löschen");
-
         addMitarbeiter.addClickListener(e -> addMitarbeiter());
 
-        editMitarbeiter.addClickListener(e -> editMitarbeiter(grid.asSingleSelect().getValue()));
-
-        removeMitarbeiter.addClickListener(e -> removeMitarbeiter(grid.asSingleSelect().getValue()));
-
-        HorizontalLayout toolbar = new HorizontalLayout(filterText, addMitarbeiter, editMitarbeiter, removeMitarbeiter);
+        HorizontalLayout toolbar = new HorizontalLayout(filterText, addMitarbeiter);
         toolbar.addClassName("toolbar");
         toolbar.setMargin(true);
         return toolbar;
@@ -116,16 +123,50 @@ public class MitarbeiterlisteView extends Div {
             Notification.show("Es wurde kein Mitarbeiter ausgewählt!").addThemeVariants(NotificationVariant.LUMO_ERROR);
         } else {
             form.setMitarbeiter(mitarbeiter);
+            editDialog.setHeaderTitle("Mitarbeiter bearbeiten");
             editDialog.open();
         }
     }
 
     private void configureGrid() {
         grid.addClassNames("mitarbeiter-grid");
-        //grid.addColumn(mitarbeiter -> mitarbeiter.getGeburtsdatum().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
         grid.setSizeFull();
         grid.addColumns("vorname", "nachname", "email", "position", "abteilung", "adresse");
+
+        grid.setItemDetailsRenderer(createMitarbeiterDetailsRenderer());
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
+    }
+
+    private static ComponentRenderer<MitarbeiterDetailsFormLayout, Mitarbeiter> createMitarbeiterDetailsRenderer() {
+        return new ComponentRenderer<>(MitarbeiterDetailsFormLayout::new,
+                MitarbeiterDetailsFormLayout::setMitarbeiter);
+    }
+
+    private static class MitarbeiterDetailsFormLayout extends FormLayout {
+        private final TextField geburtsdatum = new TextField("Geburtsdatum");
+        private final TextField email = new TextField("Email");
+        private final TextField telefonnr = new TextField("Telefon");
+        private final TextField abteilung = new TextField("Abteilung");
+        private final TextField position = new TextField("Position");
+
+        public MitarbeiterDetailsFormLayout(){
+            Stream.of(geburtsdatum,email,telefonnr,abteilung,position).forEach(field -> {
+                field.setReadOnly(true);
+                add(field);
+            });
+
+            setResponsiveSteps(new ResponsiveStep("0",3));
+            setColspan(email, 3);
+            setColspan(telefonnr, 3);
+        }
+
+        public void setMitarbeiter(Mitarbeiter mitarbeiter) {
+            geburtsdatum.setValue(mitarbeiter.getGeburtsdatum().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+            email.setValue(mitarbeiter.getEmail());
+            telefonnr.setValue(mitarbeiter.getTelefonnr());
+            abteilung.setValue(mitarbeiter.getAbteilung());
+            position.setValue(mitarbeiter.getPosition());
+        }
     }
 
     private void removeMitarbeiter(Mitarbeiter mitarbeiter) {
@@ -150,7 +191,7 @@ public class MitarbeiterlisteView extends Div {
     private Button createCancelButton(Dialog confirmDialog) {
         return new Button("Abbrechen", e -> {
             confirmDialog.close();
-            Notification.show("Vorgang wurde abgebrochen.");
+            Notification.show("Vorgang wurde abgebrochen.").addThemeVariants(NotificationVariant.LUMO_CONTRAST);
             updateList();
         });
     }
@@ -158,7 +199,6 @@ public class MitarbeiterlisteView extends Div {
     private Button createConfirmButton(Dialog confirmDialog, Mitarbeiter mitarbeiter) {
         Button saveButton = new Button("Abschließen", e -> {
             mitarbeiterService.delete(mitarbeiter);
-            //service.deleteMitarbeiter(mitarbeiter);
             Notification.show("Mitarbeiter " + mitarbeiter.getNachname() + " wurde erfolgreich gelöscht!").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             confirmDialog.close();
             updateList();
@@ -170,6 +210,5 @@ public class MitarbeiterlisteView extends Div {
 
     private void updateList(){
         grid.setItems(mitarbeiterService.findAllByString(filterText.getValue()));
-        //grid.setItems(service.findAllMitarbeiter(filterText.getValue()));
     }
 }

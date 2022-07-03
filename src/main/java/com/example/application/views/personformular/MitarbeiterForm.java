@@ -24,6 +24,7 @@ import com.vaadin.flow.shared.Registration;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Locale;
+import java.util.stream.Stream;
 
 public class MitarbeiterForm extends FormLayout {
     private Binder<Mitarbeiter> mitarbeiterBinder = new BeanValidationBinder<>(Mitarbeiter.class);
@@ -71,19 +72,21 @@ public class MitarbeiterForm extends FormLayout {
 
         geburtsdatum.setLocale(finnishLocale);
 
+        telefonnr.setHelperText("Bspw.: +49 0151 15802275");
+
         abteilung.setItems("Buchhaltung","Forschung & Entwicklung","Geschäftsleitung","IT & EDV","Kundendienst", "Marketing", "Personalwesen");
         bundesland.setItems("Baden-Württemberg", "Bayern", "Berlin", "Brandenburg", "Bremen", "Hamburg", "Hessen", "Mecklenburg-Vorpommern", "Niedersachsen", "Nordrhein-Westfalen", "Rheinland-Pfalz", "Saarland", "Sachsen", "Sachsen-Anhalt", "Schleswig-Holstein", "Thüringen");
 
         add(
-                new H6("Persönliche Informationen"),
                 vorname,
                 nachname,
                 email,
                 geburtsdatum,
                 telefonnr,
                 position,
-                abteilung,
-                new H6("Anschrift"),
+                abteilung);
+
+        add(
                 strassenname,
                 hausnummer,
                 plz,
@@ -113,7 +116,6 @@ public class MitarbeiterForm extends FormLayout {
             mitarbeiterBinder.writeBean(mitarbeiter);
             fireEvent(new SaveEvent(this, mitarbeiter));
             this.mitarbeiter.generateUser();
-            Notification.show(mitarbeiter.getNachname() + " " + mitarbeiter.getVorname() + " wurde erstellt.");
         } catch (ValidationException e) {
             e.printStackTrace();
         }
