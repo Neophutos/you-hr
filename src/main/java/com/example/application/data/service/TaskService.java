@@ -1,37 +1,33 @@
 package com.example.application.data.service;
 
-import com.example.application.data.entity.Mitarbeiter;
-import com.example.application.data.entity.Problem;
-import com.example.application.data.repository.AdresseRepository;
-import com.example.application.data.repository.MitarbeiterRepository;
-import com.example.application.data.repository.ProblemformularRepository;
+import com.example.application.data.entity.Antrag;
+import com.example.application.data.repository.AntragRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class TaskService {
-    private final ProblemformularRepository problemformularRepository;
+    private final AntragRepository antragRepository;
 
-    public TaskService(ProblemformularRepository problemformularRepository) {
+    public TaskService(AntragRepository antragRepository) {
 
-        this.problemformularRepository = problemformularRepository;
+        this.antragRepository = antragRepository;
     }
 
-    public List<Problem> findAllProblems(String filterText) {
+    public List<Antrag> findAllProblems(String filterText) {
         if(filterText == null || filterText.isEmpty()) {
-            return problemformularRepository.findAll();
+            return antragRepository.findAll();
         } else {
-            return problemformularRepository.search(filterText);
+            return antragRepository.search(filterText);
         }
     }
 
     public long countMitarbeiter(){
-        return problemformularRepository.count();
+        return antragRepository.count();
     }
 
-    public void deleteMitarbeiter(Problem problem) {
-        problemformularRepository.delete(problem);
+    public void deleteMitarbeiter(Antrag antrag) {antragRepository.delete(antrag);
     }
 
 }

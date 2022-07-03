@@ -1,19 +1,25 @@
 package com.example.application.views.problemmanagement;
 
-import com.example.application.data.entity.Problem;
-import com.example.application.data.service.ProblemformularService;
+import com.example.application.data.entity.Antrag;
+import com.example.application.data.entity.Mitarbeiter;
+import com.example.application.data.service.AntragService;
 import com.example.application.views.MainLayout;
+import com.example.application.views.mitarbeiterliste.MitarbeiterlisteView;
 import com.example.application.views.problemformular.AntragView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.contextmenu.GridContextMenu;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +27,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.security.RolesAllowed;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.stream.Stream;
 
 @PageTitle("Antragsverwaltung")
 @Route(value = "antragsverwaltung", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
 public class AntragsVerwaltungView extends Div {
-    Grid<Problem> grid = new Grid<>(Problem.class, false);
+    Grid<Antrag> grid = new Grid<>(Antrag.class, false);
     TextField filterText = new TextField();
     Dialog confirmDialog = new Dialog();
 
-    ProblemformularService service;
+    AntragService service;
 
     @Autowired
-    public AntragsVerwaltungView(ProblemformularService service) {
+    public AntragsVerwaltungView(AntragService service) {
         this.service = service;
         addClassName("antragsverwaltungs-view");
 
@@ -42,6 +49,8 @@ public class AntragsVerwaltungView extends Div {
         add(getToolbar(), getContent());
         updateList();
 
+        GridContextMenu<Antrag> menu = grid.addContextMenu();
+        menu.add(new Hr());
     }
 
     private Component getContent(){
@@ -65,14 +74,37 @@ public class AntragsVerwaltungView extends Div {
         return toolbar;
     }
 
-    private void solveProblem(Problem problem) {
-        if(problem == null) {
+    private static ComponentRenderer<AntragsVerwaltungView.AntragDetailsFormLayout, Antrag> createAntragDetailsRenderer() {
+        return new ComponentRenderer<>(AntragsVerwaltungView.AntragDetailsFormLayout::new,
+                AntragsVerwaltungView.AntragDetailsFormLayout::setAntrag);
+    }
+
+    private static class AntragDetailsFormLayout extends FormLayout {
+        private final TextField beschreibung = new TextField("Beschreibung");
+
+        public AntragDetailsFormLayout(){
+            Stream.of(beschreibung).forEach(field -> {
+                field.setReadOnly(true);
+                add(field);
+            });
+
+            setResponsiveSteps(new ResponsiveStep("0",3));
+        }
+
+        public void setAntrag(Antrag antrag) {
+            beschreibung.setValue(antrag.getBeschreibung());
+
+        }
+    }
+
+    private void solveProblem(Antrag antrag) {
+        if(antrag == null) {
             Notification.show("Es wurde kein Problem ausgewählt!").addThemeVariants(NotificationVariant.LUMO_ERROR);
         } else {
             confirmDialog.setHeaderTitle("Antrag abschließen?");
 
             Button cancelButton = createCancelButton(confirmDialog);
-            Button confirmButton = createConfirmButton(confirmDialog, problem);
+            Button confirmButton = createConfirmButton(confirmDialog, antrag);
             confirmDialog.getFooter().add(cancelButton);
             confirmDialog.getFooter().add(confirmButton);
 
@@ -89,10 +121,10 @@ public class AntragsVerwaltungView extends Div {
         return cancelButton;
     }
 
-    private Button createConfirmButton(Dialog confirmDialog, Problem problem) {
+    private Button createConfirmButton(Dialog confirmDialog, Antrag antrag) {
         Button saveButton = new Button("Abschließen", e -> {
-            service.delete(problem);
-            Notification.show("Antrag " + problem.getId() + " wurde erfolgreich abgeschlossen!").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            service.delete(antrag);
+            Notification.show("Antrag " + antrag.getId() + " wurde erfolgreich abgeschlossen!").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             confirmDialog.close();
             updateList();
         });
@@ -106,7 +138,7 @@ public class AntragsVerwaltungView extends Div {
         grid.setSizeFull();
         grid.addColumn("id");
         grid.addColumn(problem -> problem.getDatum().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))).setHeader("Erstellungsdatum");
-        grid.addColumns("problemart","beschreibung");
+        grid.addColumn("antragsart");
         grid.addColumn("antragstellername").setHeader("Antragsteller");
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
     }

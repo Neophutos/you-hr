@@ -1,17 +1,11 @@
 package com.example.application.data.entity;
 
-import com.example.application.security.AuthenticatedUser;
-
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 
 @Entity
-public class Problem {
+public class Antrag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,7 +16,7 @@ public class Problem {
 
     private String antragstellername = "";
     @NotEmpty
-    private String problemart = "";
+    private String antragsart = "";
     @NotEmpty
     private String beschreibung = "";
 
@@ -42,12 +36,12 @@ public class Problem {
         this.datum = datum;
     }
 
-    public String getProblemart() {
-        return problemart;
+    public String getAntragsart() {
+        return antragsart;
     }
 
-    public void setProblemart(String problemart) {
-        this.problemart = problemart;
+    public void setAntragsart(String antragsart) {
+        this.antragsart = antragsart;
     }
 
     public String getBeschreibung() {
@@ -64,7 +58,7 @@ public class Problem {
         return "Problem{" +
                 "id=" + id +
                 ", datum=" + datum +
-                ", problemart='" + problemart + '\'' +
+                ", antragsart='" + antragsart + '\'' +
                 ", beschreibung='" + beschreibung + '\'' +
                 '}';
     }

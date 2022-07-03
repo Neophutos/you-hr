@@ -1,6 +1,6 @@
 package com.example.application.views.problemformular;
 
-import com.example.application.data.service.ProblemformularService;
+import com.example.application.data.service.AntragService;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.dependency.Uses;
@@ -19,13 +19,13 @@ import javax.annotation.security.RolesAllowed;
 @Uses(Icon.class)
 public class AntragView extends Div {
 
-    private ProblemformularService problemformularservice;
+    private AntragService antragservice;
 
     AntragForm form;
 
     @Autowired
-    public AntragView(ProblemformularService problemformularService) {
-        this.problemformularservice = problemformularService;
+    public AntragView(AntragService antragservice) {
+        this.antragservice = antragservice;
         addClassName("antrag-view");
 
         configureForm();
@@ -43,7 +43,7 @@ public class AntragView extends Div {
     }
 
     private void configureForm() {
-        form = new AntragForm(problemformularservice);
+        form = new AntragForm(antragservice);
         form.setWidth("25em");
     }
 }

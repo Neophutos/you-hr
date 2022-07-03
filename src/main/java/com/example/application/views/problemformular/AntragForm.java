@@ -1,8 +1,8 @@
 package com.example.application.views.problemformular;
 
-import com.example.application.data.entity.Problem;
+import com.example.application.data.entity.Antrag;
 import com.example.application.data.generator.DataGenerator;
-import com.example.application.data.service.ProblemformularService;
+import com.example.application.data.service.AntragService;
 import com.example.application.security.AuthenticatedUser;
 import com.example.application.views.dashboard.DashboardView;
 import com.vaadin.flow.component.Component;
@@ -13,8 +13,10 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
@@ -25,7 +27,7 @@ import java.time.LocalDate;
 
 public class AntragForm extends FormLayout {
 
-    private BeanValidationBinder<Problem> problemformularBinder;
+    private BeanValidationBinder<Antrag> antragBinder;
     private AuthenticatedUser authenticatedUser = new AuthenticatedUser(DataGenerator.getUserRepository());
 
     Text text = new Text("Wählen Sie die Art des Antrags aus!");
@@ -35,23 +37,26 @@ public class AntragForm extends FormLayout {
     Button absenden = new Button("Abschicken");
     Button schliessen = new Button("Schließen");
 
-    private ProblemformularService problemformularservice;
+    private AntragService antragService;
 
-    private Problem problem;
+    private Antrag antrag;
 
     @Autowired
-    public AntragForm(ProblemformularService problemformularService) {
-        this.problemformularservice = problemformularService;
+    public AntragForm(AntragService antragService) {
+        this.antragService = antragService;
         addClassName("Antrag-Formular");
 
-        problemformularBinder = new BeanValidationBinder<>(Problem.class);
+        antragBinder = new BeanValidationBinder<>(Antrag.class);
 
-        problemformularBinder.bindInstanceFields(this);
+        antragBinder.bindInstanceFields(this);
 
-        problemart.setItems("Rechteänderung", "Bug/Systemfehler", "Profil/Nutzerkonto", "Sonstiges Problem");
+        problemart.setItems("Daten-Änderung", "Rechte-Änderung", "Problem-Meldung", "Anderes Anliegen");
 
         add(
-                new H6("In diesem Formular können Sie zum HR-System bezogene Anfragen/Probleme melden."),
+                new H5("In diesem Formular können Sie Anträge zu folgenden Anliegen stellen:"),
+                new H6("-> Änderung der persönlichen Daten"),
+                new H6("-> Änderung der Lesen- und Bearbeitungsrechte (für Personaler vorbehalten)"),
+                new H6("-> Meldung eines systemrelevanten Problems"),
                 problemart,
                 beschreibung,
                 createButtonLayout()
@@ -69,24 +74,24 @@ public class AntragForm extends FormLayout {
         absenden.addClickShortcut(Key.ENTER);
         schliessen.addClickShortcut(Key.ESCAPE);
 
-        problemformularBinder.addStatusChangeListener(e -> absenden.setEnabled(problemformularBinder.isValid()));
+        antragBinder.addStatusChangeListener(e -> absenden.setEnabled(antragBinder.isValid()));
 
         return new HorizontalLayout(absenden, schliessen);
     }
 
     private void checkundSend() {
         try {
-            this.problem = new Problem();
+            this.antrag = new Antrag();
 
-            this.problem.setDatum(LocalDate.now());
+            this.antrag.setDatum(LocalDate.now());
 
-            this.problem.setAntragstellername(authenticatedUser.get().get().getName());
+            this.antrag.setAntragstellername(authenticatedUser.get().get().getName());
 
-            problemformularBinder.writeBean(problem);
+            antragBinder.writeBean(antrag);
 
-            problemformularservice.update(problem);
+            antragService.update(antrag);
 
-            Notification.show("Ihr Problem wurde erfolgreich gemeldet!");
+            Notification.show("Ihr Problem wurde erfolgreich gemeldet!").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 
             UI.getCurrent().navigate(DashboardView.class);
 
