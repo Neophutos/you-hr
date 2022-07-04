@@ -1,10 +1,8 @@
 package com.example.application.views.problemmanagement;
 
 import com.example.application.data.entity.Antrag;
-import com.example.application.data.entity.Mitarbeiter;
 import com.example.application.data.service.AntragService;
 import com.example.application.views.MainLayout;
-import com.example.application.views.mitarbeiterliste.MitarbeiterlisteView;
 import com.example.application.views.problemformular.AntragView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -18,6 +16,7 @@ import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.PageTitle;
@@ -27,10 +26,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.security.RolesAllowed;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.stream.Stream;
 
-@PageTitle("Antragsverwaltung")
-@Route(value = "antragsverwaltung", layout = MainLayout.class)
+@PageTitle("Aufgaben")
+@Route(value = "aufgaben", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
 public class AntragsVerwaltungView extends Div {
     Grid<Antrag> grid = new Grid<>(Antrag.class, false);
@@ -50,7 +48,7 @@ public class AntragsVerwaltungView extends Div {
         updateList();
 
         GridContextMenu<Antrag> menu = grid.addContextMenu();
-        menu.add(new Hr());
+        menu.addItem("Abschließen", event -> solveAntrag(grid.asSingleSelect().getValue()));
     }
 
     private Component getContent(){
@@ -62,13 +60,12 @@ public class AntragsVerwaltungView extends Div {
 
     private HorizontalLayout getToolbar() {
 
-        Button addProblem = new Button("Problem erstellen");
-        Button editProblem = new Button("Gelöst?", e -> solveProblem(grid.asSingleSelect().getValue()));
+        Button addAntrag = new Button("Antrag erstellen");
 
-        addProblem.addClickListener(e -> addProblem.getUI().ifPresent(ui -> ui.navigate(
+        addAntrag.addClickListener(e -> addAntrag.getUI().ifPresent(ui -> ui.navigate(
                 AntragView.class)));
 
-        HorizontalLayout toolbar = new HorizontalLayout(addProblem, editProblem);
+        HorizontalLayout toolbar = new HorizontalLayout(addAntrag);
         toolbar.addClassName("toolbar");
         toolbar.setMargin(true);
         return toolbar;
@@ -80,24 +77,23 @@ public class AntragsVerwaltungView extends Div {
     }
 
     private static class AntragDetailsFormLayout extends FormLayout {
-        private final TextField beschreibung = new TextField("Beschreibung");
+        private final TextArea beschreibung = new TextArea("Beschreibung");
 
         public AntragDetailsFormLayout(){
-            Stream.of(beschreibung).forEach(field -> {
-                field.setReadOnly(true);
-                add(field);
-            });
+            beschreibung.setMinWidth("400px");
+            beschreibung.setMaxWidth("500px");
+            beschreibung.setReadOnly(true);
+            add(beschreibung);
 
-            setResponsiveSteps(new ResponsiveStep("0",3));
+            //setResponsiveSteps(new ResponsiveStep("0",3));
         }
 
         public void setAntrag(Antrag antrag) {
             beschreibung.setValue(antrag.getBeschreibung());
-
         }
     }
 
-    private void solveProblem(Antrag antrag) {
+    private void solveAntrag(Antrag antrag) {
         if(antrag == null) {
             Notification.show("Es wurde kein Problem ausgewählt!").addThemeVariants(NotificationVariant.LUMO_ERROR);
         } else {
@@ -140,6 +136,7 @@ public class AntragsVerwaltungView extends Div {
         grid.addColumn(problem -> problem.getDatum().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))).setHeader("Erstellungsdatum");
         grid.addColumn("antragsart");
         grid.addColumn("antragstellername").setHeader("Antragsteller");
+        grid.setItemDetailsRenderer(createAntragDetailsRenderer());
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
     }
 

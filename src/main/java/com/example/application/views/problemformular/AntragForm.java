@@ -21,6 +21,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
@@ -31,11 +32,13 @@ public class AntragForm extends FormLayout {
     private AuthenticatedUser authenticatedUser = new AuthenticatedUser(DataGenerator.getUserRepository());
 
     Text text = new Text("Wählen Sie die Art des Antrags aus!");
-    private ComboBox<String> problemart = new ComboBox<>("Problemart");
+    private ComboBox<String> antragsart = new ComboBox<>("Antragsart");
     private TextArea beschreibung = new TextArea("Problembeschreibung");
 
     Button absenden = new Button("Abschicken");
     Button schliessen = new Button("Schließen");
+
+    int charLimit = 250;
 
     private AntragService antragService;
 
@@ -50,14 +53,19 @@ public class AntragForm extends FormLayout {
 
         antragBinder.bindInstanceFields(this);
 
-        problemart.setItems("Daten-Änderung", "Rechte-Änderung", "Problem-Meldung", "Anderes Anliegen");
+        antragsart.setItems("Daten-Änderung", "Rechte-Änderung", "Problem-Meldung", "Anderes Anliegen");
+
+        beschreibung.setMinHeight("200px");
+        beschreibung.setMaxLength(charLimit);
+        beschreibung.setValueChangeMode(ValueChangeMode.EAGER);
+        beschreibung.addValueChangeListener(e -> {e.getSource().setHelperText(e.getValue().length() + "/" + charLimit);});
 
         add(
                 new H5("In diesem Formular können Sie Anträge zu folgenden Anliegen stellen:"),
                 new H6("-> Änderung der persönlichen Daten"),
                 new H6("-> Änderung der Lesen- und Bearbeitungsrechte (für Personaler vorbehalten)"),
                 new H6("-> Meldung eines systemrelevanten Problems"),
-                problemart,
+                antragsart,
                 beschreibung,
                 createButtonLayout()
         );

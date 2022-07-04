@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.security.RolesAllowed;
 
-@PageTitle("Problemformular")
-@Route(value = "problemformular", layout = MainLayout.class)
+@PageTitle("Antrag/Problem einreichen")
+@Route(value = "antragsstellung", layout = MainLayout.class)
 @RolesAllowed("USER")
 @Uses(Icon.class)
 public class AntragView extends Div {
