@@ -20,6 +20,10 @@ public class Antrag {
     @NotEmpty
     private String beschreibung = "";
 
+    public Antrag() {
+
+    }
+
     public void setId(Long id){
         this.id = id;
     }
@@ -52,22 +56,22 @@ public class Antrag {
         this.beschreibung = beschreibung;
     }
 
-
-    @Override
-    public String toString() {
-        return "Problem{" +
-                "id=" + id +
-                ", datum=" + datum +
-                ", antragsart='" + antragsart + '\'' +
-                ", beschreibung='" + beschreibung + '\'' +
-                '}';
-    }
-
     public String getAntragstellername() {
         return antragstellername;
     }
 
     public void setAntragstellername(String antragstellername) {
         this.antragstellername = antragstellername;
+    }
+
+    @Override
+    public String toString() {
+        return "Antrag{" +
+                "id=" + id +
+                ", datum=" + datum +
+                ", antragstellername='" + antragstellername + '\'' +
+                ", antragsart='" + antragsart + '\'' +
+                ", beschreibung='" + beschreibung + '\'' +
+                '}';
     }
 }

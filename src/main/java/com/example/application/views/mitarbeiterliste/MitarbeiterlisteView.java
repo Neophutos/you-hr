@@ -39,6 +39,8 @@ public class MitarbeiterlisteView extends Div {
     Grid<Mitarbeiter> grid = new Grid<>(Mitarbeiter.class, false);
     TextField filterText = new TextField();
     Dialog editDialog = new Dialog();
+    Dialog deletionDialog;
+
 
     Button cancelButton;
     Button confirmButton;
@@ -77,20 +79,20 @@ public class MitarbeiterlisteView extends Div {
         return editDialogLayout;
     }
 
-    private HorizontalLayout getContent(){
+    private HorizontalLayout getContent() {
         HorizontalLayout content = new HorizontalLayout(grid);
         content.addClassName("content");
         content.setSizeFull();
         return content;
     }
 
-    private void configureForm(){
+    private void configureForm() {
         form = new MitarbeiterForm();
         form.addListener(MitarbeiterForm.SaveEvent.class, this::saveMitarbeiter);
         form.addListener(MitarbeiterForm.CloseEvent.class, e -> editDialog.close());
     }
 
-    private void saveMitarbeiter(MitarbeiterForm.SaveEvent event){
+    private void saveMitarbeiter(MitarbeiterForm.SaveEvent event) {
         event.getMitarbeiter().generateUser();
         mitarbeiterService.update(event.getMitarbeiter());
         updateList();
@@ -128,7 +130,7 @@ public class MitarbeiterlisteView extends Div {
     }
 
     private void editMitarbeiter(Mitarbeiter mitarbeiter) {
-        if (mitarbeiter == null){
+        if (mitarbeiter == null) {
             Notification.show("Es wurde kein Mitarbeiter ausgewählt!").addThemeVariants(NotificationVariant.LUMO_ERROR);
         } else {
             form.setSelectedMitarbeiter(mitarbeiter);
@@ -158,13 +160,13 @@ public class MitarbeiterlisteView extends Div {
         private final TextField abteilung = new TextField("Abteilung");
         private final TextField position = new TextField("Position");
 
-        public MitarbeiterDetailsFormLayout(){
-            Stream.of(geburtsdatum,email,telefonnr,abteilung,position).forEach(field -> {
+        public MitarbeiterDetailsFormLayout() {
+            Stream.of(geburtsdatum, email, telefonnr, abteilung, position).forEach(field -> {
                 field.setReadOnly(true);
                 add(field);
             });
 
-            setResponsiveSteps(new ResponsiveStep("0",3));
+            setResponsiveSteps(new ResponsiveStep("0", 3));
             setColspan(email, 3);
             setColspan(telefonnr, 3);
         }
@@ -179,10 +181,10 @@ public class MitarbeiterlisteView extends Div {
     }
 
     private void removeMitarbeiter(Mitarbeiter mitarbeiter) {
-        if(mitarbeiter == null) {
+        if (mitarbeiter == null) {
             Notification.show("Es wurde kein Mitarbeiter ausgewählt!").addThemeVariants(NotificationVariant.LUMO_ERROR);
         } else {
-            Dialog deletionDialog = new Dialog();
+            deletionDialog = new Dialog();
 
             deletionDialog.setHeaderTitle("Mitarbeiter wirklich löschen?");
 
@@ -190,7 +192,6 @@ public class MitarbeiterlisteView extends Div {
             deletionDialog.getFooter().add(cancelButton);
             confirmButton = createConfirmButton(deletionDialog, mitarbeiter);
             deletionDialog.getFooter().add(confirmButton);
-
 
             deletionDialog.open();
         }
@@ -217,7 +218,7 @@ public class MitarbeiterlisteView extends Div {
     }
 
 
-    private void updateList(){
+    private void updateList() {
         grid.setItems(mitarbeiterService.findAllByString(filterText.getValue()));
         //grid.setItems(service.findAllMitarbeiter(filterText.getValue()));
     }
