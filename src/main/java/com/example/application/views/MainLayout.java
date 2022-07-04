@@ -10,6 +10,7 @@ import com.example.application.views.problemformular.AntragView;
 import com.example.application.views.problemmanagement.AntragsVerwaltungView;
 import com.example.application.views.rechteverwaltung.RechteverwaltungView;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.avatar.Avatar;
@@ -99,7 +100,10 @@ public class MainLayout extends AppLayout {
     }
 
     private Component createDrawerContent() {
-        H2 appName = new H2("\uD83D\uDD75️ YOU");
+        Image logo = new Image("/icons/shiba.png","YOU-Logo");
+        logo.setMaxWidth("30px");
+        Text title = new Text("YOU - Modern Web HR");
+        H2 appName = new H2(logo, title);
         appName.addClassNames("app-name");
 
         com.vaadin.flow.component.html.Section section = new com.vaadin.flow.component.html.Section(appName,

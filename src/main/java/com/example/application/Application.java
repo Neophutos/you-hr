@@ -18,7 +18,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  */
 @SpringBootApplication
 @Theme(value = "theoptimistichr")
-@PWA(name = "TheOptimisticHR", shortName = "TheOptimisticHR", offlineResources = {})
+@PWA(name = "YOU - Web-HR", shortName = "YOU", iconPath = "icons/shiba.png")
 @NpmPackage(value = "line-awesome", version = "1.3.0")
 public class Application extends SpringBootServletInitializer implements AppShellConfigurator {
 
