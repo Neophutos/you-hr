@@ -33,7 +33,8 @@ import java.time.format.FormatStyle;
 public class AntragsVerwaltungView extends Div {
     Grid<Antrag> grid = new Grid<>(Antrag.class, false);
     TextField filterText = new TextField();
-    Dialog confirmDialog = new Dialog();
+    Dialog confirmDialog;
+    Button cancelButton, confirmButton;
 
     AntragService service;
 
@@ -97,10 +98,12 @@ public class AntragsVerwaltungView extends Div {
         if(antrag == null) {
             Notification.show("Es wurde kein Problem ausgewählt!").addThemeVariants(NotificationVariant.LUMO_ERROR);
         } else {
+            confirmDialog = new Dialog();
+
             confirmDialog.setHeaderTitle("Antrag abschließen?");
 
-            Button cancelButton = createCancelButton(confirmDialog);
-            Button confirmButton = createConfirmButton(confirmDialog, antrag);
+            cancelButton = createCancelButton(confirmDialog);
+            confirmButton = createConfirmButton(confirmDialog, antrag);
             confirmDialog.getFooter().add(cancelButton);
             confirmDialog.getFooter().add(confirmButton);
 
