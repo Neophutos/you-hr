@@ -2,15 +2,12 @@ package com.example.application.views;
 
 import com.example.application.data.entity.User;
 import com.example.application.security.AuthenticatedUser;
-import com.example.application.views.adressformular.AdressformularView;
 import com.example.application.views.dashboard.DashboardView;
 import com.example.application.views.einstellungen.EinstellungenView;
-import com.example.application.views.mitarbeiterakte.MitarbeiterakteView;
 import com.example.application.views.mitarbeiterliste.MitarbeiterlisteView;
 import com.example.application.views.privat.PrivatView;
 import com.example.application.views.problemformular.AntragView;
 import com.example.application.views.problemmanagement.AntragsVerwaltungView;
-import com.example.application.views.rechteformular.RechteformularView;
 import com.example.application.views.rechteverwaltung.RechteverwaltungView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -19,18 +16,11 @@ import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.contextmenu.ContextMenu;
 import com.vaadin.flow.component.dependency.NpmPackage;
-import com.vaadin.flow.component.html.Anchor;
-import com.vaadin.flow.component.html.Footer;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Header;
-import com.vaadin.flow.component.html.ListItem;
-import com.vaadin.flow.component.html.Nav;
-import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.html.UnorderedList;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
+
 import java.util.Optional;
 
 /**
@@ -142,9 +132,7 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("Mitarbeiterliste", "la la-address-book", MitarbeiterlisteView.class), //
 
-                new MenuItemInfo("Mitarbeiterakte", "la la-ghost", MitarbeiterakteView.class), //
-
-                new MenuItemInfo("Problem-Management", "la la-check-circle", AntragsVerwaltungView.class), //
+                new MenuItemInfo("Aufgaben", "la la-inbox", AntragsVerwaltungView.class), //
 
                 new MenuItemInfo("Rechteverwaltung", "la la-cog", RechteverwaltungView.class), //
 
@@ -152,11 +140,7 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("Einstellungen", "la la-save", EinstellungenView.class), //
 
-                new MenuItemInfo("Adressformular", "la la-ghost", AdressformularView.class), //
-
-                new MenuItemInfo("Problemformular", "la la-question-circle", AntragView.class), //
-
-                new MenuItemInfo("Rechteformular", "la la-ghost", RechteformularView.class), //
+                new MenuItemInfo("Antrag/Problem erstellen", "la la-paste", AntragView.class), //
 
         };
     }
