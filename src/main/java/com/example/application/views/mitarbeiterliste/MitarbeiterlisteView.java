@@ -39,6 +39,8 @@ public class MitarbeiterlisteView extends Div {
     Grid<Mitarbeiter> grid = new Grid<>(Mitarbeiter.class, false);
     TextField filterText = new TextField();
     Dialog editDialog = new Dialog();
+    Dialog deletionDialog;
+
 
     Button cancelButton;
     Button confirmButton;
@@ -182,7 +184,7 @@ public class MitarbeiterlisteView extends Div {
         if(mitarbeiter == null) {
             Notification.show("Es wurde kein Mitarbeiter ausgewählt!").addThemeVariants(NotificationVariant.LUMO_ERROR);
         } else {
-            Dialog deletionDialog = new Dialog();
+            deletionDialog = new Dialog();
 
             deletionDialog.setHeaderTitle("Mitarbeiter wirklich löschen?");
 

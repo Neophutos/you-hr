@@ -1,8 +1,10 @@
 package com.example.application.views.problemmanagement;
 
 import com.example.application.data.entity.Antrag;
+import com.example.application.data.entity.Mitarbeiter;
 import com.example.application.data.service.AntragService;
 import com.example.application.views.MainLayout;
+import com.example.application.views.mitarbeiterliste.MitarbeiterlisteView;
 import com.example.application.views.problemformular.AntragView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -34,7 +36,9 @@ public class AntragsVerwaltungView extends Div {
     Grid<Antrag> grid = new Grid<>(Antrag.class, false);
     TextField filterText = new TextField();
     Dialog confirmDialog;
-    Button cancelButton, confirmButton;
+
+    Button cancelButton;
+    Button confirmButton;
 
     AntragService service;
 
@@ -91,6 +95,7 @@ public class AntragsVerwaltungView extends Div {
 
         public void setAntrag(Antrag antrag) {
             beschreibung.setValue(antrag.getBeschreibung());
+
         }
     }
 

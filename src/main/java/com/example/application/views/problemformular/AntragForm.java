@@ -28,7 +28,7 @@ import java.time.LocalDate;
 
 public class AntragForm extends FormLayout {
 
-    private BeanValidationBinder<Antrag> antragBinder;
+    private BeanValidationBinder<Antrag> antragBinder = new BeanValidationBinder<>(Antrag.class);
     private AuthenticatedUser authenticatedUser = new AuthenticatedUser(DataGenerator.getUserRepository());
 
     Text text = new Text("Wählen Sie die Art des Antrags aus!");
@@ -49,10 +49,9 @@ public class AntragForm extends FormLayout {
         this.antragService = antragService;
         addClassName("Antrag-Formular");
 
-        antragBinder = new BeanValidationBinder<>(Antrag.class);
-
         antragBinder.bindInstanceFields(this);
 
+        antragsart.setItems("Daten-Änderung", "Rechte-Änderung", "Problem-Meldung", "Anderes Anliegen");
         antragsart.setItems("Daten-Änderung", "Rechte-Änderung", "Problem-Meldung", "Anderes Anliegen");
 
         beschreibung.setMinHeight("200px");

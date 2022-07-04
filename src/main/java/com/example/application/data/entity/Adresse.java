@@ -25,7 +25,7 @@ public class Adresse {
     @OneToOne(mappedBy = "adresse")
     private Mitarbeiter mitarbeiter;
 
-    public Adresse(){
+    public Adresse() {
 
     }
 
