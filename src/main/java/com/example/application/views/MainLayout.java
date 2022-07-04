@@ -17,6 +17,8 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.contextmenu.ContextMenu;
 import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
@@ -97,7 +99,7 @@ public class MainLayout extends AppLayout {
     }
 
     private Component createDrawerContent() {
-        H2 appName = new H2("TheOptimisticHR");
+        H2 appName = new H2("\uD83D\uDD75️ YOU");
         appName.addClassNames("app-name");
 
         com.vaadin.flow.component.html.Section section = new com.vaadin.flow.component.html.Section(appName,
@@ -128,11 +130,11 @@ public class MainLayout extends AppLayout {
     private MenuItemInfo[] createMenuItems() {
         return new MenuItemInfo[]{ //
 
-                new MenuItemInfo("Dashboard", "la la-house", DashboardView.class), //
+                new MenuItemInfo("Dashboard", "la la-home", DashboardView.class), //
 
                 new MenuItemInfo("Mitarbeiterliste", "la la-address-book", MitarbeiterlisteView.class), //
 
-                new MenuItemInfo("Aufgaben", "la la-inbox", AntragsVerwaltungView.class), //
+                new MenuItemInfo("Anträge", "la la-inbox", AntragsVerwaltungView.class), //
 
                 new MenuItemInfo("Rechteverwaltung", "la la-cog", RechteverwaltungView.class), //
 
@@ -141,6 +143,8 @@ public class MainLayout extends AppLayout {
                 new MenuItemInfo("Einstellungen", "la la-save", EinstellungenView.class), //
 
                 new MenuItemInfo("Antrag/Problem erstellen", "la la-paste", AntragView.class), //
+
+                new MenuItemInfo("Über YOU", "la la-info-circle", AboutView.class),
 
         };
     }
