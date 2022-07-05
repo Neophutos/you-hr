@@ -1,11 +1,9 @@
 package com.example.application.views.problemmanagement;
 
 import com.example.application.data.entity.Antrag;
-import com.example.application.data.entity.Mitarbeiter;
 import com.example.application.data.service.AntragService;
 import com.example.application.views.MainLayout;
-import com.example.application.views.mitarbeiterliste.MitarbeiterlisteView;
-import com.example.application.views.problemformular.AntragView;
+import com.example.application.views.antrag.AntragView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -14,7 +12,6 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.contextmenu.GridContextMenu;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -29,8 +26,8 @@ import javax.annotation.security.RolesAllowed;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
-@PageTitle("Aufgaben")
-@Route(value = "aufgaben", layout = MainLayout.class)
+@PageTitle("Anträge")
+@Route(value = "antraege", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
 public class AntragsVerwaltungView extends Div {
     Grid<Antrag> grid = new Grid<>(Antrag.class, false);

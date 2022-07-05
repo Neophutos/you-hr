@@ -2,10 +2,8 @@ package com.example.application.views.mitarbeiterliste;
 
 import com.example.application.data.entity.Adresse;
 import com.example.application.data.entity.Mitarbeiter;
-import com.example.application.data.entity.User;
 import com.example.application.data.service.MitarbeiterService;
 import com.example.application.views.MainLayout;
-import com.example.application.views.personformular.MitarbeiterForm;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;

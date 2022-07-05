@@ -1,4 +1,4 @@
-package com.example.application.views.problemformular;
+package com.example.application.views.antrag;
 
 import com.example.application.data.entity.Antrag;
 import com.example.application.data.generator.DataGenerator;

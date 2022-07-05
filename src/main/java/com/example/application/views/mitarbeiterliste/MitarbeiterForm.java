@@ -1,4 +1,4 @@
-package com.example.application.views.personformular;
+package com.example.application.views.mitarbeiterliste;
 
 import com.example.application.data.entity.Mitarbeiter;
 import com.vaadin.flow.component.Component;
