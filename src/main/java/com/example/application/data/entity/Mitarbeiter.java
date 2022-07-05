@@ -2,10 +2,12 @@ package com.example.application.data.entity;
 
 import com.example.application.data.Role;
 import com.example.application.data.generator.UserGenerator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -25,7 +27,14 @@ public class Mitarbeiter {
     private String email = "";
     private String telefonnr = "";
     private String position = "";
-    private String abteilung = "";
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "abteilung_id")
+    private Abteilung abteilung;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "team_id", referencedColumnName = "id")
+    private Team team;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "adresse_id", referencedColumnName = "id")
@@ -106,13 +115,17 @@ public class Mitarbeiter {
         this.position = position;
     }
 
-    public String getAbteilung() {
+    public Abteilung getAbteilung() {
         return abteilung;
     }
 
-    public void setAbteilung(String abteilung) {
+    public void setAbteilung(Abteilung abteilung) {
         this.abteilung = abteilung;
     }
+
+    public Team getTeam() {return team;}
+
+    public void setTeam(Team team) {this.team = team;}
 
     public Adresse getAdresse() {
         return adresse;

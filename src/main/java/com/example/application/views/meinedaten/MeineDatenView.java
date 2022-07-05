@@ -101,7 +101,7 @@ public class MeineDatenView extends Div {
             geburtsdatum.setValue(mitarbeiter.getGeburtsdatum().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
             email.setValue(mitarbeiter.getEmail());
             telefonnr.setValue(mitarbeiter.getTelefonnr());
-            abteilung.setValue(mitarbeiter.getAbteilung());
+            abteilung.setValue(mitarbeiter.getAbteilung().toString());
             position.setValue(mitarbeiter.getPosition());
             adresse.setValue(mitarbeiter.getAdresse().toString());
         } else {

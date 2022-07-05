@@ -111,7 +111,7 @@ public class MitarbeiterlisteView extends Div {
     }
 
     private void configureForm() {
-        form = new MitarbeiterForm();
+        form = new MitarbeiterForm(mitarbeiterService.findAllAbteilungen(), mitarbeiterService.findAllTeams());
         form.addListener(MitarbeiterForm.SaveEvent.class, this::saveMitarbeiter);
         form.addListener(MitarbeiterForm.CloseEvent.class, e -> editDialog.close());
     }
@@ -182,6 +182,7 @@ public class MitarbeiterlisteView extends Div {
         private final TextField telefonnr = new TextField("Telefon");
         private final TextField position = new TextField("Position");
         private final TextField abteilung = new TextField("Abteilung");
+        private final TextField team = new TextField("Team");
         private final TextField adresse = new TextField("Anschrift");
 
         public MitarbeiterDetailsFormLayout() {
@@ -216,7 +217,8 @@ public class MitarbeiterlisteView extends Div {
             email.setValue(mitarbeiter.getEmail());
             telefonnr.setValue(mitarbeiter.getTelefonnr());
             position.setValue(mitarbeiter.getPosition());
-            abteilung.setValue(mitarbeiter.getAbteilung());
+            abteilung.setValue(mitarbeiter.getAbteilung().toString());
+            team.setValue(mitarbeiter.getTeam().toString());
             adresse.setValue(mitarbeiter.getAdresse().toString());
         }
     }

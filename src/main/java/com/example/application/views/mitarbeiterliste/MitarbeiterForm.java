@@ -1,6 +1,8 @@
 package com.example.application.views.mitarbeiterliste;
 
+import com.example.application.data.entity.Abteilung;
 import com.example.application.data.entity.Mitarbeiter;
+import com.example.application.data.entity.Team;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -23,6 +25,7 @@ import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.shared.Registration;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Locale;
 
 public class MitarbeiterForm extends FormLayout {
@@ -39,7 +42,8 @@ public class MitarbeiterForm extends FormLayout {
     private DatePicker geburtsdatum = new DatePicker("Geburtstag");
     private TextField telefonnr = new TextField("Telefonnummer");
     private TextField position = new TextField("Position");
-    private ComboBox<String> abteilung = new ComboBox<>("Abteilung");
+    private ComboBox<Abteilung> abteilung = new ComboBox<>("Abteilung");
+    private ComboBox<Team> team = new ComboBox<>("Team");
 
     private TextField strassenname = new TextField("Strasse");
     private IntegerField hausnummer = new IntegerField("Hausnummer");
@@ -58,10 +62,14 @@ public class MitarbeiterForm extends FormLayout {
     }
 
     @Autowired
-    public MitarbeiterForm() {
+    public MitarbeiterForm(List<Abteilung> abteilungen, List<Team> teams) {
         addClassName("Mitarbeiter-Formular");
 
         mitarbeiterBinder.bindInstanceFields(this);
+        abteilung.setItems(abteilungen);
+        abteilung.setItemLabelGenerator(Abteilung::getBezeichnung);
+        team.setItems(teams);
+        team.setItemLabelGenerator(Team::getBezeichnung);
 
         mitarbeiterBinder.forField(strassenname).bind("adresse.strassenname");
         mitarbeiterBinder.forField(hausnummer).bind("adresse.hausnummer");
@@ -71,7 +79,6 @@ public class MitarbeiterForm extends FormLayout {
 
         geburtsdatum.setLocale(finnishLocale);
 
-        abteilung.setItems("Buchhaltung", "Forschung & Entwicklung", "Geschäftsleitung", "IT & EDV", "Kundendienst", "Marketing", "Personalwesen");
         bundesland.setItems("Baden-Württemberg", "Bayern", "Berlin", "Brandenburg", "Bremen", "Hamburg", "Hessen", "Mecklenburg-Vorpommern", "Niedersachsen", "Nordrhein-Westfalen", "Rheinland-Pfalz", "Saarland", "Sachsen", "Sachsen-Anhalt", "Schleswig-Holstein", "Thüringen");
 
         setColspan(personal, 2);
@@ -89,6 +96,7 @@ public class MitarbeiterForm extends FormLayout {
                 telefonnr,
                 position,
                 abteilung,
+                team,
                 anschrift,
                 strassenname,
                 hausnummer,

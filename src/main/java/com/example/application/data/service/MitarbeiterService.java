@@ -1,14 +1,16 @@
 package com.example.application.data.service;
 
 import com.example.application.data.Role;
+import com.example.application.data.entity.Abteilung;
 import com.example.application.data.entity.Mitarbeiter;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
-import com.example.application.data.generator.DataGenerator;
+import com.example.application.data.entity.Team;
+import com.example.application.data.repository.AbteilungRepository;
 import com.example.application.data.repository.MitarbeiterRepository;
+import com.example.application.data.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,15 +19,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class MitarbeiterService {
 
-    private final MitarbeiterRepository repository;
+    private final MitarbeiterRepository mitarbeiterRepository;
+    private final AbteilungRepository abteilungRepository;
+    private final TeamRepository teamRepository;
 
     @Autowired
-    public MitarbeiterService(MitarbeiterRepository repository) {
-        this.repository = repository;
+    public MitarbeiterService(MitarbeiterRepository mitarbeiterRepository, AbteilungRepository abteilungRepository, TeamRepository teamRepository) {
+        this.mitarbeiterRepository = mitarbeiterRepository;
+        this.abteilungRepository = abteilungRepository;
+        this.teamRepository = teamRepository;
     }
 
     public Optional<Mitarbeiter> get(Long id) {
-        return repository.getByID(id).stream().findFirst();
+        return mitarbeiterRepository.getByID(id).stream().findFirst();
     }
 
     public Mitarbeiter update(Mitarbeiter entity) {
@@ -41,30 +47,38 @@ public class MitarbeiterService {
 
         }
 
-        return repository.save(entity);
+        return mitarbeiterRepository.save(entity);
     }
 
     public void delete(Mitarbeiter mitarbeiter) {
-        repository.delete(mitarbeiter);
+        mitarbeiterRepository.delete(mitarbeiter);
     }
 
     public Page<Mitarbeiter> list(Pageable pageable) {
-        return repository.findAll(pageable);
+        return mitarbeiterRepository.findAll(pageable);
     }
 
     public int countMitarbeiter() {
-        return (int) repository.count();
+        return (int) mitarbeiterRepository.count();
     }
 
     public List<Mitarbeiter> findAllByString(String filterText) {
         if(filterText == null || filterText.isEmpty()) {
-            return repository.findAll();
+            return mitarbeiterRepository.findAll();
         } else {
-            return repository.search(filterText);
+            return mitarbeiterRepository.search(filterText);
         }
     }
 
+    public List<Abteilung> findAllAbteilungen() {
+        return abteilungRepository.findAll();
+    }
+
+    public List<Team> findAllTeams() {
+        return teamRepository.findAll();
+    }
+
     public MitarbeiterRepository getRepository() {
-        return repository;
+        return mitarbeiterRepository;
     }
 }
