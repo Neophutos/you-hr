@@ -16,9 +16,12 @@ import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.charts.model.Title;
 import com.vaadin.flow.component.contextmenu.ContextMenu;
 import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
@@ -99,10 +102,14 @@ public class MainLayout extends AppLayout {
     }
 
     private Component createDrawerContent() {
-        Image logo = new Image("/icons/shiba.png","YOU-Logo");
+        HorizontalLayout top = new HorizontalLayout();
+        Image logo = new Image("/icons/YouLogo.png","YOU-Logo");
         logo.setMaxWidth("30px");
-        Text title = new Text("YOU - Modern Web HR");
-        H2 appName = new H2(logo, title);
+        Text title = new Text("YOU - Modern HR");
+        top.setAlignItems(FlexComponent.Alignment.CENTER);
+        top.add(logo, title);
+        H2 appName = new H2(top);
+
         appName.addClassNames("app-name");
 
         com.vaadin.flow.component.html.Section section = new com.vaadin.flow.component.html.Section(appName,

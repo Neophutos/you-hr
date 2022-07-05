@@ -37,6 +37,8 @@ public class AboutView extends VerticalLayout {
     private Button github = new Button(gitlogo);
 
     public AboutView() {
+        setMargin(true);
+
         AccordionPanel aboutLayout = beschreibung.add("\uD83E\uDD14 Was ist YOU?", was);
         aboutLayout.addThemeVariants(DetailsVariant.FILLED);
 

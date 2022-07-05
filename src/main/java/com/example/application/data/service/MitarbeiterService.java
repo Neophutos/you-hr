@@ -52,7 +52,7 @@ public class MitarbeiterService {
         return repository.findAll(pageable);
     }
 
-    public int count() {
+    public int countMitarbeiter() {
         return (int) repository.count();
     }
 

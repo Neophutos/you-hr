@@ -5,15 +5,17 @@ import com.example.application.data.service.AntragService;
 import com.example.application.views.MainLayout;
 import com.example.application.views.antrag.AntragView;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.contextmenu.GridContextMenu;
-import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
@@ -63,11 +65,13 @@ public class AntragsVerwaltungView extends Div {
     private HorizontalLayout getToolbar() {
 
         Button addAntrag = new Button("Antrag erstellen");
+        Paragraph antragszahl = new Paragraph("Anzahl Anträge: " + service.countProblems());
+
 
         addAntrag.addClickListener(e -> addAntrag.getUI().ifPresent(ui -> ui.navigate(
                 AntragView.class)));
 
-        HorizontalLayout toolbar = new HorizontalLayout(addAntrag);
+        HorizontalLayout toolbar = new HorizontalLayout(addAntrag, antragszahl);
         toolbar.addClassName("toolbar");
         toolbar.setMargin(true);
         return toolbar;
