@@ -1,24 +1,25 @@
-package com.example.application.views.privat;
+package com.example.application.views.meinedaten;
 
 import com.example.application.data.entity.Mitarbeiter;
 import com.example.application.data.generator.DataGenerator;
 import com.example.application.data.service.MitarbeiterService;
 import com.example.application.security.AuthenticatedUser;
 import com.example.application.views.MainLayout;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.notification.NotificationVariant;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.security.RolesAllowed;
+import java.text.Normalizer;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.stream.Stream;
@@ -26,34 +27,28 @@ import java.util.stream.Stream;
 @PageTitle("Meine Daten")
 @Route(value = "meine_daten", layout = MainLayout.class)
 @RolesAllowed("USER")
-public class PrivatView extends HorizontalLayout {
+public class MeineDatenView extends Div {
 
     private AuthenticatedUser authenticatedUser = new AuthenticatedUser(DataGenerator.getUserRepository());
     private MitarbeiterService mitarbeiterService;
 
     private Binder<Mitarbeiter> mitarbeiterBinder = new BeanValidationBinder<>(Mitarbeiter.class);
 
-    private TextField vorname;
-    private TextField nachname;
-    private TextField geburtsdatum;
-    private TextField email;
-    private TextField telefonnr;
-    private TextField abteilung;
-    private TextField position;
-    private TextField adresse;
+    private H5 personal = new H5("Persönliche Informationen");
+    private H5 beruf = new H5("Berufliche Informationen");
+
+    private TextField vorname = new TextField("Vorname");
+    private TextField nachname = new TextField("Nachname");
+    private TextField geburtsdatum = new TextField("Geburtsdatum");
+    private TextField email = new TextField("Email");
+    private TextField telefonnr = new TextField("Telefon");
+    private TextField abteilung = new TextField("Abteilung");
+    private TextField position = new TextField("Position");
+    private TextField adresse = new TextField("Adresse");
 
     Mitarbeiter mitarbeiter;
 
-    public PrivatView(MitarbeiterService mitarbeiterService) {
-        vorname = new TextField("Vorname");
-        nachname = new TextField("Nachname");
-        geburtsdatum = new TextField("Geburtsdatum");
-        email = new TextField("Email");
-        telefonnr = new TextField("Telefon");
-        abteilung = new TextField("Abteilung");
-        position = new TextField("Position");
-        adresse = new TextField("Adresse");
-
+    public MeineDatenView(MitarbeiterService mitarbeiterService) {
         this.mitarbeiterService = mitarbeiterService;
 
         setMitarbeiterFromUser();
@@ -63,16 +58,39 @@ public class PrivatView extends HorizontalLayout {
             add(field);
         });
 
-        add(new H6("Meine Daten"),
+        add(getContent());
+    }
+
+    private VerticalLayout getContent() {
+        VerticalLayout content = new VerticalLayout(getData());
+        content.setPadding(true);
+
+        return content;
+    }
+
+    private FormLayout getData(){
+        FormLayout dataLayout = new FormLayout();
+        dataLayout.add(
+                personal,
                 vorname,
                 nachname,
                 geburtsdatum,
+                adresse,
+                beruf,
                 email,
                 telefonnr,
-                abteilung,
                 position,
-                adresse
-        );
+                abteilung);
+
+        dataLayout.setColspan(personal, 2);
+        dataLayout.setColspan(beruf, 2);
+        dataLayout.setColspan(adresse, 2);
+
+
+        dataLayout.setMaxWidth("600px");
+        dataLayout.setResponsiveSteps(new FormLayout.ResponsiveStep("0",2));
+
+        return dataLayout;
     }
 
     public void setMitarbeiterFromUser() {
@@ -87,7 +105,7 @@ public class PrivatView extends HorizontalLayout {
             position.setValue(mitarbeiter.getPosition());
             adresse.setValue(mitarbeiter.getAdresse().toString());
         } else {
-            System.out.println("Mitarbeiter is null!");
+            Notification.show("Mitarbeiter wurde nicht gefunden!").addThemeVariants(NotificationVariant.LUMO_ERROR);
         }
     }
 

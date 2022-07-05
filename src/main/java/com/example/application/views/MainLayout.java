@@ -6,7 +6,7 @@ import com.example.application.views.about.AboutView;
 import com.example.application.views.dashboard.DashboardView;
 import com.example.application.views.einstellungen.EinstellungenView;
 import com.example.application.views.mitarbeiterliste.MitarbeiterlisteView;
-import com.example.application.views.privat.PrivatView;
+import com.example.application.views.meinedaten.MeineDatenView;
 import com.example.application.views.antrag.AntragView;
 import com.example.application.views.problemmanagement.AntragsVerwaltungView;
 import com.example.application.views.rechteverwaltung.RechteverwaltungView;
@@ -141,7 +141,7 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("Rechteverwaltung", "la la-cog", RechteverwaltungView.class), //
 
-                new MenuItemInfo("Privat", "la la-globe", PrivatView.class), //
+                new MenuItemInfo("Meine Daten", "la la-user-circle", MeineDatenView.class), //
 
                 new MenuItemInfo("Einstellungen", "la la-save", EinstellungenView.class), //
 
