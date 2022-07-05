@@ -18,7 +18,7 @@ import javax.annotation.security.RolesAllowed;
 @PageTitle("Dashboard")
 @Route(value = "dashboard", layout = MainLayout.class)
 @RolesAllowed("USER")
-
+@RouteAlias(value = "", layout = MainLayout.class)
 public class DashboardView extends VerticalLayout {
 
     private AuthenticatedUser authenticatedUser = new AuthenticatedUser(DataGenerator.getUserRepository());
