@@ -10,6 +10,7 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -28,6 +29,9 @@ public class MitarbeiterForm extends FormLayout {
     private Binder<Mitarbeiter> mitarbeiterBinder = new BeanValidationBinder<>(Mitarbeiter.class);
 
     Locale finnishLocale = new Locale("fi", "FI");
+
+    private H5 personal = new H5("Persönliche Informationen");
+    private H5 anschrift = new H5("Anschrift");
 
     private TextField vorname = new TextField("Vorname");
     private TextField nachname = new TextField("Nachname");
@@ -70,8 +74,14 @@ public class MitarbeiterForm extends FormLayout {
         abteilung.setItems("Buchhaltung", "Forschung & Entwicklung", "Geschäftsleitung", "IT & EDV", "Kundendienst", "Marketing", "Personalwesen");
         bundesland.setItems("Baden-Württemberg", "Bayern", "Berlin", "Brandenburg", "Bremen", "Hamburg", "Hessen", "Mecklenburg-Vorpommern", "Niedersachsen", "Nordrhein-Westfalen", "Rheinland-Pfalz", "Saarland", "Sachsen", "Sachsen-Anhalt", "Schleswig-Holstein", "Thüringen");
 
+        setColspan(personal, 2);
+        setColspan(anschrift, 2);
+
+        setMaxWidth("600px");
+        setResponsiveSteps(new FormLayout.ResponsiveStep("0",2));
+
         add(
-                new H6("Persönliche Informationen"),
+                personal,
                 vorname,
                 nachname,
                 email,
@@ -79,7 +89,7 @@ public class MitarbeiterForm extends FormLayout {
                 telefonnr,
                 position,
                 abteilung,
-                new H6("Anschrift"),
+                anschrift,
                 strassenname,
                 hausnummer,
                 plz,
