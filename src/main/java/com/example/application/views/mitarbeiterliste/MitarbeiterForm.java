@@ -27,6 +27,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * @desc Das Formular Mitarbeiter erstellt eine Eingabemaske für die Erstellung eines Objekts Mitarbeiter.
+ *
+ * @category Form
+ * @version 1.0
+ * @since 2022-07-08
+ */
 public class MitarbeiterForm extends FormLayout {
     private Binder<Mitarbeiter> mitarbeiterBinder = new BeanValidationBinder<>(Mitarbeiter.class);
 
@@ -55,6 +62,10 @@ public class MitarbeiterForm extends FormLayout {
 
     private Mitarbeiter selectedMitarbeiter;
 
+    /**
+     * @desc Lesen der Mitarbeiterdaten zum Ausfüllen des Formulars bei Bearbeitung
+     * @param selectedMitarbeiter
+     */
     public void setSelectedMitarbeiter(Mitarbeiter selectedMitarbeiter) {
         if (selectedMitarbeiter == null) {
             this.selectedMitarbeiter = new Mitarbeiter();
@@ -67,6 +78,11 @@ public class MitarbeiterForm extends FormLayout {
         mitarbeiterBinder.readBean(selectedMitarbeiter);
     }
 
+    /**
+     * @desc Binden der Eingabefelder an die Attribute des Objekts. Außerdem wird das Formular (Text + Eingabefelder + Buttons) initialisiert.
+     * @param abteilungen -> Vorhandene Abteilungen werden aus Datenbank gelesen
+     * @param teams -> Vorhandene Teams werden aus Datenbank gelesen
+     */
     @Autowired
     public MitarbeiterForm(List<Abteilung> abteilungen, List<Team> teams) {
         addClassName("Mitarbeiter-Formular");
@@ -114,6 +130,9 @@ public class MitarbeiterForm extends FormLayout {
         );
     }
 
+    /**
+     * @desc Konfiguration der Ausrichtung der Buttons und deren Event bei Betätigung (Klick).
+     */
     private Component createButtonLayout() {
         speichern.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         schliessen.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
@@ -129,6 +148,10 @@ public class MitarbeiterForm extends FormLayout {
         return new HorizontalLayout(speichern, schliessen);
     }
 
+    /**
+     * @desc Diese Methode speichert bei Aufruf die Änderungen bzw. Erstellung des Mitarbeiters.
+     * @error Bei misslungener Speicherung (ValidationException) wird der Fehler in der Konsole ausgegeben.
+     */
     private void checkAndSave() {
         try {
             selectedMitarbeiter.setAbteilung(abteilungen.getValue());
@@ -143,7 +166,9 @@ public class MitarbeiterForm extends FormLayout {
         }
     }
 
-    //Events
+    /**
+     * @desc Konfiguration der verschiedenen Aktionen (Events), die der Nutzer auslösen kann.
+     */
     public static abstract class MitarbeiterFormEvent extends ComponentEvent<MitarbeiterForm> {
         private Mitarbeiter mitarbeiter;
 
@@ -157,12 +182,18 @@ public class MitarbeiterForm extends FormLayout {
         }
     }
 
+    /**
+     * @desc Event zur Speicherung der Daten eines Mitarbeiters.
+     */
     public static class SaveEvent extends MitarbeiterFormEvent {
         SaveEvent(MitarbeiterForm source, Mitarbeiter mitarbeiter) {
             super(source, mitarbeiter);
         }
     }
 
+    /**
+     * @desc Event zum Schließen des Formulars.
+     */
     public static class CloseEvent extends MitarbeiterFormEvent {
         CloseEvent(MitarbeiterForm source) {
             super(source, null);

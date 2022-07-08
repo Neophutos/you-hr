@@ -15,10 +15,9 @@ import javax.annotation.security.RolesAllowed;
 
 
 /**
- * Das View About stellt in mehreren Abschnitten Grundinformationen zum Programm dar.
- * Diese Klasse ist ausschließlich textbasiert und fordert weder Ein-, noch Ausgaben.
+ * @desc Der View About stellt in mehreren Abschnitten Grundinformationen zum Programm dar. Diese Klasse ist ausschließlich textbasiert und fordert weder Ein-, noch Ausgaben.
  *
- * @author Ben Köppe / Neophutos
+ * @category View
  * @version 1.0
  * @since 2022-07-04
  */
@@ -46,8 +45,7 @@ public class AboutView extends VerticalLayout {
     private final Button github = new Button(gitlogo);
 
     /**
-     * Diese Methode initialisiert das grafische Interface
-     * und fügt diese zum View hinzu.
+     * @desc Initialisierung des grafischen Interfaces
      */
     public AboutView() {
         setMargin(true);

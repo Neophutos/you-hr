@@ -16,11 +16,9 @@ import com.vaadin.flow.router.RouteAlias;
 import javax.annotation.security.RolesAllowed;
 
 /**
- * Der View Dashboard stellt die Willkommensseite des Programms dar.
- * Der Nutzer wird mit eigenem Namen gegrüßt und ein paar Fakten zum
- * Personalwesen werden dargestellt (für die User-Experience).
+ * @desc Der View Dashboard stellt die Willkommensseite des Programms dar. Der Nutzer wird mit eigenem Namen gegrüßt und ein paar Fakten zum Personalwesen werden dargestellt (für die User-Experience).
  *
- * @author Ben Köppe / Neophutos
+ * @category View
  * @version 0.7
  * @since 2022-07-05
  */
@@ -38,10 +36,7 @@ public class DashboardView extends VerticalLayout {
     private AntragService antragService;
 
     /**
-     * Diese Methode initialisiert das grafische Interface
-     * und fügt diese zum View hinzu. Dabei werden auf Datenbank-Informationen
-     * über die Objekte Mitarbeiter und Antrag zugegriffen.
-     *
+     * @desc Initialisierung des grafischen Interfaces. Dabei werden auf Datenbank-Informationen über die Objekte Mitarbeiter und Antrag zugegriffen.
      * @param mitarbeiterService
      * @param antragService
      */

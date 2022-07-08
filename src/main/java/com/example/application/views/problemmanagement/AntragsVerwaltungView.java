@@ -5,7 +5,6 @@ import com.example.application.data.service.AntragService;
 import com.example.application.views.MainLayout;
 import com.example.application.views.antrag.AntragView;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -15,7 +14,6 @@ import com.vaadin.flow.component.grid.contextmenu.GridContextMenu;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
@@ -28,6 +26,13 @@ import javax.annotation.security.RolesAllowed;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
+/**
+ * @desc Der View Antragsverwaltung implementiert eine Tabellenansicht für alle vorhandenen Anträge.
+ *
+ * @category View
+ * @version 1.0
+ * @since 2022-06-30
+ */
 @PageTitle("Anträge")
 @Route(value = "antraege", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
@@ -39,11 +44,15 @@ public class AntragsVerwaltungView extends Div {
     Button cancelButton;
     Button confirmButton;
 
-    AntragService service;
+    AntragService antragService;
 
+    /**
+     * @desc Initialisierung des grafischen Interfaces und des Rechtsklick-Menüs
+     * @param antragService
+     */
     @Autowired
-    public AntragsVerwaltungView(AntragService service) {
-        this.service = service;
+    public AntragsVerwaltungView(AntragService antragService) {
+        this.antragService = antragService;
         addClassName("antragsverwaltungs-view");
 
         setSizeFull();
@@ -55,6 +64,9 @@ public class AntragsVerwaltungView extends Div {
         menu.addItem("Abschließen", event -> solveAntrag(grid.asSingleSelect().getValue()));
     }
 
+    /**
+     * @desc Konfiguration der Ausrichtung und Form der Tabelle.
+     */
     private Component getContent(){
         HorizontalLayout content = new HorizontalLayout(grid);
         content.addClassName("content");
@@ -62,15 +74,14 @@ public class AntragsVerwaltungView extends Div {
         return content;
     }
 
+    /**
+     * @desc Konfiguration und Initialisierung der Interaktionselemente über der Tabelle
+     */
     private HorizontalLayout getToolbar() {
-
         Button addAntrag = new Button("Antrag erstellen");
-        Paragraph antragszahl = new Paragraph("Anzahl Anträge: " + service.countProblems());
-
-
+        Paragraph antragszahl = new Paragraph("Anzahl Anträge: " + antragService.countProblems());
         addAntrag.addClickListener(e -> addAntrag.getUI().ifPresent(ui -> ui.navigate(
                 AntragView.class)));
-
         HorizontalLayout toolbar = new HorizontalLayout(addAntrag, antragszahl);
         toolbar.addClassName("toolbar");
         toolbar.setMargin(true);
@@ -82,24 +93,36 @@ public class AntragsVerwaltungView extends Div {
                 AntragsVerwaltungView.AntragDetailsFormLayout::setAntrag);
     }
 
+    /**
+     * @desc Initialisierung der Detailansicht des ausgewählten Antrags
+     */
     private static class AntragDetailsFormLayout extends FormLayout {
         private final TextArea beschreibung = new TextArea("Beschreibung");
 
+        /**
+         * @desc Grafische Konfiguration des Detail-Layouts
+         */
         public AntragDetailsFormLayout(){
             beschreibung.setMinWidth("400px");
             beschreibung.setMaxWidth("500px");
             beschreibung.setReadOnly(true);
             add(beschreibung);
-
-            //setResponsiveSteps(new ResponsiveStep("0",3));
         }
 
+        /**
+         * @desc Setzen des ausgewählten Antrags
+         * @param antrag
+         */
         public void setAntrag(Antrag antrag) {
             beschreibung.setValue(antrag.getBeschreibung());
 
         }
     }
 
+    /**
+     * @desc Methode zum Lösen eines vorhandenen Antrags -> Löschen bei Abschluss und Information an Nutzer
+     * @param antrag
+     */
     private void solveAntrag(Antrag antrag) {
         if(antrag == null) {
             Notification.show("Es wurde kein Problem ausgewählt!").addThemeVariants(NotificationVariant.LUMO_ERROR);
@@ -117,6 +140,9 @@ public class AntragsVerwaltungView extends Div {
         }
     }
 
+    /**
+     * @desc Erstellung des Abbruch-Buttons und deren Logik bei Abbruch des Abschlusses
+     */
     private Button createCancelButton(Dialog confirmDialog) {
         Button cancelButton = new Button("Abbrechen", e -> {
             confirmDialog.close();
@@ -126,9 +152,12 @@ public class AntragsVerwaltungView extends Div {
         return cancelButton;
     }
 
+    /**
+     * @desc Erstellung des Bestätigungs-Buttons und deren Logik bei Bestätigung des Abschlusses
+     */
     private Button createConfirmButton(Dialog confirmDialog, Antrag antrag) {
         Button saveButton = new Button("Abschließen", e -> {
-            service.delete(antrag);
+            antragService.delete(antrag);
             Notification.show("Antrag " + antrag.getId() + " wurde erfolgreich abgeschlossen!").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             confirmDialog.close();
             updateList();
@@ -137,7 +166,9 @@ public class AntragsVerwaltungView extends Div {
         return saveButton;
     }
 
-
+    /**
+     * @desc Konfiguration der Tabelle -> Setzen der Spalten und deren Inhalte
+     */
     private void configureGrid() {
         grid.addClassNames("problem-grid");
         grid.setSizeFull();
@@ -149,8 +180,11 @@ public class AntragsVerwaltungView extends Div {
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
     }
 
+    /**
+     * @desc Update der Tabelle -> Nutzung bei durchgeführten Änderungen in der Tabelle
+     */
     private void updateList(){
-        grid.setItems(service.findAll());
+        grid.setItems(antragService.findAll());
     }
 
 }

@@ -15,12 +15,11 @@ import javax.annotation.security.RolesAllowed;
 
 
 /**
- * Der View Antrag implementiert die Klasse AntragForm und stellt diese
- * im grafischen Interface des Programms dar.
+ * @desc Der View Antrag implementiert die Klasse AntragForm und stellt diese im grafischen Interface des Programms dar.
  *
  * @see AntragForm
  *
- * @author Ben Köppe / Neophutos
+ * @category View
  * @version 1.0
  * @since 2022-06-30
  */
@@ -30,19 +29,17 @@ import javax.annotation.security.RolesAllowed;
 @Uses(Icon.class)
 public class AntragView extends Div {
 
-    private AntragService antragservice;
+    private AntragService antragService;
 
     AntragForm form;
 
     /**
-     * Diese Methode initialisiert das grafische Interface
-     * und fügt diese zum View hinzu.
-     *
-     * @param antragservice
+     * @desc Initialisierung des grafischen Interfaces
+     * @param antragService
      */
     @Autowired
-    public AntragView(AntragService antragservice) {
-        this.antragservice = antragservice;
+    public AntragView(AntragService antragService) {
+        this.antragService = antragService;
         addClassName("antrag-view");
 
         configureForm();
@@ -51,8 +48,7 @@ public class AntragView extends Div {
     }
 
     /**
-     * Diese Component-Methode konfiguriert die Ausrichtung
-     * und Form des Formulars AntragForm.
+     * @desc Konfiguration der Ausrichtung und Form des Formulars AntragForm.
      */
     private Component getContent() {
         HorizontalLayout content = new HorizontalLayout(form);
@@ -63,12 +59,10 @@ public class AntragView extends Div {
     }
 
     /**
-     * Diese Methode initialisiert das Formular mit dem
-     * entsprechenden Service zur Kommunikation mit
-     * der Datenbank.
+     * @desc Initialisierung des Formulars mit dem entsprechenden Service zur Kommunikation mit der Datenbank.
      */
     private void configureForm() {
-        form = new AntragForm(antragservice);
+        form = new AntragForm(antragService);
         form.setWidth("25em");
     }
 }

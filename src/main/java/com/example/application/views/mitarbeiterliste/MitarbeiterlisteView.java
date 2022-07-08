@@ -37,6 +37,17 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.stream.Stream;
 
+/**
+ * @desc Der View Mitarbeiterliste stellt alle Mitarbeiter in der Datenbank dar.
+ * @desc Mitarbeiterformular wird eingebettet -> Erstellung, Bearbeitung, Löschen per Button bzw. Rechtsklick
+ * @desc Realisierung der Detailansicht des ausgewählten Mitarbeiters.
+ *
+ * @see MitarbeiterForm
+ *
+ * @category View
+ * @version 1.0
+ * @since 2022-07-08
+ */
 @PageTitle("Mitarbeiterliste")
 @Route(value = "mitarbeiterliste", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
@@ -56,6 +67,10 @@ public class MitarbeiterlisteView extends Div {
 
     Mitarbeiter mitarbeiter;
 
+    /**
+     * @desc Initialisierung des grafischen Interfaces und des Menüs bei Rechtsklick auf die Tabelle
+     * @param mitarbeiterService
+     */
     @Autowired
     public MitarbeiterlisteView(MitarbeiterService mitarbeiterService) {
         this.mitarbeiterService = mitarbeiterService;
@@ -80,6 +95,10 @@ public class MitarbeiterlisteView extends Div {
 
     }
 
+    /**
+     * @desc Grafische Konfiguration der Icons im Rechtsklick-Menü
+     * @param vaadinIcon
+     */
     private Component createIcon(VaadinIcon vaadinIcon) {
         Icon icon = vaadinIcon.create();
         icon.getStyle()
@@ -89,11 +108,18 @@ public class MitarbeiterlisteView extends Div {
         return icon;
     }
 
+    /**
+     * @desc Ausführung eines JS-Commands zur Speicherung der ausgewählten Mail in die Zwischenablage
+     * @param mitarbeiter
+     */
     private void getMail(Mitarbeiter mitarbeiter){
         UI.getCurrent().getPage().executeJs("window.copyToClipboard($0)", mitarbeiter.getEmail());
         Notification.show("Die E-Mail von " + mitarbeiter.getVorname() + " " + mitarbeiter.getNachname() + " wurde kopiert!").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
     }
 
+    /**
+     * @desc Erstellung des Erstellungs- und Bearbeitungslayouts.
+     */
     private VerticalLayout createEditDialogLayout() {
         VerticalLayout editDialogLayout = new VerticalLayout(form);
         editDialogLayout.setPadding(false);
@@ -103,6 +129,9 @@ public class MitarbeiterlisteView extends Div {
         return editDialogLayout;
     }
 
+    /**
+     * @desc Grafische Konfiguration der Tabelle für Mitarbeiterdarstellung.
+     */
     private HorizontalLayout getContent() {
         HorizontalLayout content = new HorizontalLayout(grid);
         content.addClassName("content");
@@ -110,12 +139,20 @@ public class MitarbeiterlisteView extends Div {
         return content;
     }
 
+    /**
+     * @desc Initialisierung des Formulars mit dem entsprechenden Service zur Kommunikation mit der Datenbank.
+     * @desc Zuordnung der entsprechenden Listener bei Button-Ausführung
+     */
     private void configureForm() {
         form = new MitarbeiterForm(mitarbeiterService.findAllAbteilungen(), mitarbeiterService.findAllTeams());
         form.addListener(MitarbeiterForm.SaveEvent.class, this::saveMitarbeiter);
         form.addListener(MitarbeiterForm.CloseEvent.class, e -> editDialog.close());
     }
 
+    /**
+     * @desc Speicher-Event für Mitarbeiter -> Aufruf der Methode generateUser()
+     * @param event
+     */
     private void saveMitarbeiter(MitarbeiterForm.SaveEvent event) {
         event.getMitarbeiter().generateUser();
         mitarbeiterService.update(event.getMitarbeiter());
@@ -123,6 +160,9 @@ public class MitarbeiterlisteView extends Div {
         editDialog.close();
     }
 
+    /**
+     * @desc Initialisierung der Leiste über der Tabelle (Suchleiste und Erstellungs-Button)
+     */
     private HorizontalLayout getToolbar() {
         filterText.setPlaceholder("Nach Name filtern...");
         filterText.setClearButtonVisible(true);
@@ -140,6 +180,9 @@ public class MitarbeiterlisteView extends Div {
         return toolbar;
     }
 
+    /**
+     * @desc Aufruf der Methode editMitarbeiter() mit einem leeren (neuen) Mitarbeiter
+     */
     private void addMitarbeiter() {
         grid.asSingleSelect().clear();
         mitarbeiter = new Mitarbeiter();
@@ -148,6 +191,11 @@ public class MitarbeiterlisteView extends Div {
         editMitarbeiter(mitarbeiter);
     }
 
+    /**
+     * @desc Öffnen des Mitarbeiterformulars zur Bearbeitungs (oder Erstellung) eines Mitarbeiters
+     * @see MitarbeiterForm
+     * @param mitarbeiter
+     */
     private void editMitarbeiter(Mitarbeiter mitarbeiter) {
         if (mitarbeiter == null) {
             Notification.show("Es wurde kein Mitarbeiter ausgewählt!").addThemeVariants(NotificationVariant.LUMO_ERROR);
@@ -157,6 +205,9 @@ public class MitarbeiterlisteView extends Div {
         }
     }
 
+    /**
+     * @desc Einrichtung der Tabelle -> Setzen der Spalten und hinzufügen der Detailansicht
+     */
     private void configureGrid() {
         grid.addClassNames("mitarbeiter-grid");
         grid.setSizeFull();
@@ -172,6 +223,9 @@ public class MitarbeiterlisteView extends Div {
                 MitarbeiterDetailsFormLayout::setMitarbeiter);
     }
 
+    /**
+     * @desc Initialisierung der Detailansicht für Mitarbeitertabelle
+     */
     private static class MitarbeiterDetailsFormLayout extends FormLayout {
         private H6 personal = new H6("Persönliche Angaben");
         private H6 beruf = new H6("Berufliche Angaben");
@@ -186,6 +240,9 @@ public class MitarbeiterlisteView extends Div {
         private final TextField abteilung = new TextField("Abteilung");
         private final TextField adresse = new TextField("Anschrift");
 
+        /**
+         * @desc Hinzufügen der Ausgabefelder zur grafischen Oberfläche
+         */
         public MitarbeiterDetailsFormLayout() {
             Stream.of(name, geburtsdatum, email, telefonnr, adresse, position, team, abteilung).forEach(field -> {
                 field.setReadOnly(true);
@@ -214,6 +271,10 @@ public class MitarbeiterlisteView extends Div {
             setResponsiveSteps(new ResponsiveStep("0", 2));
         }
 
+        /**
+         * @desc Setzen der vorhandenen Mitarbeiterdaten in die Ausgabefelder der Detailansicht
+         * @param mitarbeiter
+         */
         public void setMitarbeiter(Mitarbeiter mitarbeiter) {
             name.setValue(mitarbeiter.getVorname() + " " + mitarbeiter.getNachname());
             geburtsdatum.setValue(mitarbeiter.getGeburtsdatum().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
@@ -226,6 +287,10 @@ public class MitarbeiterlisteView extends Div {
         }
     }
 
+    /**
+     * @desc Initialisierung der Oberfläche für Löschen eines Mitarbeiters
+     * @param mitarbeiter
+     */
     private void removeMitarbeiter(Mitarbeiter mitarbeiter) {
         if (mitarbeiter == null) {
             Notification.show("Es wurde kein Mitarbeiter ausgewählt!").addThemeVariants(NotificationVariant.LUMO_ERROR);
@@ -243,6 +308,9 @@ public class MitarbeiterlisteView extends Div {
         }
     }
 
+    /**
+     * @desc Erstellen der Button-Logik bei Abbruch im Löschvorgang
+     */
     private Button createCancelButton(Dialog confirmDialog) {
         return new Button("Abbrechen", e -> {
             confirmDialog.close();
@@ -251,6 +319,9 @@ public class MitarbeiterlisteView extends Div {
         });
     }
 
+    /**
+     * @desc Erstellung der Button-Logik bei Bestätigung des Löschens eines Mitarbeiters
+     */
     private Button createConfirmButton(Dialog confirmDialog, Mitarbeiter mitarbeiter) {
         Button saveButton = new Button("Abschließen", e -> {
             mitarbeiterService.delete(mitarbeiter);
@@ -262,7 +333,9 @@ public class MitarbeiterlisteView extends Div {
         return saveButton;
     }
 
-
+    /**
+     * @desc Update der Tabelle -> Nutzung bei durchgeführten Änderungen in der Tabelle
+     */
     private void updateList() {
         grid.setItems(mitarbeiterService.findAllByString(filterText.getValue()));
     }

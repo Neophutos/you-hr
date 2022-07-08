@@ -10,12 +10,11 @@ import com.vaadin.flow.router.Route;
 import javax.annotation.security.RolesAllowed;
 
 /**
- * Im View Einstellungen können sowohl Admins, als auch Personaler Abteilungen
- * und Teams hinzufügen oder entfernen, falls dies nötig ist.
+ * @desc Im View Einstellungen können sowohl Admins, als auch Personaler Abteilungen und Teams hinzufügen oder entfernen, falls dies nötig ist.
  *
- * @author
+ * @category View
  * @version 0.0
- * @since
+ * @since 2022-00-00
  */
 @PageTitle("Einstellungen")
 @Route(value = "einstellungen", layout = MainLayout.class)
@@ -23,8 +22,7 @@ import javax.annotation.security.RolesAllowed;
 public class EinstellungenView extends VerticalLayout {
 
     /**
-     * Diese Methode initialisiert das grafische Interface
-     * und fügt diese zum View hinzu.
+     * @desc Initialisierung des grafischen Interfaces
      */
     public EinstellungenView() {
         setSpacing(false);
