@@ -24,6 +24,14 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.stream.Stream;
 
+/**
+ * Der View MeineDaten stellt die Informationen des aktiven Nutzers
+ * in einem Interface dar. Diese können nur angesehen, nicht bearbeitet werden.
+ *
+ * @author Tim Freund, Ben Köppe
+ * @version 1.0
+ * @since 2022-07-01
+ */
 @PageTitle("Meine Daten")
 @Route(value = "meine_daten", layout = MainLayout.class)
 @RolesAllowed("USER")
@@ -47,7 +55,12 @@ public class MeineDatenView extends Div {
     private TextField adresse = new TextField("Adresse");
 
     Mitarbeiter mitarbeiter;
-
+    /**
+     * Diese Methode initialisiert das grafische Interface
+     * und fügt diese zum View hinzu.
+     *
+     * @param mitarbeiterService
+     */
     public MeineDatenView(MitarbeiterService mitarbeiterService) {
         this.mitarbeiterService = mitarbeiterService;
 
@@ -61,6 +74,10 @@ public class MeineDatenView extends Div {
         add(getContent());
     }
 
+    /**
+     * Diese Methode konfiguriert die Ausrichtung
+     * und Form der Ansicht.
+     */
     private VerticalLayout getContent() {
         VerticalLayout content = new VerticalLayout(getData());
         content.setPadding(true);
@@ -68,6 +85,9 @@ public class MeineDatenView extends Div {
         return content;
     }
 
+    /**
+     * Diese Methode initialisiert die anzuzeigenden Daten des Nutzers.
+     */
     private FormLayout getData(){
         FormLayout dataLayout = new FormLayout();
         dataLayout.add(
@@ -93,6 +113,14 @@ public class MeineDatenView extends Div {
         return dataLayout;
     }
 
+    /**
+     * Diese Methode liest die Informationen über den derzeitigen Nutzer aus.
+     * Anschließend werden die Ausgabefelder mit den gewonnenen Informationen befüllt.
+     * Bei einem Fehler bekommt der Nutzer eine Nachricht, das seine Informationen nicht vorhanden sind.
+     *
+     * Sonderfall:
+     * Generische Rollen-Accounts (ohne Verbindung zu Mitarbeiter) können keine eigenen Daten haben.
+     */
     public void setMitarbeiterFromUser() {
         if (authenticatedUser.get().get().getMitarbeiter() != null) {
             this.mitarbeiter = authenticatedUser.get().get().getMitarbeiter();

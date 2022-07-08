@@ -13,29 +13,42 @@ import com.vaadin.flow.router.Route;
 
 import javax.annotation.security.RolesAllowed;
 
+
+/**
+ * Das View About stellt in mehreren Abschnitten Grundinformationen zum Programm dar.
+ * Diese Klasse ist ausschließlich textbasiert und fordert weder Ein-, noch Ausgaben.
+ *
+ * @author Ben Köppe / Neophutos
+ * @version 1.0
+ * @since 2022-07-04
+ */
 @PageTitle("Über YOU")
 @Route(value = "about", layout = MainLayout.class)
 @RolesAllowed("USER")
 public class AboutView extends VerticalLayout {
 
-    private Accordion beschreibung = new Accordion();
+    private final Accordion beschreibung = new Accordion();
 
-    private Span was = new Span("YOU ist ein Prototyp für ein Personalverwaltungssystem, das grundlegende Funktionen für die Nutzung im Personalwesen bereitstellt.");
+    private final Span was = new Span("YOU ist ein Prototyp für ein Personalverwaltungssystem, das grundlegende Funktionen für die Nutzung im Personalwesen bereitstellt.");
 
-    private Span wie = new Span("Das System basiert auf der Sprache Java. Mithilfe der Frameworks Spring, Vaadin und JPA wurden sowohl Database-Anbindungen, als auch das Web-UI erstellt.");
+    private final Span wie = new Span("Das System basiert auf der Sprache Java. Mithilfe der Frameworks Spring, Vaadin und JPA wurden sowohl Database-Anbindungen, als auch das Web-UI erstellt.");
 
-    private Span team = new Span("Erstellt vom Team TheOptimisticHR:");
-    private Span ben = new Span("- Ben Köppe (Developer)");
-    private Span tim = new Span("- Tim Freund");
-    private Span riccardo = new Span("- Riccardo Prochnow");
-    private Span chris = new Span("- Chris Zobel");
-    private Span natalie = new Span("- Natalie Stache");
+    private final Span team = new Span("Erstellt vom Team TheOptimisticHR:");
+    private final Span ben = new Span("- Ben Köppe (Developer)");
+    private final Span tim = new Span("- Tim Freund");
+    private final Span riccardo = new Span("- Riccardo Prochnow");
+    private final Span chris = new Span("- Chris Zobel");
+    private final Span natalie = new Span("- Natalie Stache");
 
     Image gitlogo = new Image("/images/github.png", "GitHub Logo");
 
-    private Span sourcecode = new Span("Unseren Quellcode finden Sie unter folgendem Link:");
-    private Button github = new Button(gitlogo);
+    private final Span sourcecode = new Span("Unseren Quellcode finden Sie unter folgendem Link:");
+    private final Button github = new Button(gitlogo);
 
+    /**
+     * Diese Methode initialisiert das grafische Interface
+     * und fügt diese zum View hinzu.
+     */
     public AboutView() {
         setMargin(true);
 

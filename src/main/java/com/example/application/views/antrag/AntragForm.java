@@ -55,8 +55,7 @@ public class AntragForm extends FormLayout {
     private Antrag antrag;
 
     /**
-     * Diese Methode bindet die Eingabefelder an die Attribute
-     * des Objekts.
+     * Diese Methode bindet die Eingabefelder an die Attribute des Objekts.
      * Außerdem wird das Formular (Text + Eingabefelder + Buttons) initialisiert.
      *
      * @param antragService
