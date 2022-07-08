@@ -28,11 +28,11 @@ public class Mitarbeiter {
     private String telefonnr = "";
     private String position = "";
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "abteilung_id", referencedColumnName = "id")
     private Abteilung abteilung;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "team_id", referencedColumnName = "id")
     private Team team;
 

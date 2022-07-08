@@ -13,7 +13,6 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H5;
-import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
@@ -42,8 +41,8 @@ public class MitarbeiterForm extends FormLayout {
     private DatePicker geburtsdatum = new DatePicker("Geburtstag");
     private TextField telefonnr = new TextField("Telefonnummer");
     private TextField position = new TextField("Position");
-    private ComboBox<Abteilung> abteilung = new ComboBox<>("Abteilung");
-    private ComboBox<Team> team = new ComboBox<>("Team");
+    private ComboBox<Abteilung> abteilungen = new ComboBox<>("Abteilung");
+    private ComboBox<Team> teams = new ComboBox<>("Team");
 
     private TextField strassenname = new TextField("Strasse");
     private IntegerField hausnummer = new IntegerField("Hausnummer");
@@ -57,7 +56,14 @@ public class MitarbeiterForm extends FormLayout {
     private Mitarbeiter selectedMitarbeiter;
 
     public void setSelectedMitarbeiter(Mitarbeiter selectedMitarbeiter) {
-        this.selectedMitarbeiter = selectedMitarbeiter;
+        if (selectedMitarbeiter == null) {
+            this.selectedMitarbeiter = new Mitarbeiter();
+            this.selectedMitarbeiter.setAbteilung(new Abteilung());
+            this.selectedMitarbeiter.setTeam(new Team());
+        } else {
+            this.selectedMitarbeiter = selectedMitarbeiter;
+        }
+
         mitarbeiterBinder.readBean(selectedMitarbeiter);
     }
 
@@ -66,16 +72,17 @@ public class MitarbeiterForm extends FormLayout {
         addClassName("Mitarbeiter-Formular");
 
         mitarbeiterBinder.bindInstanceFields(this);
-        abteilung.setItems(abteilungen);
-        abteilung.setItemLabelGenerator(Abteilung::getBezeichnung);
-        team.setItems(teams);
-        team.setItemLabelGenerator(Team::getBezeichnung);
+        this.abteilungen.setItems(abteilungen);
+        this.abteilungen.setItemLabelGenerator(Abteilung::getBezeichnung);
+        this.teams.setItems(teams);
+        this.teams.setItemLabelGenerator(Team::getBezeichnung);
 
         mitarbeiterBinder.forField(strassenname).bind("adresse.strassenname");
         mitarbeiterBinder.forField(hausnummer).bind("adresse.hausnummer");
         mitarbeiterBinder.forField(bundesland).bind("adresse.bundesland");
         mitarbeiterBinder.forField(stadt).bind("adresse.stadt");
         mitarbeiterBinder.forField(plz).bind("adresse.plz");
+
 
         geburtsdatum.setLocale(finnishLocale);
 
@@ -95,8 +102,8 @@ public class MitarbeiterForm extends FormLayout {
                 geburtsdatum,
                 telefonnr,
                 position,
-                abteilung,
-                team,
+                this.abteilungen,
+                this.teams,
                 anschrift,
                 strassenname,
                 hausnummer,
@@ -124,6 +131,10 @@ public class MitarbeiterForm extends FormLayout {
 
     private void checkAndSave() {
         try {
+            selectedMitarbeiter.setAbteilung(abteilungen.getValue());
+            selectedMitarbeiter.setTeam(teams.getValue());
+            System.out.println(selectedMitarbeiter);
+
             mitarbeiterBinder.writeBean(selectedMitarbeiter);
             fireEvent(new SaveEvent(this, selectedMitarbeiter));
             Notification.show(selectedMitarbeiter.getNachname() + " " + selectedMitarbeiter.getVorname() + " wurde erstellt.");

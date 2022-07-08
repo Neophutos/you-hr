@@ -15,7 +15,6 @@ public interface MitarbeiterRepository extends JpaRepository<Mitarbeiter, UUID> 
             "or lower(m.nachname) like lower(concat('%', :searchTerm, '%'))")
     List<Mitarbeiter> search(@Param("searchTerm") String searchTerm);
 
-
     @Query("select m from Mitarbeiter m " +
             "where m.id = id")
     List<Mitarbeiter> getByID(@Param("id") Long id);
