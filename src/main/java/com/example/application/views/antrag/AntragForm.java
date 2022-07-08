@@ -26,6 +26,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 
+/**
+ * Das Formular Antrag erstellt Eingabefelder, Speicher-
+ * und Abbruchknöpfe für die Erstellung eines Objekts Antrag,
+ * bindet diese an die Attribute des genannten Objekts und
+ * vermittelt diese bei Speicherung an den betroffenen Service.
+ *
+ * @author Ben Köppe / Neophutos
+ * @version 1.0
+ * @since 2022-06-30
+ */
 public class AntragForm extends FormLayout {
 
     private BeanValidationBinder<Antrag> antragBinder = new BeanValidationBinder<>(Antrag.class);
@@ -44,6 +54,13 @@ public class AntragForm extends FormLayout {
 
     private Antrag antrag;
 
+    /**
+     * Diese Methode bindet die Eingabefelder an die Attribute
+     * des Objekts.
+     * Außerdem wird das Formular (Text + Eingabefelder + Buttons) initialisiert.
+     *
+     * @param antragService
+     */
     @Autowired
     public AntragForm(AntragService antragService) {
         this.antragService = antragService;
@@ -70,6 +87,10 @@ public class AntragForm extends FormLayout {
         );
     }
 
+    /**
+     * Diese Component-Methode konfiguriert die Ausrichtung der Buttons
+     * und deren Event bei Betätigung (Klick).
+     */
     private Component createButtonLayout() {
         absenden.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         schliessen.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
@@ -86,6 +107,11 @@ public class AntragForm extends FormLayout {
         return new HorizontalLayout(absenden, schliessen);
     }
 
+    /**
+     * Diese Methode erstellt bei Aufruf ein neues Objekt Antrag.
+     * Es liest dabei die Eingabefelder, das heutige Datum und
+     * den verursachenden Nutzer (Antragsteller) aus.
+     */
     private void checkundSend() {
         try {
             this.antrag = new Antrag();

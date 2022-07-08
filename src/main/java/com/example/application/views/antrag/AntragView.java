@@ -13,6 +13,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.security.RolesAllowed;
 
+
+/**
+ * Der View Antrag implementiert die Klasse AntragForm und stellt diese
+ * im grafischen Interface des Programms dar.
+ *
+ * @see AntragForm
+ *
+ * @author Ben Köppe / Neophutos
+ * @version 1.0
+ * @since 2022-06-30
+ */
 @PageTitle("Antrag/Problem einreichen")
 @Route(value = "antragsstellung", layout = MainLayout.class)
 @RolesAllowed("USER")
@@ -23,6 +34,12 @@ public class AntragView extends Div {
 
     AntragForm form;
 
+    /**
+     * Diese Methode initialisiert das grafische Interface
+     * und fügt diese zum View hinzu.
+     *
+     * @param antragservice
+     */
     @Autowired
     public AntragView(AntragService antragservice) {
         this.antragservice = antragservice;
@@ -31,9 +48,12 @@ public class AntragView extends Div {
         configureForm();
 
         add(getContent());
-
     }
 
+    /**
+     * Diese Component-Methode konfiguriert die Ausrichtung
+     * und Form des Formulars AntragForm.
+     */
     private Component getContent() {
         HorizontalLayout content = new HorizontalLayout(form);
         content.addClassName("content");
@@ -42,6 +62,11 @@ public class AntragView extends Div {
         return content;
     }
 
+    /**
+     * Diese Methode initialisiert das Formular mit dem
+     * entsprechenden Service zur Kommunikation mit
+     * der Datenbank.
+     */
     private void configureForm() {
         form = new AntragForm(antragservice);
         form.setWidth("25em");
