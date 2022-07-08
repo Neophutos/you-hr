@@ -103,7 +103,7 @@ public class MainLayout extends AppLayout {
 
     private Component createDrawerContent() {
         HorizontalLayout top = new HorizontalLayout();
-        Image logo = new Image("/icons/YouLogo.png","YOU-Logo");
+        Image logo = new Image("/icons/YouLogo_Large.png","YOU-Logo");
         logo.setMaxWidth("30px");
         Text title = new Text("YOU - Modern HR");
         top.setAlignItems(FlexComponent.Alignment.CENTER);

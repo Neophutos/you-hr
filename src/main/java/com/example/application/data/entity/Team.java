@@ -8,6 +8,30 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Entity
-public class Team extends Abteilung {
+public class Team {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
 
+    private String bezeichnung;
+
+    @OneToMany(mappedBy = "team")
+    private List<Mitarbeiter> mitarbeiter = new LinkedList<>();
+
+    public String getBezeichnung() {
+        return bezeichnung;
+    }
+
+    public void setBezeichnung(String bezeichnung) {
+        this.bezeichnung = bezeichnung;
+    }
+
+    public List<Mitarbeiter> getMitarbeiter() {
+        return mitarbeiter;
+    }
+
+    public void setMitarbeiter(List<Mitarbeiter> mitarbeiter) {
+        this.mitarbeiter = mitarbeiter;
+    }
 }

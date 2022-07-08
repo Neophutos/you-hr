@@ -17,6 +17,7 @@ import javax.annotation.security.RolesAllowed;
 
 @PageTitle("Dashboard")
 @Route(value = "dashboard", layout = MainLayout.class)
+@RouteAlias(value = "", layout = MainLayout.class)
 @RolesAllowed("USER")
 @RouteAlias(value = "", layout = MainLayout.class)
 public class DashboardView extends VerticalLayout {
@@ -36,7 +37,7 @@ public class DashboardView extends VerticalLayout {
             name = new Text("Willkomen zurück bei YOU! \uD83D\uDC4B");
         }
 
-        Image logo = new Image("/icons/YouLogo.png","YOU-Logo");
+        Image logo = new Image("/icons/YouLogo_Large.png","YOU-Logo");
         logo.setMaxWidth("100px");
         H3 welcome = new H3(name);
         Paragraph anzahlMitarbeiter = new Paragraph("\uD83D\uDC68\u200D\uD83D\uDCBC Es befinden sich derzeit " + mitarbeiterService.countMitarbeiter() + " Mitarbeiter im Unternehmen");

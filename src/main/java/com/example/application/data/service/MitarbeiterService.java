@@ -23,7 +23,6 @@ public class MitarbeiterService {
     private final AbteilungRepository abteilungRepository;
     private final TeamRepository teamRepository;
 
-    @Autowired
     public MitarbeiterService(MitarbeiterRepository mitarbeiterRepository, AbteilungRepository abteilungRepository, TeamRepository teamRepository) {
         this.mitarbeiterRepository = mitarbeiterRepository;
         this.abteilungRepository = abteilungRepository;

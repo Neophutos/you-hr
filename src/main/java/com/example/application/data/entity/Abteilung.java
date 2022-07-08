@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Abteilung {
 
     @Id

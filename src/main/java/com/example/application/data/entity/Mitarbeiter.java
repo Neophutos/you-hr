@@ -29,7 +29,7 @@ public class Mitarbeiter {
     private String position = "";
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "abteilung_id")
+    @JoinColumn(name = "abteilung_id", referencedColumnName = "id")
     private Abteilung abteilung;
 
     @ManyToOne(cascade = CascadeType.ALL)
