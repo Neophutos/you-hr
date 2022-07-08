@@ -160,7 +160,8 @@ public class MitarbeiterlisteView extends Div {
     private void configureGrid() {
         grid.addClassNames("mitarbeiter-grid");
         grid.setSizeFull();
-        grid.addColumns("vorname", "nachname", "email", "abteilung");
+        grid.setColumns("vorname", "nachname", "email");
+        grid.addColumn(mitarbeiter -> mitarbeiter.getAbteilung().getBezeichnung()).setHeader("Abteilung");
 
         grid.setItemDetailsRenderer(createMitarbeiterDetailsRenderer());
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
@@ -181,12 +182,12 @@ public class MitarbeiterlisteView extends Div {
         private final TextField email = new TextField("Email");
         private final TextField telefonnr = new TextField("Telefon");
         private final TextField position = new TextField("Position");
-        private final TextField abteilung = new TextField("Abteilung");
         private final TextField team = new TextField("Team");
+        private final TextField abteilung = new TextField("Abteilung");
         private final TextField adresse = new TextField("Anschrift");
 
         public MitarbeiterDetailsFormLayout() {
-            Stream.of(name, geburtsdatum, email, telefonnr, adresse, position, abteilung).forEach(field -> {
+            Stream.of(name, geburtsdatum, email, telefonnr, adresse, position, team, abteilung).forEach(field -> {
                 field.setReadOnly(true);
             });
 
@@ -196,6 +197,7 @@ public class MitarbeiterlisteView extends Div {
                 geburtsdatum,
                 beruf,
                 position,
+                team,
                 abteilung,
                 kontakt,
                 telefonnr,
@@ -206,6 +208,7 @@ public class MitarbeiterlisteView extends Div {
             setColspan(personal, 2);
             setColspan(beruf, 2);
             setColspan(kontakt, 2);
+            setColspan(position, 2);
             setColspan(adresse, 2);
             setMaxWidth("600px");
             setResponsiveSteps(new ResponsiveStep("0", 2));
@@ -217,8 +220,8 @@ public class MitarbeiterlisteView extends Div {
             email.setValue(mitarbeiter.getEmail());
             telefonnr.setValue(mitarbeiter.getTelefonnr());
             position.setValue(mitarbeiter.getPosition());
-            abteilung.setValue(mitarbeiter.getAbteilung().toString());
-            team.setValue(mitarbeiter.getTeam().toString());
+            abteilung.setValue(mitarbeiter.getAbteilung().getBezeichnung());
+            team.setValue(mitarbeiter.getTeam().getBezeichnung());
             adresse.setValue(mitarbeiter.getAdresse().toString());
         }
     }
