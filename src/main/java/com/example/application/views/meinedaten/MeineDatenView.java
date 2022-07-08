@@ -55,6 +55,7 @@ public class MeineDatenView extends Div {
     private TextField adresse = new TextField("Adresse");
 
     Mitarbeiter mitarbeiter;
+
     /**
      * Diese Methode initialisiert das grafische Interface
      * und fügt diese zum View hinzu.
