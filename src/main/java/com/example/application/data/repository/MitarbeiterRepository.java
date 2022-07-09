@@ -8,8 +8,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+/**
+ * @desc Repository für das Objekt Mitarbeiter
+ */
 public interface MitarbeiterRepository extends JpaRepository<Mitarbeiter, UUID> {
-
     @Query("select m from Mitarbeiter m " +
             "where lower(m.vorname) like lower(concat('%', :searchTerm, '%')) " +
             "or lower(m.nachname) like lower(concat('%', :searchTerm, '%'))")
