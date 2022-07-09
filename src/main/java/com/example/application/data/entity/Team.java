@@ -7,6 +7,17 @@ import javax.validation.constraints.NotBlank;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * @desc Das Objekt Abteilung stellt die Aufteilung des Unternehmens in deren Bereiche dar. Teams können aus Mitarbeiern aus versch. Bereichen sein, dies ist aber nicht zwingend erforderlich.
+ *
+ * @attributes id, bezeichnung
+ *
+ * @mappedattributes mitarbeiter
+ *
+ * @category Objekt
+ * @version 1.0
+ * @since 2022-07-06
+ */
 @Entity
 public class Team {
     @Id

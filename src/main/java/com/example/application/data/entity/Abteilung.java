@@ -8,6 +8,17 @@ import javax.validation.constraints.NotBlank;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * @desc Das Objekt Abteilung stellt die Aufteilung des Unternehmens in deren Bereiche dar.
+ *
+ * @attributes id, bezeichnung
+ *
+ * @mappedattributes mitarbeiter
+ *
+ * @category Objekt
+ * @version 1.0
+ * @since 2022-07-06
+ */
 @Entity
 public class Abteilung {
 

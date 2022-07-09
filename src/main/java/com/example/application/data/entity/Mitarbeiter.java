@@ -10,7 +10,17 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Set;
-
+/**
+ * @desc Das Objekt Mitarbeiter stellt die vollständigen Daten des Mitarbeiters im Unternehmen dar.
+ *
+ * @attributes id, vorname, nachname, geburtsdatum, email, telefonnr, position
+ *
+ * @mappedattributes abteilung, team, adresse, user, rechteverwaltung
+ *
+ * @category Objekt
+ * @version 1.0
+ * @since 2022-07-06
+ */
 @Entity
 public class Mitarbeiter {
     @Id

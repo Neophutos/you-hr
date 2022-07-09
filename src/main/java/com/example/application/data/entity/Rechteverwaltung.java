@@ -3,6 +3,17 @@ package com.example.application.data.entity;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
+/**
+ * @desc Das Objekt Rechteverwaltung realisiert die Interaktionsberechtigungen im System.
+ *
+ * @attributes lesen, erstellen, bearbeiten, loeschen, admin
+ *
+ * @mappedattributes mitarbeiter
+ *
+ * @category Objekt
+ * @version 1.0
+ * @since 2022-07-06
+ */
 @Entity
 public class Rechteverwaltung extends AbstractEntity {
 

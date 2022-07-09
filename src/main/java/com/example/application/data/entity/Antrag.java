@@ -4,6 +4,15 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 
+/**
+ * @desc Das Objekt Antrag stellt einen vollständigen Antrag/Problem im System dar, den ein Nutzer erstellt (antragstellername)
+ *
+ * @attributes id, datum, antragstellername, antragsart, beschreibung
+ *
+ * @category Objekt
+ * @version 1.0
+ * @since 2022-07-06
+ */
 @Entity
 public class Antrag {
 

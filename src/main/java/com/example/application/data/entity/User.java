@@ -5,6 +5,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Set;
 import javax.persistence.*;
 
+/**
+ * @desc Das Objekt User setzt die Zugangsberechtigungen eines Mitarbeiters für das System.
+ *
+ * @attributes username, name, hashedPassword, roles, profilePictureUrl
+ *
+ * @mappedattributes mitarbeiter
+ *
+ * @category Objekt
+ * @version 1.0
+ * @since 2022-07-06
+ */
 @Entity
 @Table(name = "application_user")
 public class User extends AbstractEntity {

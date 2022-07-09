@@ -4,6 +4,17 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.UUID;
 
+/**
+ * @desc Das Objekt Adresse stellt eine vollständige Anschrift (in Deutschland) dar.
+ *
+ * @attributes id, plz, strassenname, stadt, bundesland
+ *
+ * @mappedattributes mitarbeiter
+ *
+ * @category Objekt
+ * @version 1.0
+ * @since 2022-07-06
+ */
 @Entity
 public class Adresse {
 
