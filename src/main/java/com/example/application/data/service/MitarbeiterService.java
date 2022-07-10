@@ -11,7 +11,6 @@ import com.example.application.data.entity.Team;
 import com.example.application.data.repository.AbteilungRepository;
 import com.example.application.data.repository.MitarbeiterRepository;
 import com.example.application.data.repository.TeamRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
