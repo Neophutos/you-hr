@@ -31,6 +31,16 @@ import java.util.Optional;
 /**
  * The main view is a top-level placeholder for other views.
  */
+
+/**
+ * @desc Der View MainLayout implementiert eine Ansicht für alle angemeldete Mitarbeiter von der sie aus auf andere Views kommen können.
+ * Hauptbestandteil stellt hierbei die Implementierung der Menüliste auf der linken Seite des Bildschirmes dar.
+ *
+ *
+ * @category View
+ * @version 1.0
+ * @since 2022-06-30
+ */
 public class MainLayout extends AppLayout {
 
     /**
@@ -101,6 +111,11 @@ public class MainLayout extends AppLayout {
         return header;
     }
 
+    /**
+     *
+     * @desc Initialisieren des Logos und der Überschrift der Menüliste
+     */
+
     private Component createDrawerContent() {
         HorizontalLayout top = new HorizontalLayout();
         Image logo = new Image("/icons/YouLogo_Large.png","YOU-Logo");
@@ -118,6 +133,10 @@ public class MainLayout extends AppLayout {
         return section;
     }
 
+    /**
+     *
+     * @desc Initialisieren der Menüliste
+     */
     private Nav createNavigation() {
         Nav nav = new Nav();
         nav.addClassNames("menu-item-container");
@@ -136,6 +155,11 @@ public class MainLayout extends AppLayout {
         }
         return nav;
     }
+
+    /**
+     *
+     * @desc Initialisieren der Interaktionselemente aus der Menüliste
+     */
 
     private MenuItemInfo[] createMenuItems() {
         return new MenuItemInfo[]{ //
@@ -159,6 +183,10 @@ public class MainLayout extends AppLayout {
         };
     }
 
+    /**
+     *
+     * @desc Initialisieren des Feldes, in dem eingeloggter Benutzer und Profilbild angezeigt werden
+     */
     private Footer createFooter() {
         Footer layout = new Footer();
         layout.addClassNames("footer");
