@@ -37,6 +37,15 @@ import javax.annotation.security.RolesAllowed;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * @desc Der View Rechteverwaltung implementiert eine Tabellenansicht für alle vorhandenen Mitarbeitern und deren
+ * entsprechenden Rechten.
+ *
+ * @category View
+ * @version 1.0
+ * @since 2022-06-30
+ */
+
 @PageTitle("Rechteverwaltung")
 @Route(value = "rechteverwaltung/:rechteverwaltungID?/:action?(edit)", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
@@ -240,6 +249,11 @@ public class RechteverwaltungView extends Div implements BeforeEnterObserver {
             }
         }
     }
+
+    /**
+     * @desc  Konfiguration der Ausrichtung & Form der Tabelle, Initialisierung der Interaktionselemente
+     * @param splitLayout
+     */
 
     private void createEditorLayout(SplitLayout splitLayout) {
         Div editorLayoutDiv = new Div();
