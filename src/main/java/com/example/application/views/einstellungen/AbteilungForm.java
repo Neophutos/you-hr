@@ -57,11 +57,9 @@ public class AbteilungForm extends FormLayout {
 
     /**
      * @desc Binden der Eingabefelder an die Attribute des Objekts. Außerdem wird das Formular (Text + Eingabefelder + Buttons) initialisiert.
-     * @param abteilungen -> Vorhandene Abteilungen werden aus Datenbank gelesen
-     * @param teams -> Vorhandene Teams werden aus Datenbank gelesen
      */
     @Autowired
-    public AbteilungForm(List<Abteilung> abteilungen, List<Team> teams) {
+    public AbteilungForm() {
         addClassName("Abteilung-Formular");
 
         abteilungBinder.bindInstanceFields(this);
