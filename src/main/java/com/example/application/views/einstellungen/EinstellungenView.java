@@ -3,10 +3,12 @@ package com.example.application.views.einstellungen;
 import com.example.application.data.entity.Abteilung;
 import com.example.application.data.entity.Mitarbeiter;
 import com.example.application.data.entity.Team;
+import com.example.application.data.service.GruppenService;
 import com.example.application.data.service.MitarbeiterService;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.contextmenu.GridContextMenu;
@@ -52,10 +54,11 @@ public class EinstellungenView extends VerticalLayout {
     Abteilung abteilung;
     Team team;
 
-    MitarbeiterService mitarbeiterService;
+    GruppenService gruppenService;
 
-    public EinstellungenView(MitarbeiterService mitarbeiterService) {
-        this.mitarbeiterService = mitarbeiterService;
+    public EinstellungenView(GruppenService gruppenService) {
+        this.gruppenService = gruppenService;
+
         addClassName("settings-view");
         setSizeFull();
         configureGrids();
@@ -119,6 +122,8 @@ public class EinstellungenView extends VerticalLayout {
         editDialogLayout.setPadding(false);
         editDialogLayout.setSpacing(false);
         editDialogLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
+
+        return editDialogLayout;
     }
 
     private VerticalLayout createEditTeamDialogLayout(){
@@ -126,6 +131,8 @@ public class EinstellungenView extends VerticalLayout {
         editDialogLayout.setPadding(false);
         editDialogLayout.setSpacing(false);
         editDialogLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
+
+        return editDialogLayout;
     }
 
     /**
@@ -177,7 +184,7 @@ public class EinstellungenView extends VerticalLayout {
         } else {
             deleteAbteilungDialog = new Dialog();
 
-            deleteAbteilungDialog.setHeaderTitle("Abteilung wirklich löschen?");
+            deleteAbteilungDialog.setHeaderTitle("Abteilung " + abteilung + " wirklich löschen?");
 
             cancelButton = createCancelButton(deleteAbteilungDialog);
             confirmButton = createConfirmButton(deleteAbteilungDialog, abteilung, null);
@@ -191,7 +198,7 @@ public class EinstellungenView extends VerticalLayout {
         } else {
             deleteTeamDialog = new Dialog();
 
-            deleteTeamDialog.setHeaderTitle("Team wirklich löschen?");
+            deleteTeamDialog.setHeaderTitle("Team " + team + " wirklich löschen?");
 
             cancelButton = createCancelButton(deleteTeamDialog);
             confirmButton = createConfirmButton(deleteTeamDialog, null, team);
@@ -210,13 +217,21 @@ public class EinstellungenView extends VerticalLayout {
     private Button createConfirmButton(Dialog confirmDialog, Abteilung abteilung, Team team){
         Button saveButton = new Button("Abschließen", e -> {
             if (abteilung != null) {
-                mitarbeiterService.delete(abteilung);
+                gruppenService.deleteAbteilung(abteilung);
+            } else if (team != null) {
+                gruppenService.deleteTeam(team);
+            } else {
+                Notification.show("Die angegebene Gruppe wurde nicht gefunden").addThemeVariants(NotificationVariant.LUMO_ERROR);
             }
-        })
+            confirmDialog.close();
+            updateLists();
+        });
+        saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        return saveButton;
     }
 
     private void updateLists(){
-        abteilungGrid.setItems(mitarbeiterService.findAllAbteilungen());
-        teamGrid.setItems(mitarbeiterService.findAllTeams());
+        abteilungGrid.setItems(gruppenService.findAllAbteilungen());
+        teamGrid.setItems(gruppenService.findAllTeams());
     }
 }
