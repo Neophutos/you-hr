@@ -35,27 +35,27 @@ import java.util.Locale;
  * @since 2022-07-08
  */
 public class MitarbeiterForm extends FormLayout {
-    private Binder<Mitarbeiter> mitarbeiterBinder = new BeanValidationBinder<>(Mitarbeiter.class);
+    private final Binder<Mitarbeiter> mitarbeiterBinder = new BeanValidationBinder<>(Mitarbeiter.class);
 
     Locale finnishLocale = new Locale("fi", "FI");
 
-    private H5 personal = new H5("Persönliche Informationen");
-    private H5 anschrift = new H5("Anschrift");
+    private final H5 personal = new H5("Persönliche Informationen");
+    private final H5 anschrift = new H5("Anschrift");
 
-    private TextField vorname = new TextField("Vorname");
-    private TextField nachname = new TextField("Nachname");
-    private EmailField email = new EmailField("E-Mail");
-    private DatePicker geburtsdatum = new DatePicker("Geburtstag");
-    private TextField telefonnr = new TextField("Telefonnummer");
-    private TextField position = new TextField("Position");
-    private ComboBox<Abteilung> abteilungen = new ComboBox<>("Abteilung");
-    private ComboBox<Team> teams = new ComboBox<>("Team");
+    private final TextField vorname = new TextField("Vorname");
+    private final TextField nachname = new TextField("Nachname");
+    private final EmailField email = new EmailField("E-Mail");
+    private final DatePicker geburtsdatum = new DatePicker("Geburtstag");
+    private final TextField telefonnr = new TextField("Telefonnummer");
+    private final TextField position = new TextField("Position");
+    private final ComboBox<Abteilung> abteilungen = new ComboBox<>("Abteilung");
+    private final ComboBox<Team> teams = new ComboBox<>("Team");
 
-    private TextField strassenname = new TextField("Strasse");
-    private IntegerField hausnummer = new IntegerField("Hausnummer");
-    private IntegerField plz = new IntegerField("Postleitzahl");
-    private TextField stadt = new TextField("Stadt");
-    private ComboBox<String> bundesland = new ComboBox<>("Bundesland");
+    private final TextField strassenname = new TextField("Strasse");
+    private final IntegerField hausnummer = new IntegerField("Hausnummer");
+    private final IntegerField plz = new IntegerField("Postleitzahl");
+    private final TextField stadt = new TextField("Stadt");
+    private final ComboBox<String> bundesland = new ComboBox<>("Bundesland");
 
     Button speichern = new Button("Speichern");
     Button schliessen = new Button("Schließen");
@@ -170,7 +170,7 @@ public class MitarbeiterForm extends FormLayout {
      * @desc Konfiguration der verschiedenen Aktionen (Events), die der Nutzer auslösen kann.
      */
     public static abstract class MitarbeiterFormEvent extends ComponentEvent<MitarbeiterForm> {
-        private Mitarbeiter mitarbeiter;
+        private final Mitarbeiter mitarbeiter;
 
         protected MitarbeiterFormEvent(MitarbeiterForm source, Mitarbeiter mitarbeiter) {
             super(source, false);

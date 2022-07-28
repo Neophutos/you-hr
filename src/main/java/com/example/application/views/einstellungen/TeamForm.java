@@ -29,11 +29,9 @@ import java.util.Locale;
  * @since 2022-07-08
  */
 public class TeamForm extends FormLayout {
-    private Binder<Team> teamBinder = new BeanValidationBinder<>(Team.class);
+    private final Binder<Team> teamBinder = new BeanValidationBinder<>(Team.class);
 
-    Locale finnishLocale = new Locale("fi", "FI");
-
-    private TextField bezeichnung = new TextField("Bezeichnung");
+    private final TextField bezeichnung = new TextField("Bezeichnung");
 
     Button speichern = new Button("Speichern");
     Button schliessen = new Button("Schließen");
@@ -57,11 +55,9 @@ public class TeamForm extends FormLayout {
 
     /**
      * @desc Binden der Eingabefelder an die Attribute des Objekts. Außerdem wird das Formular (Text + Eingabefelder + Buttons) initialisiert.
-     * @param abteilungen -> Vorhandene Abteilungen werden aus Datenbank gelesen
-     * @param teams -> Vorhandene Teams werden aus Datenbank gelesen
      */
     @Autowired
-    public TeamForm(List<Abteilung> abteilungen, List<Team> teams) {
+    public TeamForm() {
         addClassName("Team-Formular");
 
         teamBinder.bindInstanceFields(this);
@@ -111,7 +107,7 @@ public class TeamForm extends FormLayout {
      * @desc Konfiguration der verschiedenen Aktionen (Events), die der Nutzer auslösen kann.
      */
     public static abstract class TeamFormEvent extends ComponentEvent<TeamForm> {
-        private Team team;
+        private final Team team;
 
         protected TeamFormEvent(TeamForm source, Team team) {
             super(source, false);

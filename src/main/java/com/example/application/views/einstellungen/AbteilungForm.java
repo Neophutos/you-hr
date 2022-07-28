@@ -29,11 +29,11 @@ import java.util.Locale;
  * @since 2022-07-08
  */
 public class AbteilungForm extends FormLayout {
-    private Binder<Abteilung> abteilungBinder = new BeanValidationBinder<>(Abteilung.class);
+    private final Binder<Abteilung> abteilungBinder = new BeanValidationBinder<>(Abteilung.class);
 
     Locale finnishLocale = new Locale("fi", "FI");
 
-    private TextField bezeichnung = new TextField("Bezeichnung");
+    private final TextField bezeichnung = new TextField("Bezeichnung");
     
     Button speichern = new Button("Speichern");
     Button schliessen = new Button("Schließen");
@@ -111,7 +111,7 @@ public class AbteilungForm extends FormLayout {
      * @desc Konfiguration der verschiedenen Aktionen (Events), die der Nutzer auslösen kann.
      */
     public static abstract class AbteilungFormEvent extends ComponentEvent<AbteilungForm> {
-        private Abteilung abteilung;
+        private final Abteilung abteilung;
 
         protected AbteilungFormEvent(AbteilungForm source, Abteilung abteilung) {
             super(source, false);

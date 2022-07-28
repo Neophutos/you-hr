@@ -178,6 +178,18 @@ public class EinstellungenView extends VerticalLayout {
         }
     }
 
+    private void saveAbteilung(AbteilungForm.SaveEvent event){
+        gruppenService.updateAbteilung(event.getAbteilung());
+        updateLists();
+        editAbteilungDialog.close();
+    }
+
+    private void saveTeam(TeamForm.SaveEvent event){
+        gruppenService.updateTeam(event.getTeam());
+        updateLists();
+        editTeamDialog.close();
+    }
+
     private void removeAbteilung(Abteilung abteilung){
         if (abteilung == null){
             Notification.show("Es wurde keine Abteilung ausgewählt!").addThemeVariants(NotificationVariant.LUMO_ERROR);
