@@ -65,9 +65,9 @@ public class AbteilungForm extends FormLayout {
         abteilungBinder.bindInstanceFields(this);
 
         setMaxWidth("600px");
-        setResponsiveSteps(new ResponsiveStep("0",2));
 
         add(
+                bezeichnung,
                 createButtonLayout()
         );
     }

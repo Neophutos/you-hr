@@ -63,11 +63,8 @@ public class TeamForm extends FormLayout {
         teamBinder.bindInstanceFields(this);
 
         setMaxWidth("600px");
-        setResponsiveSteps(new ResponsiveStep("0",2));
 
-        add(
-                createButtonLayout()
-        );
+        add(bezeichnung, createButtonLayout());
     }
 
     /**

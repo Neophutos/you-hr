@@ -22,6 +22,8 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.annotation.security.RolesAllowed;
 
 /**
@@ -56,6 +58,7 @@ public class EinstellungenView extends VerticalLayout {
 
     GruppenService gruppenService;
 
+    @Autowired
     public EinstellungenView(GruppenService gruppenService) {
         this.gruppenService = gruppenService;
 
@@ -196,11 +199,13 @@ public class EinstellungenView extends VerticalLayout {
         } else {
             deleteAbteilungDialog = new Dialog();
 
-            deleteAbteilungDialog.setHeaderTitle("Abteilung " + abteilung + " wirklich löschen?");
+            deleteAbteilungDialog.setHeaderTitle("Abteilung " + abteilung.getBezeichnung() + " wirklich löschen?");
 
             cancelButton = createCancelButton(deleteAbteilungDialog);
-            confirmButton = createConfirmButton(deleteAbteilungDialog, abteilung, null);
+            confirmButton = createConfirmAbteilungButton(deleteAbteilungDialog, abteilung);
             deleteAbteilungDialog.getFooter().add(cancelButton, confirmButton);
+
+            deleteAbteilungDialog.open();
         }
     }
 
@@ -210,11 +215,13 @@ public class EinstellungenView extends VerticalLayout {
         } else {
             deleteTeamDialog = new Dialog();
 
-            deleteTeamDialog.setHeaderTitle("Team " + team + " wirklich löschen?");
+            deleteTeamDialog.setHeaderTitle("Team " + team.getBezeichnung() + " wirklich löschen?");
 
             cancelButton = createCancelButton(deleteTeamDialog);
-            confirmButton = createConfirmButton(deleteTeamDialog, null, team);
+            confirmButton = createConfirmTeamButton(deleteTeamDialog, team);
             deleteTeamDialog.getFooter().add(cancelButton, confirmButton);
+
+            deleteTeamDialog.open();
         }
     }
 
@@ -226,15 +233,21 @@ public class EinstellungenView extends VerticalLayout {
         });
     }
 
-    private Button createConfirmButton(Dialog confirmDialog, Abteilung abteilung, Team team){
+    private Button createConfirmAbteilungButton(Dialog confirmDialog, Abteilung abteilung){
         Button saveButton = new Button("Abschließen", e -> {
-            if (abteilung != null) {
-                gruppenService.deleteAbteilung(abteilung);
-            } else if (team != null) {
-                gruppenService.deleteTeam(team);
-            } else {
-                Notification.show("Die angegebene Gruppe wurde nicht gefunden").addThemeVariants(NotificationVariant.LUMO_ERROR);
-            }
+            gruppenService.deleteAbteilung(abteilung);
+            Notification.show("Abteilung " + abteilung.getBezeichnung() + " wurde erfolgreich gelöscht!").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            confirmDialog.close();
+            updateLists();
+        });
+        saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        return saveButton;
+    }
+
+    private Button createConfirmTeamButton(Dialog confirmDialog, Team team){
+        Button saveButton = new Button("Abschließen", e -> {
+            gruppenService.deleteTeam(team);
+            Notification.show("Abteilung " + team.getBezeichnung() + " wurde erfolgreich gelöscht!").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             confirmDialog.close();
             updateLists();
         });
