@@ -76,5 +76,4 @@ public class User extends AbstractEntity {
     public Mitarbeiter getMitarbeiter() {
         return mitarbeiter;
     }
-
 }

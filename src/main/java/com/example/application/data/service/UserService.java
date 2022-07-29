@@ -1,6 +1,8 @@
 package com.example.application.data.service;
 
 import com.example.application.data.entity.User;
+
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -38,6 +40,10 @@ public class UserService {
 
     public int count() {
         return (int) repository.count();
+    }
+
+    public List<User> findAll(){
+        return repository.findAll();
     }
 
 }
