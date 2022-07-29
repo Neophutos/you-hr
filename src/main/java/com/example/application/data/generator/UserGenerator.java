@@ -4,8 +4,10 @@ import com.example.application.data.Role;
 import com.example.application.data.entity.User;
 import com.example.application.data.service.UserService;
 import com.vaadin.flow.component.notification.Notification;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.awt.*;
 import java.security.SecureRandom;
 import java.util.Set;
 
@@ -14,15 +16,16 @@ public class UserGenerator {
     private static PasswordEncoder passwordEncoder = DataGenerator.getPasswordEncoder();
     private static UserService userService = new UserService(DataGenerator.getUserRepository());
 
-    public static User generate(String vorname, String nachname, User user) {
+    private final Notification notification = new Notification();
 
+    public static User generate(String vorname, String nachname, User user) {
         user.setName(String.format("%s %s", vorname, nachname));
         user.setUsername(String.format("%s.%s", vorname, nachname));
         String pw = generateRandomPassword(10);
-        Notification.show("Passwort: " + pw);
+
         user.setHashedPassword(passwordEncoder.encode(pw));
 
-        user.setRoles(Set.of(Role.USER));
+        user.setRoles(Set.of(Role.MITARBEITER));
 
         int results = (int) DataGenerator
                 .getUserRepository()
@@ -43,7 +46,7 @@ public class UserGenerator {
 
     public static String generateHashedPassword() {
         String pw = generateRandomPassword(10);
-        Notification.show("Passwort: " + pw);
+        Notification.show("Erstelltes Passwort: " + pw).setDuration(0);
         return passwordEncoder.encode(pw);
     }
 

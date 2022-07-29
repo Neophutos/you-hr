@@ -23,7 +23,7 @@ import javax.annotation.security.RolesAllowed;
  */
 @PageTitle("Über YOU")
 @Route(value = "about", layout = MainLayout.class)
-@RolesAllowed("USER")
+@RolesAllowed("MITARBEITER")
 public class AboutView extends VerticalLayout {
 
     private final Accordion beschreibung = new Accordion();

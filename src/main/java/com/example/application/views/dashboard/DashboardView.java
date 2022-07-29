@@ -25,7 +25,7 @@ import javax.annotation.security.RolesAllowed;
 @PageTitle("Dashboard")
 @Route(value = "dashboard", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
-@RolesAllowed("USER")
+@RolesAllowed("MITARBEITER")
 @RouteAlias(value = "", layout = MainLayout.class)
 public class DashboardView extends VerticalLayout {
 

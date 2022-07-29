@@ -35,7 +35,7 @@ import java.time.format.FormatStyle;
  */
 @PageTitle("Anträge")
 @Route(value = "antraege", layout = MainLayout.class)
-@RolesAllowed("ADMIN")
+@RolesAllowed({"PERSONALER", "ADMIN"})
 public class AntragsVerwaltungView extends Div {
     Grid<Antrag> grid = new Grid<>(Antrag.class, false);
     TextField filterText = new TextField();

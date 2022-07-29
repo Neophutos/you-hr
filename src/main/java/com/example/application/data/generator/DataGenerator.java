@@ -46,20 +46,28 @@ public class DataGenerator {
 
             logger.info("... generating 2 User entities...");
             User user = new User();
-            user.setName("John Normal");
+            user.setName("Test-User");
             user.setUsername("user");
             user.setHashedPassword(passwordEncoder.encode("user"));
             user.setProfilePictureUrl(
-                    "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=128&h=128&q=80");
-            user.setRoles(Collections.singleton(Role.USER));
+                    "https://cdn-icons-png.flaticon.com/512/2405/2405283.png");
+            user.setRoles(Collections.singleton(Role.MITARBEITER));
             userRepository.save(user);
+
+            User personaler = new User();
+            personaler.setName("Personaler");
+            personaler.setUsername("personaler");
+            personaler.setHashedPassword(passwordEncoder.encode("personaler"));
+            personaler.setProfilePictureUrl("https://cdn-icons.flaticon.com/png/512/1886/premium/1886937.png?token=exp=1659079826~hmac=ec6e9ea6d5a7512c443aa19ef0b9c5f7");
+            personaler.setRoles(Set.of(Role.MITARBEITER, Role.PERSONALER));
+            userRepository.save(personaler);
+
             User admin = new User();
-            admin.setName("Emma Powerful");
+            admin.setName("Admin");
             admin.setUsername("admin");
             admin.setHashedPassword(passwordEncoder.encode("admin"));
-            admin.setProfilePictureUrl(
-                    "https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=128&h=128&q=80");
-            admin.setRoles(Set.of(Role.USER, Role.ADMIN));
+            admin.setProfilePictureUrl("https://cdn-icons.flaticon.com/png/512/6024/premium/6024190.png?token=exp=1659010722~hmac=30e6cdc61ba60b839187d66d894235f0");
+            admin.setRoles(Set.of(Role.MITARBEITER, Role.PERSONALER, Role.ADMIN));
             userRepository.save(admin);
             logger.info("... generating 100 Mitarbeiter entities...");
 //            ExampleDataGenerator<Mitarbeiter> mitarbeiterRepositoryGenerator = new ExampleDataGenerator<>(

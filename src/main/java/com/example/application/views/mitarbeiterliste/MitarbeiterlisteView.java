@@ -50,7 +50,7 @@ import java.util.stream.Stream;
  */
 @PageTitle("Mitarbeiterliste")
 @Route(value = "mitarbeiterliste", layout = MainLayout.class)
-@RolesAllowed("ADMIN")
+@RolesAllowed({"PERSONALER","ADMIN"})
 @JsModule("./modules/copytoclipboard.js")
 public class MitarbeiterlisteView extends Div {
 

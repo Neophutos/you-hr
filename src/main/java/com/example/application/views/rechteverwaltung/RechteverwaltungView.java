@@ -1,17 +1,13 @@
 package com.example.application.views.rechteverwaltung;
 
 import com.example.application.data.entity.Mitarbeiter;
-import com.example.application.data.entity.Rechteverwaltung;
 import com.example.application.data.service.MitarbeiterService;
-import com.example.application.data.service.RechteverwaltungService;
 import com.example.application.views.MainLayout;
-import com.sun.xml.bind.v2.TODO;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
-import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
@@ -21,7 +17,6 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.renderer.LitRenderer;
@@ -35,11 +30,10 @@ import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.security.RolesAllowed;
 import java.util.Optional;
-import java.util.UUID;
 
 /**
  * @desc Der View Rechteverwaltung implementiert eine Tabellenansicht für alle vorhandenen Mitarbeitern und deren
- * entsprechenden Rechten.
+ * entsprechenden Rechte.
  *
  * @category View
  * @version 1.0
@@ -50,10 +44,6 @@ import java.util.UUID;
 @Route(value = "rechteverwaltung/:rechteverwaltungID?/:action?(edit)", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
 @Uses(Icon.class)
-@Uses(Icon.class)
-@Uses(Icon.class)
-@Uses(Icon.class)
-@Uses(Icon.class)
 public class RechteverwaltungView extends Div implements BeforeEnterObserver {
 
     private final String RECHTEVERWALTUNG_ID = "rechteverwaltungID";
@@ -61,16 +51,16 @@ public class RechteverwaltungView extends Div implements BeforeEnterObserver {
 
     private Grid<Mitarbeiter> grid = new Grid<>(Mitarbeiter.class, false);
 
-    private Checkbox lesen;
-    private Checkbox erstellen;
-    private Checkbox bearbeiten;
+    private Checkbox mitarbeiterCheckbox;
+    private Checkbox personalerCheckbox;
+    private Checkbox adminCheckbox;
     private Checkbox loeschen;
     private Checkbox admin;
 
-    private Button cancel = new Button("Cancel");
-    private Button save = new Button("Save");
+    private Button cancelButton = new Button("Abbrechen");
+    private Button saveButton = new Button("Speichern");
 
-    private BeanValidationBinder<Mitarbeiter> binder;
+    private BeanValidationBinder<Mitarbeiter> mitarbeiterBinder;
 
     private Mitarbeiter mitarbeiter;
 
@@ -95,46 +85,31 @@ public class RechteverwaltungView extends Div implements BeforeEnterObserver {
         grid.addColumn("vorname").setAutoWidth(true);
         grid.addColumn("nachname").setAutoWidth(true);
         grid.addColumn("id").setAutoWidth(true);
-        LitRenderer<Mitarbeiter> lesenRenderer = LitRenderer.<Mitarbeiter>of(
+
+
+        LitRenderer<Mitarbeiter> mitarbeiterRenderer = LitRenderer.<Mitarbeiter>of(
                 "<vaadin-icon icon='vaadin:${item.icon}' style='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: ${item.color};'></vaadin-icon>")
-                .withProperty("icon", lesen -> lesen.getRechteverwaltung().isLesen() ? "check" : "minus").withProperty("color",
-                        lesen -> lesen.getRechteverwaltung().isLesen()
+                .withProperty("icon", mitarbeiter -> mitarbeiter.getUser().getRoles().contains("Mitarbeiter") ? "check" : "minus").withProperty("color",
+                        mitarbeiter -> mitarbeiter.getUser().getRoles().contains("Mitarbeiter")
                                 ? "var(--lumo-primary-text-color)"
                                 : "var(--lumo-disabled-text-color)");
 
-        grid.addColumn(lesenRenderer).setHeader("Lesen").setAutoWidth(true);
+        grid.addColumn(mitarbeiterRenderer).setHeader("Mitarbeiter").setAutoWidth(true);
 
-        LitRenderer<Mitarbeiter> erstellenRenderer = LitRenderer.<Mitarbeiter>of(
-                "<vaadin-icon icon='vaadin:${item.icon}' style='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: ${item.color};'></vaadin-icon>")
-                .withProperty("icon", erstellen -> erstellen.getRechteverwaltung().isErstellen() ? "check" : "minus").withProperty("color",
-                        erstellen -> erstellen.getRechteverwaltung().isErstellen()
+        LitRenderer<Mitarbeiter> personalerRenderer = LitRenderer.<Mitarbeiter>of(
+                "<vaadin-icon icon='vaadin:${item.icon}' sty" +
+                        "le='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: ${item.color};'></vaadin-icon>")
+                .withProperty("icon", mitarbeiter -> mitarbeiter.getUser().getRoles().contains("Personaler") ? "check" : "minus").withProperty("color",
+                        mitarbeiter -> mitarbeiter.getUser().getRoles().contains("Personaler")
                                 ? "var(--lumo-primary-text-color)"
                                 : "var(--lumo-disabled-text-color)");
 
-        grid.addColumn(erstellenRenderer).setHeader("Erstellen").setAutoWidth(true);
-
-        LitRenderer<Mitarbeiter> bearbeitenRenderer = LitRenderer.<Mitarbeiter>of(
-                "<vaadin-icon icon='vaadin:${item.icon}' style='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: ${item.color};'></vaadin-icon>")
-                .withProperty("icon", bearbeiten -> bearbeiten.getRechteverwaltung().isBearbeiten() ? "check" : "minus").withProperty("color",
-                        bearbeiten -> bearbeiten.getRechteverwaltung().isBearbeiten()
-                                ? "var(--lumo-primary-text-color)"
-                                : "var(--lumo-disabled-text-color)");
-
-        grid.addColumn(bearbeitenRenderer).setHeader("Bearbeiten").setAutoWidth(true);
-
-        LitRenderer<Mitarbeiter> loeschenRenderer = LitRenderer.<Mitarbeiter>of(
-                "<vaadin-icon icon='vaadin:${item.icon}' style='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: ${item.color};'></vaadin-icon>")
-                .withProperty("icon", loeschen -> loeschen.getRechteverwaltung().isLoeschen() ? "check" : "minus").withProperty("color",
-                        loeschen -> loeschen.getRechteverwaltung().isLoeschen()
-                                ? "var(--lumo-primary-text-color)"
-                                : "var(--lumo-disabled-text-color)");
-
-        grid.addColumn(loeschenRenderer).setHeader("Loeschen").setAutoWidth(true);
+        grid.addColumn(personalerRenderer).setHeader("Personaler").setAutoWidth(true);
 
         LitRenderer<Mitarbeiter> adminRenderer = LitRenderer.<Mitarbeiter>of(
                 "<vaadin-icon icon='vaadin:${item.icon}' style='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: ${item.color};'></vaadin-icon>")
-                .withProperty("icon", admin -> admin.getRechteverwaltung().isAdmin() ? "check" : "minus").withProperty("color",
-                        admin -> admin.getRechteverwaltung().isAdmin()
+                .withProperty("icon", mitarbeiter -> mitarbeiter.getUser().getRoles().contains("Admin") ? "check" : "minus").withProperty("color",
+                        mitarbeiter -> mitarbeiter.getUser().getRoles().contains("Admin")
                                 ? "var(--lumo-primary-text-color)"
                                 : "var(--lumo-disabled-text-color)");
 
@@ -159,30 +134,30 @@ public class RechteverwaltungView extends Div implements BeforeEnterObserver {
         });
 
         // Configure Form
-        binder = new BeanValidationBinder<>(Mitarbeiter.class);
+        mitarbeiterBinder = new BeanValidationBinder<>(Mitarbeiter.class);
 
         // Bind fields. This is where you'd define e.g. validation rules
         //binder.bindInstanceFields(this);
-        binder.forField(lesen).bind("rechteverwaltung.lesen");
-        binder.forField(erstellen).bind("rechteverwaltung.erstellen");
-        binder.forField(bearbeiten).bind("rechteverwaltung.bearbeiten");
-        binder.forField(loeschen).bind("rechteverwaltung.loeschen");
-        binder.forField(admin).bind("rechteverwaltung.admin");
+        mitarbeiterBinder.forField(mitarbeiterCheckbox).bind("user.getRoles() ");
+        mitarbeiterBinder.forField(personalerCheckbox).bind("rechteverwaltung.erstellen");
+        mitarbeiterBinder.forField(adminCheckbox).bind("rechteverwaltung.bearbeiten");
+        mitarbeiterBinder.forField(loeschen).bind("rechteverwaltung.loeschen");
+        mitarbeiterBinder.forField(admin).bind("rechteverwaltung.admin");
 
-        lesen.addValueChangeListener(event -> {
-            if(!lesen.getValue()){
+        mitarbeiterCheckbox.addValueChangeListener(event -> {
+            if(!mitarbeiterCheckbox.getValue()){
                 admin.setValue(false);
             }
         });
 
-        erstellen.addValueChangeListener(event -> {
-           if(!erstellen.getValue()){
+        personalerCheckbox.addValueChangeListener(event -> {
+           if(!personalerCheckbox.getValue()){
                admin.setValue(false);
            }
         });
 
-        bearbeiten.addValueChangeListener(event -> {
-            if(!bearbeiten.getValue()){
+        adminCheckbox.addValueChangeListener(event -> {
+            if(!adminCheckbox.getValue()){
                 admin.setValue(false);
             }
         });
@@ -195,26 +170,26 @@ public class RechteverwaltungView extends Div implements BeforeEnterObserver {
 
         admin.addValueChangeListener(event -> {
             if (admin.getValue()) {
-                lesen.setValue(true);
-                erstellen.setValue(true);
-                bearbeiten.setValue(true);
+                mitarbeiterCheckbox.setValue(true);
+                personalerCheckbox.setValue(true);
+                adminCheckbox.setValue(true);
                 loeschen.setValue(true);
             } else {
-                lesen.setValue(false);
-                erstellen.setValue(false);
-                bearbeiten.setValue(false);
+                mitarbeiterCheckbox.setValue(false);
+                personalerCheckbox.setValue(false);
+                adminCheckbox.setValue(false);
                 loeschen.setValue(false);
             }
         });
 
-        cancel.addClickListener(e -> {
+        cancelButton.addClickListener(e -> {
             clearForm();
             refreshGrid();
         });
 
-        save.addClickListener(e -> {
+        saveButton.addClickListener(e -> {
             try {
-                binder.writeBean(this.mitarbeiter);
+                mitarbeiterBinder.writeBean(this.mitarbeiter);
 
                 System.out.println(this.mitarbeiter);
 
@@ -264,13 +239,13 @@ public class RechteverwaltungView extends Div implements BeforeEnterObserver {
         editorLayoutDiv.add(editorDiv);
 
         FormLayout formLayout = new FormLayout();
-        lesen = new Checkbox("Lesen");
-        erstellen = new Checkbox("Erstellen");
-        bearbeiten = new Checkbox("Bearbeiten");
+        mitarbeiterCheckbox = new Checkbox("Lesen");
+        personalerCheckbox = new Checkbox("Erstellen");
+        adminCheckbox = new Checkbox("Bearbeiten");
         loeschen = new Checkbox("Loeschen");
         admin = new Checkbox("Admin");
 
-        Component[] fields = new Component[]{lesen, erstellen, bearbeiten, loeschen, admin};
+        Component[] fields = new Component[]{mitarbeiterCheckbox, personalerCheckbox, adminCheckbox, loeschen, admin};
 
         formLayout.add(fields);
         editorDiv.add(formLayout);
@@ -282,9 +257,9 @@ public class RechteverwaltungView extends Div implements BeforeEnterObserver {
     private void createButtonLayout(Div editorLayoutDiv) {
         HorizontalLayout buttonLayout = new HorizontalLayout();
         buttonLayout.setClassName("button-layout");
-        cancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-        save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        buttonLayout.add(save, cancel);
+        cancelButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        buttonLayout.add(saveButton, cancelButton);
         editorLayoutDiv.add(buttonLayout);
     }
 
@@ -306,6 +281,6 @@ public class RechteverwaltungView extends Div implements BeforeEnterObserver {
 
     private void populateForm(Mitarbeiter value) {
         this.mitarbeiter = value;
-        binder.readBean(this.mitarbeiter);
+        mitarbeiterBinder.readBean(this.mitarbeiter);
     }
 }

@@ -71,7 +71,7 @@ public class Mitarbeiter {
             this.user.setName(String.format("%s %s", vorname, nachname));
             this.user.setUsername(String.format("%s.%s", vorname, nachname));
             this.user.setHashedPassword(UserGenerator.generateHashedPassword());
-            this.user.setRoles(Set.of(Role.USER));
+            this.user.setRoles(Set.of(Role.MITARBEITER));
         }
     }
 

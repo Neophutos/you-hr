@@ -31,7 +31,7 @@ import java.util.stream.Stream;
  */
 @PageTitle("Meine Daten")
 @Route(value = "meine_daten", layout = MainLayout.class)
-@RolesAllowed("USER")
+@RolesAllowed("MITARBEITER")
 public class MeineDatenView extends Div {
 
     private final AuthenticatedUser authenticatedUser = new AuthenticatedUser(DataGenerator.getUserRepository());
