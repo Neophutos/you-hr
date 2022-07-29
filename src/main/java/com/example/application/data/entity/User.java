@@ -77,15 +77,4 @@ public class User extends AbstractEntity {
         return mitarbeiter;
     }
 
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "username='" + username + '\'' +
-                ", name='" + name + '\'' +
-                ", hashedPassword='" + hashedPassword + '\'' +
-                ", roles=" + roles +
-                ", profilePictureUrl='" + profilePictureUrl + '\'' +
-                '}';
-    }
 }

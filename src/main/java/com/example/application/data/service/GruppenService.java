@@ -21,9 +21,9 @@ public class GruppenService {
     private final TeamRepository teamRepository;
 
     @Autowired
-    public GruppenService(AbteilungRepository abteilungRepository, TeamRepository teamRepository, AbteilungRepository abteilungRepository1, TeamRepository teamRepository1){
-        this.abteilungRepository = abteilungRepository1;
-        this.teamRepository = teamRepository1;
+    public GruppenService(AbteilungRepository abteilungRepository, TeamRepository teamRepository){
+        this.abteilungRepository = abteilungRepository;
+        this.teamRepository = teamRepository    ;
     }
 
     public Optional<Abteilung> getAbteilung(UUID id) {return abteilungRepository.findById(id);}

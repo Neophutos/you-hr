@@ -20,12 +20,7 @@ import java.util.List;
  * @since 2022-07-06
  */
 @Entity
-public class Abteilung {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long id;
+public class Abteilung extends AbstractEntity{
 
     private String bezeichnung;
 

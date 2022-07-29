@@ -16,12 +16,7 @@ import java.util.UUID;
  * @since 2022-07-06
  */
 @Entity
-public class Adresse {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long id;
+public class Adresse extends AbstractEntity{
 
     private int plz;
 

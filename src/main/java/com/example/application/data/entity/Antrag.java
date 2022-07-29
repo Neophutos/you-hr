@@ -14,12 +14,7 @@ import java.time.LocalDate;
  * @since 2022-07-06
  */
 @Entity
-public class Antrag {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long id;
+public class Antrag extends AbstractEntity {
 
     private LocalDate datum; //darf nicht @NotEmpty gesetzt werden
 
@@ -31,14 +26,6 @@ public class Antrag {
 
     public Antrag() {
 
-    }
-
-    public void setId(Long id){
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public LocalDate getDatum() {
@@ -73,14 +60,4 @@ public class Antrag {
         this.antragstellername = antragstellername;
     }
 
-    @Override
-    public String toString() {
-        return "Antrag{" +
-                "id=" + id +
-                ", datum=" + datum +
-                ", antragstellername='" + antragstellername + '\'' +
-                ", antragsart='" + antragsart + '\'' +
-                ", beschreibung='" + beschreibung + '\'' +
-                '}';
-    }
 }

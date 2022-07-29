@@ -2,14 +2,14 @@ package com.example.application.data.entity;
 
 import com.example.application.data.Role;
 import com.example.application.data.generator.UserGenerator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Set;
+import java.util.UUID;
+
 /**
  * @desc Das Objekt Mitarbeiter stellt die vollständigen Daten des Mitarbeiters im Unternehmen dar.
  *
@@ -22,11 +22,7 @@ import java.util.Set;
  * @since 2022-07-06
  */
 @Entity
-public class Mitarbeiter {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long id;
+public class Mitarbeiter extends AbstractEntity {
 
     @NotEmpty
     private String vorname = "";
@@ -149,28 +145,8 @@ public class Mitarbeiter {
         return user;
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public Rechteverwaltung getRechteverwaltung() {
         return rechteverwaltung;
     }
 
-    @Override
-    public String toString() {
-        return "Mitarbeiter{" +
-                "id=" + id +
-                ", vorname='" + vorname + '\'' +
-                ", nachname='" + nachname + '\'' +
-                ", geburtsdatum=" + geburtsdatum +
-                ", email='" + email + '\'' +
-                ", telefonnr='" + telefonnr + '\'' +
-                ", position='" + position + '\'' +
-                ", abteilung='" + abteilung + '\'' +
-                ", adresse=" + adresse +
-                ", user=" + user +
-                ", rechteverwaltung=" + rechteverwaltung +
-                '}';
-    }
 }

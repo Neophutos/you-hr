@@ -11,14 +11,12 @@ public abstract class AbstractEntity {
 
     @Id
     @GeneratedValue
-    @Type(type = "uuid-char")
-    private UUID id;
+    @Type(type = "long")
+    private Long id;
 
-    public UUID getId() {
-        return id;
-    }
+    public Long getId() {return id;}
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

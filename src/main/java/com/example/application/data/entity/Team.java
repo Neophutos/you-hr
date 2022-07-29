@@ -19,11 +19,7 @@ import java.util.List;
  * @since 2022-07-06
  */
 @Entity
-public class Team {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long id;
+public class Team extends AbstractEntity{
 
     private String bezeichnung;
 
