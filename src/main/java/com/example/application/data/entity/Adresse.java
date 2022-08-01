@@ -18,7 +18,7 @@ import java.util.UUID;
 @Entity
 public class Adresse extends AbstractEntity{
 
-    private int plz;
+    private int plz = 0;
 
     private String strassenname;
 

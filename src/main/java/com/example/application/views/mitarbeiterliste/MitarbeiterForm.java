@@ -14,6 +14,7 @@ import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.IntegerField;
@@ -26,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Stream;
 
 /**
  * @desc Das Formular Mitarbeiter erstellt eine Eingabemaske für die Erstellung eines Objekts Mitarbeiter.
@@ -46,7 +48,8 @@ public class MitarbeiterForm extends FormLayout {
     private final TextField nachname = new TextField("Nachname");
     private final EmailField email = new EmailField("E-Mail");
     private final DatePicker geburtsdatum = new DatePicker("Geburtstag");
-    private final TextField telefonnr = new TextField("Telefonnummer");
+    private final DatePicker.DatePickerI18n germanI18n = new DatePicker.DatePickerI18n();
+    private final TextField telefonnr = new TextField("Telefonnummer (Mobil)");
     private final TextField position = new TextField("Position");
     private final ComboBox<Abteilung> abteilungen = new ComboBox<>("Abteilung");
     private final ComboBox<Team> teams = new ComboBox<>("Team");
@@ -99,8 +102,40 @@ public class MitarbeiterForm extends FormLayout {
         mitarbeiterBinder.forField(stadt).bind("adresse.stadt");
         mitarbeiterBinder.forField(plz).bind("adresse.plz");
 
+        Stream.of(vorname, nachname, telefonnr, position, strassenname, stadt).forEach(TextField -> {
+            TextField.setRequired(true);
+            TextField.setErrorMessage("Dieses Feld wird benötigt!");
+        });
+
+        germanI18n.setMonthNames(List.of("Januar", "Februar", "März", "April", "Mai",
+                "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"));
+        germanI18n.setWeekdays(List.of("Sonntag", "Montag", "Dienstag", "Mittwoch",
+                "Donnerstag", "Freitag", "Samstag"));
+        germanI18n.setWeekdaysShort(List.of("So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"));
+        germanI18n.setWeek("Woche");
+        germanI18n.setToday("Heute");
+        germanI18n.setCancel("Abbrechen");
+        geburtsdatum.setI18n(germanI18n);
+        geburtsdatum.setRequired(true);
+        geburtsdatum.setErrorMessage("Dieses Feld wird benötigt!");
+
+        bundesland.setRequired(true);
+        bundesland.setErrorMessage("Dieses Feld wird benötigt!");
+
+        email.getElement().setAttribute("name","email");
+        email.setRequiredIndicatorVisible(true);
+        email.setErrorMessage("Geben Sie eine gültige E-Mail-Adresse ein");
+
+        this.abteilungen.setAllowCustomValue(false);
+        this.abteilungen.setRequired(true);
+        this.abteilungen.setPlaceholder("Abteilung wählen");
+        this.teams.setAllowCustomValue(false);
+        this.teams.setRequired(true);
+        this.teams.setPlaceholder("Team wählen");
 
         geburtsdatum.setLocale(finnishLocale);
+
+        telefonnr.setHelperText("Bsp.: +49 472 18324421");
 
         bundesland.setItems("Baden-Württemberg", "Bayern", "Berlin", "Brandenburg", "Bremen", "Hamburg", "Hessen", "Mecklenburg-Vorpommern", "Niedersachsen", "Nordrhein-Westfalen", "Rheinland-Pfalz", "Saarland", "Sachsen", "Sachsen-Anhalt", "Schleswig-Holstein", "Thüringen");
 
@@ -108,7 +143,7 @@ public class MitarbeiterForm extends FormLayout {
         setColspan(anschrift, 2);
 
         setMaxWidth("600px");
-        setResponsiveSteps(new FormLayout.ResponsiveStep("0",2));
+        setResponsiveSteps(new ResponsiveStep("0",2));
 
         add(
                 personal,
@@ -160,7 +195,7 @@ public class MitarbeiterForm extends FormLayout {
 
             mitarbeiterBinder.writeBean(selectedMitarbeiter);
             fireEvent(new SaveEvent(this, selectedMitarbeiter));
-            Notification.show(selectedMitarbeiter.getNachname() + " " + selectedMitarbeiter.getVorname() + " wurde erstellt.");
+            Notification.show(selectedMitarbeiter.getNachname() + ", " + selectedMitarbeiter.getVorname() + " wurde erstellt.").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
         } catch (ValidationException e) {
             e.printStackTrace();
         }

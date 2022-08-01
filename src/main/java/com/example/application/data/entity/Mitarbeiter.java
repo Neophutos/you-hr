@@ -24,9 +24,7 @@ import java.util.UUID;
 @Entity
 public class Mitarbeiter extends AbstractEntity {
 
-    @NotEmpty
     private String vorname = "";
-    @NotEmpty
     private String nachname = "";
     private LocalDate geburtsdatum; //darf nicht @NotEmpty gesetzt werden
     @Email
