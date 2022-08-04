@@ -1,6 +1,7 @@
 package com.example.application.views.dashboard;
 
 import com.example.application.data.entity.Mitarbeiter;
+import com.example.application.data.entity.Team;
 import com.example.application.data.generator.DataGenerator;
 import com.example.application.data.service.AntragService;
 import com.example.application.data.service.MitarbeiterService;
@@ -54,9 +55,10 @@ public class DashboardView extends VerticalLayout {
         H3 welcome = new H3(name);
         Paragraph anzahlMitarbeiter = new Paragraph("\uD83D\uDC68\u200D\uD83D\uDCBC Es befinden sich derzeit " + mitarbeiterService.countMitarbeiter() + " Mitarbeiter im Unternehmen");
         Paragraph anzahlAntraege = new Paragraph("\uD83D\uDCD1 In YOU befinden sich derzeit " + antragService.countProblems() + " zu bearbeitende Anträge");
+        Paragraph anzahlGruppen = new Paragraph("\uD83D\uDC54 Ihr Unternehmen hat derzeit " + mitarbeiterService.findAllAbteilungen().size() + " Abteilungen und " + mitarbeiterService.findAllTeams().size() + " Teams");
         Paragraph tasks = new Paragraph("\uD83D\uDC81\u200D Nutze das Menü auf der linken Seite, um die Funktionen von YOU zu nutzen!");
 
         setAlignItems(Alignment.CENTER);
-        add(logo, welcome, anzahlMitarbeiter, anzahlAntraege, tasks);
+        add(logo, welcome, anzahlMitarbeiter, anzahlGruppen, anzahlAntraege, tasks);
     }
 }

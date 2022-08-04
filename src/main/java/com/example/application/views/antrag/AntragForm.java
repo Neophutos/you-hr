@@ -65,6 +65,7 @@ public class AntragForm extends FormLayout {
         antragsart.setItems("Daten-Änderung", "Rechte-Änderung", "Problem-Meldung", "Anderes Anliegen");
         antragsart.setItems("Daten-Änderung", "Rechte-Änderung", "Problem-Meldung", "Anderes Anliegen");
 
+        beschreibung.setPlaceholder("Beschreiben Sie hier Ihr Anliegen möglichst präzise und genau.");
         beschreibung.setMinHeight("200px");
         beschreibung.setMaxLength(charLimit);
         beschreibung.setValueChangeMode(ValueChangeMode.EAGER);
@@ -120,7 +121,7 @@ public class AntragForm extends FormLayout {
             UI.getCurrent().navigate(DashboardView.class);
 
         } catch (ValidationException e) {
-            e.printStackTrace();
+            Notification.show("Ein Fehler ist aufgetreten!").addThemeVariants(NotificationVariant.LUMO_ERROR);
         }
     }
 }

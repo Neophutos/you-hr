@@ -1,9 +1,8 @@
-package com.example.application.views.problemmanagement;
+package com.example.application.views.antrag;
 
 import com.example.application.data.entity.Antrag;
 import com.example.application.data.service.AntragService;
 import com.example.application.views.MainLayout;
-import com.example.application.views.antrag.AntragView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -36,7 +35,7 @@ import java.time.format.FormatStyle;
 @PageTitle("Anträge")
 @Route(value = "antraege", layout = MainLayout.class)
 @RolesAllowed({"PERSONALER", "ADMIN"})
-public class AntragsVerwaltungView extends Div {
+public class AntragVerwaltungView extends Div {
     Grid<Antrag> grid = new Grid<>(Antrag.class, false);
     TextField filterText = new TextField();
     Dialog confirmDialog;
@@ -51,7 +50,7 @@ public class AntragsVerwaltungView extends Div {
      * @param antragService
      */
     @Autowired
-    public AntragsVerwaltungView(AntragService antragService) {
+    public AntragVerwaltungView(AntragService antragService) {
         this.antragService = antragService;
         addClassName("antragsverwaltungs-view");
 
@@ -88,9 +87,9 @@ public class AntragsVerwaltungView extends Div {
         return toolbar;
     }
 
-    private static ComponentRenderer<AntragsVerwaltungView.AntragDetailsFormLayout, Antrag> createAntragDetailsRenderer() {
-        return new ComponentRenderer<>(AntragsVerwaltungView.AntragDetailsFormLayout::new,
-                AntragsVerwaltungView.AntragDetailsFormLayout::setAntrag);
+    private static ComponentRenderer<AntragVerwaltungView.AntragDetailsFormLayout, Antrag> createAntragDetailsRenderer() {
+        return new ComponentRenderer<>(AntragVerwaltungView.AntragDetailsFormLayout::new,
+                AntragVerwaltungView.AntragDetailsFormLayout::setAntrag);
     }
 
     /**
@@ -115,7 +114,6 @@ public class AntragsVerwaltungView extends Div {
          */
         public void setAntrag(Antrag antrag) {
             beschreibung.setValue(antrag.getBeschreibung());
-
         }
     }
 

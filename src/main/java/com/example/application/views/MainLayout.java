@@ -3,12 +3,12 @@ package com.example.application.views;
 import com.example.application.data.entity.User;
 import com.example.application.security.AuthenticatedUser;
 import com.example.application.views.about.AboutView;
+import com.example.application.views.antrag.AntragVerwaltungView;
 import com.example.application.views.antrag.AntragView;
 import com.example.application.views.dashboard.DashboardView;
 import com.example.application.views.einstellungen.EinstellungenView;
 import com.example.application.views.meinedaten.MeineDatenView;
 import com.example.application.views.mitarbeiterliste.MitarbeiterlisteView;
-import com.example.application.views.problemmanagement.AntragsVerwaltungView;
 import com.example.application.views.rechteverwaltung.RechteverwaltungView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Text;
@@ -19,6 +19,8 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.contextmenu.ContextMenu;
 import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -166,11 +168,9 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("Mitarbeiterliste", "la la-address-book", MitarbeiterlisteView.class), //
 
-                new MenuItemInfo("Anträge", "la la-inbox", AntragsVerwaltungView.class), //
+                new MenuItemInfo("Anträge", "la la-inbox", AntragVerwaltungView.class), //
 
                 new MenuItemInfo("Rechteverwaltung", "la la-cog", RechteverwaltungView.class), //
-
-                new MenuItemInfo("Meine Daten", "la la-user-circle", MeineDatenView.class), //
 
                 new MenuItemInfo("Einstellungen", "la la-save", EinstellungenView.class), //
 
@@ -198,9 +198,13 @@ public class MainLayout extends AppLayout {
 
             ContextMenu userMenu = new ContextMenu(avatar);
             userMenu.setOpenOnClick(true);
+            userMenu.addItem("Meine Daten", e -> {
+                getUI().ifPresent(ui -> ui.navigate(
+                        MeineDatenView.class));
+            }).addComponentAsFirst(createIcon(VaadinIcon.BOOK));
             userMenu.addItem("Logout", e -> {
                 authenticatedUser.logout();
-            });
+            }).addComponentAsFirst(createIcon(VaadinIcon.SIGN_OUT));
 
             Span name = new Span(user.getName());
             name.addClassNames("font-medium", "text-s", "text-secondary");
@@ -223,5 +227,14 @@ public class MainLayout extends AppLayout {
     private String getCurrentPageTitle() {
         PageTitle title = getContent().getClass().getAnnotation(PageTitle.class);
         return title == null ? "" : title.value();
+    }
+
+    private Component createIcon(VaadinIcon vaadinIcon) {
+        Icon icon = vaadinIcon.create();
+        icon.getStyle()
+                .set("color", "var(--lumo-secondary-text-color)")
+                .set("margin-inline-end", "var(--lumo-space-s")
+                .set("padding", "var(--lumo-space-xs");
+        return icon;
     }
 }
