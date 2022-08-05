@@ -34,7 +34,10 @@ public class User extends AbstractEntity {
     private Mitarbeiter mitarbeiter;
 
     public User() {
+
         this.profilePictureUrl = " ";
+        this.roles = roles;
+        this.name = name;
     }
 
     public String getUsername() {

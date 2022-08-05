@@ -30,8 +30,8 @@ public class UserService {
         return repository.save(entity);
     }
 
-    public void delete(UUID id) {
-        repository.deleteById(id);
+    public void delete(User user) {
+        repository.delete(user);
     }
 
     public Page<User> list(Pageable pageable) {
