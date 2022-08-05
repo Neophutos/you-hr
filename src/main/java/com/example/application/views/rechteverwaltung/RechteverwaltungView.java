@@ -1,37 +1,25 @@
 package com.example.application.views.rechteverwaltung;
 
-import com.example.application.data.entity.Mitarbeiter;
 import com.example.application.data.entity.User;
-import com.example.application.data.service.MitarbeiterService;
 import com.example.application.data.service.UserService;
 import com.example.application.views.MainLayout;
+import com.example.application.views.mitarbeiterliste.MitarbeiterForm;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.dependency.Uses;
-import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.splitlayout.SplitLayout;
-import com.vaadin.flow.data.binder.BeanValidationBinder;
-import com.vaadin.flow.data.binder.ValidationException;
-import com.vaadin.flow.data.renderer.LitRenderer;
-import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.BeforeEnterObserver;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.spring.data.VaadinSpringDataHelpers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.security.RolesAllowed;
-import java.util.Optional;
 
 /**
  * @desc Der View Rechteverwaltung implementiert eine Tabellenansicht für alle vorhandenen Mitarbeitern und deren
@@ -48,61 +36,83 @@ import java.util.Optional;
 @Uses(Icon.class)
 public class RechteverwaltungView extends Div {
 
-    private final String RECHTEVERWALTUNG_ID = "rechteverwaltungID";
-    private final String RECHTEVERWALTUNG_EDIT_ROUTE_TEMPLATE = "rechteverwaltung/%s/edit";
-
     private final Grid<User> grid = new Grid<>(User.class, false);
 
-    private Checkbox mitarbeiterCheckbox;
-    private Checkbox personalerCheckbox;
-    private Checkbox adminCheckbox;
-    private Checkbox loeschen;
-    private Checkbox admin;
+    Dialog editDialog = new Dialog();
+    Dialog deletionDialog = new Dialog();
 
-    private Button cancelButton = new Button("Abbrechen");
-    private Button saveButton = new Button("Speichern");
+    Button cancelButton;
+    Button confirmButton;
 
-    private BeanValidationBinder<Mitarbeiter> mitarbeiterBinder;
-
-    private Mitarbeiter mitarbeiter;
-
-    private User user;
-
+    com.example.application.views.rechteverwaltung.RechteForm form;
     private final UserService userService;
 
+    User user;
 
     @Autowired
     public RechteverwaltungView(UserService userService) {
         this.userService = userService;
+        setSizeFull();
+        configureGrid();
+        configureForm();
+        add(getToolbar(), getContent());
+        updateList();
 
         addClassNames("rechteverwaltung-view");
-
-        // Create UI
-        SplitLayout splitLayout = new SplitLayout();
-
-        createGridLayout(splitLayout);
-
-        add(splitLayout);
 
         // Configure Grid
         grid.setColumns("id", "name", "username");
         grid.addColumn("roles").setHeader("Berechtigungen");
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
-
-        refreshGrid();
     }
+
     /**
-     * @desc  Konfiguration der Ausrichtung & Form der Tabelle, Initialisierung der Interaktionselemente
-     * @param splitLayout
+     * @desc Grafische Konfiguration der Icons im Rechtsklick-Menü
+     * @param vaadinIcon
      */
-
-    private void createGridLayout(SplitLayout splitLayout) {
-        Div wrapper = new Div();
-        wrapper.setClassName("grid-wrapper");
-        splitLayout.addToPrimary(wrapper);
-        wrapper.add(grid);
+    private Component createIcon(VaadinIcon vaadinIcon) {
+        Icon icon = vaadinIcon.create();
+        icon.getStyle()
+                .set("color", "var(--lumo-secondary-text-color)")
+                .set("margin-inline-end", "var(--lumo-space-s")
+                .set("padding", "var(--lumo-space-xs");
+        return icon;
     }
 
-    private void refreshGrid() { grid.setItems(userService.findAll());
+    /**
+     * @desc Erstellung des Erstellungs- und Bearbeitungslayouts.
+     */
+    private VerticalLayout createEditDialogLayout() {
+        VerticalLayout editDialogLayout = new VerticalLayout(form);
+        editDialogLayout.setPadding(false);
+        editDialogLayout.setSpacing(false);
+        editDialogLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
+
+        return editDialogLayout;
+    }
+
+    /**
+     * @desc Grafische Konfiguration der Tabelle für Mitarbeiterdarstellung.
+     */
+    private HorizontalLayout getContent() {
+        HorizontalLayout content = new HorizontalLayout(grid);
+        content.addClassName("content");
+        content.setSizeFull();
+        return content;
+    }
+
+    /**
+     * @desc Initialisierung des Formulars mit dem entsprechenden Service zur Kommunikation mit der Datenbank.
+     * @desc Zuordnung der entsprechenden Listener bei Button-Ausführung
+     */
+    private void configureForm() {
+        form = new com.example.application.views.rechteverwaltung.RechteForm();
+        form.addListener(MitarbeiterForm.SaveEvent.class, this::saveUser);
+        form.addListener(MitarbeiterForm.CloseEvent.class, e -> editDialog.close());
+    }
+
+    private
+
+    private void updateList() { grid.setItems(userService.findAll());
     }
 }
