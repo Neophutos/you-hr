@@ -25,7 +25,7 @@ import javax.annotation.security.RolesAllowed;
  */
 @PageTitle("Antrag/Problem einreichen")
 @Route(value = "antragsstellung", layout = MainLayout.class)
-@RolesAllowed("MITARBEITER")
+@RolesAllowed({"MITARBEITER","PERSONALER","ADMIN"})
 @Uses(Icon.class)
 public class AntragView extends Div {
 

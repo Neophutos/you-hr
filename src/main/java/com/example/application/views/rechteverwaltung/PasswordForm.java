@@ -17,9 +17,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
-import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.shared.Registration;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Objects;
@@ -34,7 +32,7 @@ public class PasswordForm extends FormLayout {
     PasswordField passwort = new PasswordField("Neues Passwort");
     PasswordField checkPasswort = new PasswordField("Passwort bestätigen");
 
-    Checkbox save = new Checkbox("Hiermit bestätige ich, dass ich den Mitarbeiter über das neue Passwort informieren werde.");
+    Checkbox save = new Checkbox("Hiermit bestätige ich, dass ich den betroffenen Mitarbeiter über das neue Passwort informieren werde");
 
     Button speichern = new Button("Speichern");
     Button schliessen = new Button("Schließen");
@@ -50,7 +48,9 @@ public class PasswordForm extends FormLayout {
 
     public PasswordForm(){
         addClassName("Passwort-Formular");
-
+        passwort.setMaxWidth("350px");
+        checkPasswort.setMaxWidth("350px");
+        setMaxWidth("400px");
         add(title, passwort, checkPasswort, save, createButtonLayout());
     }
 
@@ -80,8 +80,10 @@ public class PasswordForm extends FormLayout {
                     fireEvent(new PasswordForm.SaveEvent(this, selectedUser));
                     Notification.show(selectedUser.getName() + " Passwort wurde geändert!").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             } else {
-                Notification.show("Sie müssen die Änderung bestätigen!");
+                Notification.show("Sie müssen die Änderung bestätigen!").addThemeVariants(NotificationVariant.LUMO_ERROR);
             }
+        } else {
+            Notification.show("Die Passwörter stimmen nicht überein!").addThemeVariants(NotificationVariant.LUMO_ERROR);
         }
     }
 
