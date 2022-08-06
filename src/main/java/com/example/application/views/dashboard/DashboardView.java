@@ -47,18 +47,21 @@ public class DashboardView extends VerticalLayout {
             this.mitarbeiter = authenticatedUser.get().get().getMitarbeiter();
             name = new Text("Willkommen zurück " + mitarbeiter.getVorname() + " " + mitarbeiter.getNachname() + "! \uD83D\uDC4B");
         } else {
-            name = new Text("Willkomen zurück bei YOU! \uD83D\uDC4B");
+            name = new Text("Willkommen zurück bei YOU! \uD83D\uDC4B");
         }
 
         Image logo = new Image("/icons/YouLogo_Large.png","YOU-Logo");
         logo.setMaxWidth("100px");
         H3 welcome = new H3(name);
+
         Paragraph anzahlMitarbeiter = new Paragraph("\uD83D\uDC68\u200D\uD83D\uDCBC Es befinden sich derzeit " + mitarbeiterService.countMitarbeiter() + " Mitarbeiter im Unternehmen");
         Paragraph anzahlAntraege = new Paragraph("\uD83D\uDCD1 In YOU befinden sich derzeit " + antragService.countProblems() + " zu bearbeitende Anträge");
         Paragraph anzahlGruppen = new Paragraph("\uD83D\uDC54 Ihr Unternehmen hat derzeit " + mitarbeiterService.findAllAbteilungen().size() + " Abteilungen und " + mitarbeiterService.findAllTeams().size() + " Teams");
         Paragraph tasks = new Paragraph("\uD83D\uDC81\u200D Nutze das Menü auf der linken Seite, um die Funktionen von YOU zu nutzen!");
 
+        H5 berechtigungen = new H5("Du besitzt die Berechtigungen " + authenticatedUser.get().get().getRoles());
+
         setAlignItems(Alignment.CENTER);
-        add(logo, welcome, anzahlMitarbeiter, anzahlGruppen, anzahlAntraege, tasks);
+        add(logo, welcome, anzahlMitarbeiter, anzahlGruppen, anzahlAntraege, tasks, berechtigungen);
     }
 }

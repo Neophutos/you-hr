@@ -1,16 +1,15 @@
 package com.example.application.views.rechteverwaltung;
 
-import com.example.application.data.entity.Mitarbeiter;
 import com.example.application.data.entity.User;
 import com.example.application.data.service.UserService;
 import com.example.application.views.MainLayout;
-import com.example.application.views.mitarbeiterliste.MitarbeiterForm;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.grid.contextmenu.GridContextMenu;
 import com.vaadin.flow.component.grid.contextmenu.GridMenuItem;
 import com.vaadin.flow.component.html.Div;
@@ -45,12 +44,14 @@ public class RechteverwaltungView extends Div {
     private final Grid<User> grid = new Grid<>(User.class, false);
 
     Dialog editDialog = new Dialog();
+    Dialog editPasswortDialog = new Dialog();
     Dialog deletionDialog = new Dialog();
 
     Button cancelButton;
     Button confirmButton;
 
-    com.example.application.views.rechteverwaltung.RechteForm form;
+    RechteForm rechteForm;
+    PasswordForm passwordForm;
     private final UserService userService;
 
     User user;
@@ -61,17 +62,15 @@ public class RechteverwaltungView extends Div {
         setSizeFull();
         configureGrid();
         configureForm();
+        configureContextMenu();
         add(getContent());
         updateList();
 
         VerticalLayout editDialogLayout = createEditDialogLayout();
         editDialog.add(editDialogLayout);
 
-        GridContextMenu<User> menu = grid.addContextMenu();
-        GridMenuItem<User> bearbeiten = menu.addItem("Bearbeiten", event -> editUser(grid.asSingleSelect().getValue()));
-        bearbeiten.addComponentAsFirst(createIcon(VaadinIcon.EDIT));
-        GridMenuItem<User> loeschen = menu.addItem("Löschen", event -> removeUser(grid.asSingleSelect().getValue()));
-        loeschen.addComponentAsFirst(createIcon(VaadinIcon.ERASER));
+        VerticalLayout editPasswortDialogLayout = createEditPasswortDialogLayout();
+        editPasswortDialog.add(editPasswortDialogLayout);
 
         addClassNames("rechteverwaltung-view");
     }
@@ -93,12 +92,24 @@ public class RechteverwaltungView extends Div {
      * @desc Erstellung des Erstellungs- und Bearbeitungslayouts.
      */
     private VerticalLayout createEditDialogLayout() {
-        VerticalLayout editDialogLayout = new VerticalLayout(form);
+        VerticalLayout editDialogLayout = new VerticalLayout(rechteForm);
         editDialogLayout.setPadding(false);
         editDialogLayout.setSpacing(false);
         editDialogLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
 
         return editDialogLayout;
+    }
+
+    /**
+     * @desc Erstellung des Erstellungs- und Bearbeitungslayouts.
+     */
+    private VerticalLayout createEditPasswortDialogLayout() {
+        VerticalLayout editPasswortDialogLayout = new VerticalLayout(passwordForm);
+        editPasswortDialogLayout.setPadding(false);
+        editPasswortDialogLayout.setSpacing(false);
+        editPasswortDialogLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
+
+        return editPasswortDialogLayout;
     }
 
     /**
@@ -116,9 +127,23 @@ public class RechteverwaltungView extends Div {
      * @desc Zuordnung der entsprechenden Listener bei Button-Ausführung
      */
     private void configureForm() {
-        form = new RechteForm();
-        form.addListener(RechteForm.SaveEvent.class, this::saveUser);
-        form.addListener(RechteForm.CloseEvent.class, e -> editDialog.close());
+        rechteForm = new RechteForm();
+        rechteForm.addListener(RechteForm.SaveEvent.class, this::saveUser);
+        rechteForm.addListener(RechteForm.CloseEvent.class, e -> editDialog.close());
+
+        passwordForm = new PasswordForm();
+        passwordForm.addListener(PasswordForm.SaveEvent.class, this::savePasswort);
+        passwordForm.addListener(PasswordForm.CloseEvent.class, e -> editPasswortDialog.close());
+    }
+
+    private void configureContextMenu(){
+        GridContextMenu<User> menu = grid.addContextMenu();
+        GridMenuItem<User> bearbeiten = menu.addItem("Bearbeiten", event -> editUser(grid.asSingleSelect().getValue()));
+        bearbeiten.addComponentAsFirst(createIcon(VaadinIcon.EDIT));
+        GridMenuItem<User> changePasswort = menu.addItem("Passwort ändern", event -> editPasswort(grid.asSingleSelect().getValue()));
+        changePasswort.addComponentAsFirst(createIcon(VaadinIcon.PASSWORD));
+        GridMenuItem<User> loeschen = menu.addItem("Löschen", event -> removeUser(grid.asSingleSelect().getValue()));
+        loeschen.addComponentAsFirst(createIcon(VaadinIcon.ERASER));
     }
 
     /**
@@ -129,6 +154,7 @@ public class RechteverwaltungView extends Div {
         grid.setColumns("id", "name", "username");
         grid.addColumn("roles").setHeader("Berechtigungen");
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
+        grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
     }
 
     /**
@@ -142,6 +168,16 @@ public class RechteverwaltungView extends Div {
     }
 
     /**
+     * @desc Speicher-Event für User -> Aufruf der Methode generateUser()
+     * @param event
+     */
+    private void savePasswort(PasswordForm.SaveEvent event) {
+        userService.update(event.getUser());
+        updateList();
+        editPasswortDialog.close();
+    }
+
+    /**
      * @desc Öffnen des Mitarbeiterformulars zur Bearbeitungs (oder Erstellung) eines Mitarbeiters
      * @see RechteForm
      * @param user
@@ -150,8 +186,22 @@ public class RechteverwaltungView extends Div {
         if (user == null) {
             Notification.show("Es wurde kein User ausgewählt!").addThemeVariants(NotificationVariant.LUMO_ERROR);
         } else {
-            form.setSelectedUser(user);
+            rechteForm.setSelectedUser(user);
             editDialog.open();
+        }
+    }
+
+    /**
+     * @desc Öffnen des Mitarbeiterformulars zur Bearbeitungs (oder Erstellung) eines Mitarbeiters
+     * @see RechteForm
+     * @param user
+     */
+    private void editPasswort(User user){
+        if (user == null){
+            Notification.show("Es wurde kein User ausgewählt!").addThemeVariants(NotificationVariant.LUMO_ERROR);
+        } else {
+            passwordForm.setSelectedUser(user);
+            editPasswortDialog.open();
         }
     }
 
