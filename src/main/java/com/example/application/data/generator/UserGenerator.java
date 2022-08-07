@@ -46,7 +46,7 @@ public class UserGenerator {
 
     public static String generateHashedPassword() {
         String pw = generateRandomPassword(10);
-        Notification.show("Erstelltes Passwort: " + pw).setDuration(10);
+        Notification.show("Initialisierungs-Passwort: " + pw).setDuration(10);
         return passwordEncoder.encode(pw);
     }
 
