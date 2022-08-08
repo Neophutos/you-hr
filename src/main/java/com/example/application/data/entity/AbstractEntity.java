@@ -1,11 +1,19 @@
 package com.example.application.data.entity;
 
-import java.util.UUID;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import org.hibernate.annotations.Type;
 
+/**
+ * @desc Das abstrakte Objekt AbstractEntity stellt primär die ID's für alle child-Objekte zur Verfügung.
+ *
+ * @attributes id
+ *
+ * @category Objekt
+ * @version 1.0
+ * @since 2022-07-29
+ */
 @MappedSuperclass
 public abstract class AbstractEntity {
 
@@ -31,7 +39,7 @@ public abstract class AbstractEntity {
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof AbstractEntity)) {
-            return false; // null or other class
+            return false;
         }
         AbstractEntity other = (AbstractEntity) obj;
 

@@ -11,9 +11,9 @@ import java.util.List;
 /**
  * @desc Das Objekt Abteilung stellt die Aufteilung des Unternehmens in deren Bereiche dar.
  *
- * @attributes id, bezeichnung
+ * @attributes bezeichnung
  *
- * @mappedattributes mitarbeiter
+ * @mappedattributes id, mitarbeiter
  *
  * @category Objekt
  * @version 1.0

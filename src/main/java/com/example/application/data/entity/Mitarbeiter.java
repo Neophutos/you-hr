@@ -13,9 +13,9 @@ import java.util.UUID;
 /**
  * @desc Das Objekt Mitarbeiter stellt die vollständigen Daten des Mitarbeiters im Unternehmen dar.
  *
- * @attributes id, vorname, nachname, geburtsdatum, email, telefonnr, position
+ * @attributes vorname, nachname, geburtsdatum, email, telefonnr, position
  *
- * @mappedattributes abteilung, team, adresse, user, rechteverwaltung
+ * @mappedattributes id, abteilung, team, adresse, user, rechteverwaltung
  *
  * @category Objekt
  * @version 1.0
@@ -48,12 +48,7 @@ public class Mitarbeiter extends AbstractEntity {
     @JoinColumn(name = "application_user_id", referencedColumnName = "id")
     private User user;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "rechteverwaltung_id", referencedColumnName = "id")
-    private Rechteverwaltung rechteverwaltung;
-
     public Mitarbeiter() {
-        this.rechteverwaltung = new Rechteverwaltung();
         this.user = new User();
     }
 
@@ -86,10 +81,6 @@ public class Mitarbeiter extends AbstractEntity {
     public LocalDate getGeburtsdatum(){return geburtsdatum;}
 
     public void setGeburtsdatum(LocalDate geburtsdatum) { this.geburtsdatum = geburtsdatum;}
-
-    public void setRechteverwaltung(Rechteverwaltung rechteverwaltung) {
-        this.rechteverwaltung = rechteverwaltung;
-    }
 
     public void setUser(User user) {
         this.user = user;
@@ -141,10 +132,6 @@ public class Mitarbeiter extends AbstractEntity {
 
     public User getUser() {
         return user;
-    }
-
-    public Rechteverwaltung getRechteverwaltung() {
-        return rechteverwaltung;
     }
 
 }

@@ -8,11 +8,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * @desc Das Objekt Abteilung stellt die Aufteilung des Unternehmens in deren Bereiche dar. Teams können aus Mitarbeiern aus versch. Bereichen sein, dies ist aber nicht zwingend erforderlich.
+ * @desc Das Objekt Team stellt die Aufteilung des Unternehmens in deren Projekte bzw. Arbeitsgruppen dar. Teams können aus Mitarbeiern aus versch. Bereichen sein, dies ist aber nicht zwingend erforderlich.
  *
- * @attributes id, bezeichnung
+ * @attributes bezeichnung
  *
- * @mappedattributes mitarbeiter
+ * @mappedattributes id, mitarbeiter
  *
  * @category Objekt
  * @version 1.0

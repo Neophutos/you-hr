@@ -10,7 +10,7 @@ import javax.persistence.*;
  *
  * @attributes username, name, hashedPassword, roles, profilePictureUrl
  *
- * @mappedattributes mitarbeiter
+ * @mappedattributes id, mitarbeiter
  *
  * @category Objekt
  * @version 1.0

@@ -1,17 +1,11 @@
 package com.example.application.data.generator;
 
 import com.example.application.data.Role;
-import com.example.application.data.entity.Adresse;
-import com.example.application.data.entity.Mitarbeiter;
-import com.example.application.data.entity.Rechteverwaltung;
 import com.example.application.data.entity.User;
 import com.example.application.data.repository.MitarbeiterRepository;
-import com.example.application.data.repository.RechteverwaltungRepository;
 import com.example.application.data.repository.UserRepository;
-import com.vaadin.exampledata.DataType;
-import com.vaadin.exampledata.ExampleDataGenerator;
 import com.vaadin.flow.spring.annotation.SpringComponent;
-import java.time.LocalDateTime;
+
 import java.util.Collections;
 import java.util.Set;
 import org.slf4j.Logger;

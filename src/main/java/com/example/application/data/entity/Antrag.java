@@ -7,7 +7,9 @@ import java.time.LocalDate;
 /**
  * @desc Das Objekt Antrag stellt einen vollständigen Antrag/Problem im System dar, den ein Nutzer erstellt (antragstellername)
  *
- * @attributes id, datum, antragstellername, antragsart, beschreibung
+ * @attributes datum, antragstellername, antragsart, beschreibung
+ *
+ * @mappedattributes id
  *
  * @category Objekt
  * @version 1.0
