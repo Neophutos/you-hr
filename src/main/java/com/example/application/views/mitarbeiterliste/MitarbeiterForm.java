@@ -102,10 +102,6 @@ public class MitarbeiterForm extends FormLayout {
         mitarbeiterBinder.forField(stadt).bind("adresse.stadt");
         mitarbeiterBinder.forField(plz).bind("adresse.plz");
 
-        Stream.of(vorname, nachname, telefonnr, position, strassenname, stadt).forEach(TextField -> {
-            TextField.setRequired(true);
-            TextField.setErrorMessage("Dieses Feld wird benötigt!");
-        });
 
         germanI18n.setMonthNames(List.of("Januar", "Februar", "März", "April", "Mai",
                 "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"));
@@ -116,15 +112,8 @@ public class MitarbeiterForm extends FormLayout {
         germanI18n.setToday("Heute");
         germanI18n.setCancel("Abbrechen");
         geburtsdatum.setI18n(germanI18n);
-        geburtsdatum.setRequired(true);
-        geburtsdatum.setErrorMessage("Dieses Feld wird benötigt!");
-
-        bundesland.setRequired(true);
-        bundesland.setErrorMessage("Dieses Feld wird benötigt!");
 
         email.getElement().setAttribute("name","email");
-        email.setRequiredIndicatorVisible(true);
-        email.setErrorMessage("Geben Sie eine gültige E-Mail-Adresse ein");
 
         this.abteilungen.setAllowCustomValue(false);
         this.abteilungen.setRequired(true);

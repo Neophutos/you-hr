@@ -1,11 +1,18 @@
 package com.example.application.data.generator;
 
+import com.example.application.data.entity.Abteilung;
+import com.example.application.data.entity.Mitarbeiter;
+import com.example.application.data.repository.AbteilungRepository;
 import com.example.application.security.Role;
 import com.example.application.data.entity.User;
 import com.example.application.data.repository.MitarbeiterRepository;
 import com.example.application.data.repository.UserRepository;
+import com.vaadin.exampledata.DataType;
+import com.vaadin.exampledata.ExampleDataGenerator;
+import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Set;
 import org.slf4j.Logger;
@@ -22,7 +29,7 @@ public class DataGenerator {
 
     @Bean
     public CommandLineRunner loadData(PasswordEncoder passwordEncoder, UserRepository userRepository,
-            MitarbeiterRepository mitarbeiterRepository, RechteverwaltungRepository rechteverwaltungRepository) {
+            MitarbeiterRepository mitarbeiterRepository) {
 
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
@@ -71,25 +78,10 @@ public class DataGenerator {
 //            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setEmail, DataType.EMAIL);
 //            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setTelefonnr, DataType.PHONE_NUMBER);
 //            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setPosition, DataType.OCCUPATION);
-//            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setAbteilung, DataType.WORD);
+//            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setAbteilung, );
 //            mitarbeiterRepository.saveAll(mitarbeiterRepositoryGenerator.create(100, seed));
 
             logger.info("... generating 100 Rechteverwaltung entities...");
-            {
-                {
-//                    ExampleDataGenerator<Rechteverwaltung> rechteverwaltungRepositoryGenerator = new ExampleDataGenerator<>(
-//                            Rechteverwaltung.class, LocalDateTime.of(2022, 5, 30, 0, 0, 0));
-//                    rechteverwaltungRepositoryGenerator.setData(Rechteverwaltung::setVorname, DataType.FIRST_NAME);
-//                    rechteverwaltungRepositoryGenerator.setData(Rechteverwaltung::setNachname, DataType.LAST_NAME);
-//                    rechteverwaltungRepositoryGenerator.setData(Rechteverwaltung::setMitarbeiterid, DataType.EAN13);
-//                    rechteverwaltungRepositoryGenerator.setData(Rechteverwaltung::setLesen, DataType.BOOLEAN_50_50);
-//                    rechteverwaltungRepositoryGenerator.setData(Rechteverwaltung::setErstellen, DataType.BOOLEAN_50_50);
-//                    rechteverwaltungRepositoryGenerator.setData(Rechteverwaltung::setBearbeiten, DataType.BOOLEAN_50_50);
-//                    rechteverwaltungRepositoryGenerator.setData(Rechteverwaltung::setLoeschen, DataType.BOOLEAN_50_50);
-//                    rechteverwaltungRepositoryGenerator.setData(Rechteverwaltung::setAdmin, DataType.BOOLEAN_50_50);
-//                    rechteverwaltungRepository.saveAll(rechteverwaltungRepositoryGenerator.create(100, seed));
-                }
-            }
 
             logger.info("Generated demo data");
         };
