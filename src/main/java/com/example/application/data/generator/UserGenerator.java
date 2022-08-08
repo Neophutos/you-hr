@@ -1,13 +1,11 @@
 package com.example.application.data.generator;
 
-import com.example.application.data.Role;
+import com.example.application.security.Role;
 import com.example.application.data.entity.User;
 import com.example.application.data.service.UserService;
 import com.vaadin.flow.component.notification.Notification;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.awt.*;
 import java.security.SecureRandom;
 import java.util.Set;
 

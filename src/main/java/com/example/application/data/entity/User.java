@@ -1,6 +1,6 @@
 package com.example.application.data.entity;
 
-import com.example.application.data.Role;
+import com.example.application.security.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Set;
 import javax.persistence.*;

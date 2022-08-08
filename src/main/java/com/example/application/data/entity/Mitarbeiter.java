@@ -1,14 +1,12 @@
 package com.example.application.data.entity;
 
-import com.example.application.data.Role;
+import com.example.application.security.Role;
 import com.example.application.data.generator.UserGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.util.Set;
-import java.util.UUID;
 
 /**
  * @desc Das Objekt Mitarbeiter stellt die vollständigen Daten des Mitarbeiters im Unternehmen dar.

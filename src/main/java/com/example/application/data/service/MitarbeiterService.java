@@ -1,12 +1,7 @@
 package com.example.application.data.service;
 
-import com.example.application.data.Role;
 import com.example.application.data.entity.Abteilung;
 import com.example.application.data.entity.Mitarbeiter;
-
-import java.util.List;
-import java.util.Optional;
-
 import com.example.application.data.entity.Team;
 import com.example.application.data.repository.AbteilungRepository;
 import com.example.application.data.repository.MitarbeiterRepository;
@@ -15,6 +10,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
+/**
+ * @desc MitarbeiterService stellt den Dienst zur Erstellung, Veränderung und Löschung von Mitarbeitern im System dar.
+ *
+ * @category Service
+ * @version 1.0
+ * @since 2022-08-02
+ */
 @Service
 public class MitarbeiterService {
 
@@ -32,21 +37,7 @@ public class MitarbeiterService {
         return mitarbeiterRepository.getByID(id).stream().findFirst();
     }
 
-    public Mitarbeiter update(Mitarbeiter entity) {
-
-        if(entity.getRechteverwaltung().isAdmin()) {
-            if(entity.getUser().getRoles() != null && !entity.getUser().getRoles().contains(Role.ADMIN)) {
-                entity.getUser().addRole(Role.ADMIN);
-            }
-        } else if (!entity.getRechteverwaltung().isAdmin()) {
-            if (entity.getUser().getRoles() != null && entity.getUser().getRoles().contains(Role.ADMIN)) {
-                entity.getUser().removeRole(Role.ADMIN);
-            }
-
-        }
-
-        return mitarbeiterRepository.save(entity);
-    }
+    public Mitarbeiter update(Mitarbeiter entity) {return mitarbeiterRepository.save(entity);}
 
     public void delete(Mitarbeiter mitarbeiter) {
         mitarbeiterRepository.delete(mitarbeiter);

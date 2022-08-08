@@ -12,6 +12,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+/**
+ * @desc AntragService stellt den Dienst zur Erstellung, Veränderung und Löschung von Anträgen im System dar.
+ *
+ * @category Service
+ * @version 1.0
+ * @since 2022-06-28
+ */
 @Service
 public class AntragService {
 

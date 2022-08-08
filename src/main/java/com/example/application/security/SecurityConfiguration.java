@@ -10,6 +10,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ * @desc SecurityConfiguration stellt die Sicherheits-Konfiguration für HTTP-Protokolle bereit.
+ *
+ * @category Security
+ * @version 1.0
+ * @since 2022-06-30
+ */
 @EnableWebSecurity
 @Configuration
 public class SecurityConfiguration extends VaadinWebSecurityConfigurerAdapter {

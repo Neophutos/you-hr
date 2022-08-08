@@ -1,6 +1,6 @@
 package com.example.application.data.generator;
 
-import com.example.application.data.Role;
+import com.example.application.security.Role;
 import com.example.application.data.entity.User;
 import com.example.application.data.repository.MitarbeiterRepository;
 import com.example.application.data.repository.UserRepository;

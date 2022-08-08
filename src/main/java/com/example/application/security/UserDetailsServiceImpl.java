@@ -12,6 +12,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+/**
+ * @desc UserDetailsServiceImpl ist für die Überprüfung und Authentifikation eines Login-Versuchs verantwortlich.
+ *
+ * @category Security
+ * @version 1.0
+ * @since 2022-06-30
+ */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 

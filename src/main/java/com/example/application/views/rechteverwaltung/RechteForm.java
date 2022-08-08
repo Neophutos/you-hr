@@ -1,6 +1,6 @@
 package com.example.application.views.rechteverwaltung;
 
-import com.example.application.data.Role;
+import com.example.application.security.Role;
 import com.example.application.data.entity.User;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
