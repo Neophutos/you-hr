@@ -179,13 +179,11 @@ public class MitarbeiterForm extends FormLayout {
         try {
             selectedMitarbeiter.setAbteilung(abteilungen.getValue());
             selectedMitarbeiter.setTeam(teams.getValue());
-            System.out.println(selectedMitarbeiter);
-
             mitarbeiterBinder.writeBean(selectedMitarbeiter);
             fireEvent(new SaveEvent(this, selectedMitarbeiter));
-            Notification.show(selectedMitarbeiter.getNachname() + ", " + selectedMitarbeiter.getVorname() + " wurde erstellt.").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            Notification.show(selectedMitarbeiter.getNachname() + ", " + selectedMitarbeiter.getVorname() + " wurde bearbeitet/erstellt").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
         } catch (ValidationException e) {
-            e.printStackTrace();
+            Notification.show("Etwas ist während der Bearbeitung schiefgelaufen").addThemeVariants(NotificationVariant.LUMO_ERROR);
         }
     }
 
