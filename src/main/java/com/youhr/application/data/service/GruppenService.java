@@ -1,10 +1,14 @@
 package com.youhr.application.data.service;
 
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
+import com.vaadin.flow.data.binder.ValidationException;
 import com.youhr.application.data.entity.Abteilung;
 import com.youhr.application.data.entity.Team;
 import com.youhr.application.data.repository.AbteilungRepository;
 import com.youhr.application.data.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -43,7 +47,11 @@ public class GruppenService {
     }
 
     public void deleteAbteilung(Abteilung entity) {
-        abteilungRepository.delete(entity);
+        try {
+            abteilungRepository.delete(entity);
+        } catch (DataIntegrityViolationException e) {
+            Notification.show("Hinweis: Sie müssen alle Mitarbeiter aus einer Abteilung entfernen, bevor sie diese löschen").addThemeVariants(NotificationVariant.LUMO_ERROR);
+        }
     }
 
     public void deleteTeam(Team entity) { teamRepository.delete(entity);}

@@ -28,7 +28,7 @@ import com.vaadin.flow.router.Route;
  * @since 2022-06-14
  */
 @Route("login")
-@PageTitle("Login | YOU LOGIN")
+@PageTitle("Login")
 public class LoginView extends FlexLayout implements BeforeEnterObserver {
 
     private final LoginForm login = new LoginForm();

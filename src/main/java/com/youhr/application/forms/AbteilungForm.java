@@ -1,5 +1,6 @@
 package com.youhr.application.forms;
 
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.youhr.application.data.entity.Abteilung;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
@@ -95,13 +96,11 @@ public class AbteilungForm extends FormLayout {
     private void checkAndSave() {
         try {
             selectedAbteilung.setBezeichnung(bezeichnung.getValue());
-            System.out.println(selectedAbteilung);
-
             abteilungBinder.writeBean(selectedAbteilung);
             fireEvent(new SaveEvent(this, selectedAbteilung));
             Notification.show(selectedAbteilung.getBezeichnung() + " wurde erstellt.");
         } catch (ValidationException e) {
-            e.printStackTrace();
+            Notification.show("Hinweis: Sie müssen alle Mitarbeiter aus einer Abteilung entfernen, bevor sie diese löschen").addThemeVariants(NotificationVariant.LUMO_ERROR);
         }
     }
 

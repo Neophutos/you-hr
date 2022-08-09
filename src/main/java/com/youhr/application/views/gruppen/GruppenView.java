@@ -1,4 +1,4 @@
-package com.youhr.application.views.einstellungen;
+package com.youhr.application.views.gruppen;
 
 import com.youhr.application.data.entity.Abteilung;
 import com.youhr.application.data.entity.Team;
@@ -33,10 +33,10 @@ import javax.annotation.security.RolesAllowed;
  * @version 0.0
  * @since 2022-00-00
  */
-@PageTitle("Einstellungen")
-@Route(value = "einstellungen", layout = MainLayout.class)
+@PageTitle("Gruppen")
+@Route(value = "gruppen", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
-public class EinstellungenView extends VerticalLayout {
+public class GruppenView extends VerticalLayout {
 
     private final Grid<Abteilung> abteilungGrid = new Grid<>(Abteilung.class);
     private final Grid<Team> teamGrid = new Grid<>(Team.class);
@@ -59,7 +59,7 @@ public class EinstellungenView extends VerticalLayout {
     GruppenService gruppenService;
 
     @Autowired
-    public EinstellungenView(GruppenService gruppenService) {
+    public GruppenView(GruppenService gruppenService) {
         this.gruppenService = gruppenService;
 
         addClassName("settings-view");

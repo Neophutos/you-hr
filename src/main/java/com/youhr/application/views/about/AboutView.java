@@ -51,17 +51,17 @@ public class AboutView extends VerticalLayout {
         setMargin(true);
 
         AccordionPanel aboutLayout = beschreibung.add("\uD83E\uDD14 Was ist YOU?", was);
-        aboutLayout.addThemeVariants(DetailsVariant.FILLED);
+        aboutLayout.addThemeVariants(DetailsVariant.REVERSE);
 
         AccordionPanel howLayout = beschreibung.add("\uD83D\uDDC3 Wie funktioniert das System?", wie);
-        howLayout.addThemeVariants(DetailsVariant.FILLED);
+        howLayout.addThemeVariants(DetailsVariant.REVERSE);
 
         VerticalLayout TeamInformationLayout = new VerticalLayout(team, ben, tim, riccardo, chris, natalie);
         TeamInformationLayout.setSpacing(false);
         TeamInformationLayout.setPadding(false);
 
         AccordionPanel whoLayout = beschreibung.add("\uD83D\uDC68\u200D\uD83D\uDCBB Wer entwickelt YOU?", TeamInformationLayout);
-        whoLayout.addThemeVariants(DetailsVariant.FILLED);
+        whoLayout.addThemeVariants(DetailsVariant.REVERSE);
 
         github.addClickListener(spanClickEvent -> github.getUI().ifPresent(ui -> ui.getPage().setLocation(
                 "https://github.com/Neophutos/theoptimistic-hr")));
@@ -73,7 +73,7 @@ public class AboutView extends VerticalLayout {
         CodeInformationLayout.setPadding(false);
 
         AccordionPanel codeLayout = beschreibung.add("\uD83D\uDEE0 Wo finde ich den Source-Code?", CodeInformationLayout);
-        codeLayout.addThemeVariants(DetailsVariant.FILLED);
+        codeLayout.addThemeVariants(DetailsVariant.REVERSE);
 
         beschreibung.setMaxWidth("450px");
         beschreibung.setMinWidth("450px");

@@ -6,7 +6,7 @@ import com.youhr.application.views.about.AboutView;
 import com.youhr.application.views.antrag.AntragVerwaltungView;
 import com.youhr.application.views.antrag.AntragView;
 import com.youhr.application.views.dashboard.DashboardView;
-import com.youhr.application.views.einstellungen.EinstellungenView;
+import com.youhr.application.views.gruppen.GruppenView;
 import com.youhr.application.views.meinedaten.MeineDatenView;
 import com.youhr.application.views.mitarbeiterliste.MitarbeiterlisteView;
 import com.youhr.application.views.rechteverwaltung.RechteverwaltungView;
@@ -172,7 +172,7 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("Rechteverwaltung", "la la-cog", RechteverwaltungView.class), //
 
-                new MenuItemInfo("Einstellungen", "la la-save", EinstellungenView.class), //
+                new MenuItemInfo("Einstellungen", "la la-save", GruppenView.class), //
 
                 new MenuItemInfo("Antrag/Problem erstellen", "la la-paste", AntragView.class), //
 

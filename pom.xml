@@ -3,14 +3,14 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <!-- Project from https://start.vaadin.com/project/80a8cf7b-638b-4c32-9793-15c6ef1143eb -->
-    <groupId>com.example.application</groupId>
-    <artifactId>theoptimistichr</artifactId>
-    <name>TheOptimisticHR</name>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>com.youhr.application</groupId>
+    <artifactId>you-hr</artifactId>
+    <name>YOU-HR</name>
+    <version>0.9-BETA</version>
     <packaging>jar</packaging>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <vaadin.version>23.1.0</vaadin.version>
         <selenium.version>4.1.2</selenium.version>
     </properties>
