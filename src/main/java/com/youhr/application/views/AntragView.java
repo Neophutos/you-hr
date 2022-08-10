@@ -1,4 +1,4 @@
-package com.youhr.application.views.antrag;
+package com.youhr.application.views;
 
 import com.youhr.application.data.service.AntragService;
 import com.youhr.application.forms.AntragForm;

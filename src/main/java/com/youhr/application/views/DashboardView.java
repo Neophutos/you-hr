@@ -1,6 +1,6 @@
-package com.youhr.application.views.dashboard;
+package com.youhr.application.views;
 
-import com.youhr.application.data.entity.Mitarbeiter;
+import com.youhr.application.data.objekt.Mitarbeiter;
 import com.youhr.application.data.generator.DataGenerator;
 import com.youhr.application.data.service.AntragService;
 import com.youhr.application.data.service.MitarbeiterService;

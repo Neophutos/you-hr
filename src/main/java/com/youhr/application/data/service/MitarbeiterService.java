@@ -1,8 +1,8 @@
 package com.youhr.application.data.service;
 
-import com.youhr.application.data.entity.Abteilung;
-import com.youhr.application.data.entity.Mitarbeiter;
-import com.youhr.application.data.entity.Team;
+import com.youhr.application.data.objekt.Abteilung;
+import com.youhr.application.data.objekt.Mitarbeiter;
+import com.youhr.application.data.objekt.Team;
 import com.youhr.application.data.repository.AbteilungRepository;
 import com.youhr.application.data.repository.MitarbeiterRepository;
 import com.youhr.application.data.repository.TeamRepository;

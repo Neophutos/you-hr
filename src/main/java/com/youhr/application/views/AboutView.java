@@ -1,4 +1,4 @@
-package com.youhr.application.views.about;
+package com.youhr.application.views;
 
 import com.youhr.application.views.MainLayout;
 import com.vaadin.flow.component.accordion.Accordion;

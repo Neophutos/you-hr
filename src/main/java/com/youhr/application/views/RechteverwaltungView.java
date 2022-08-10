@@ -1,6 +1,6 @@
-package com.youhr.application.views.rechteverwaltung;
+package com.youhr.application.views;
 
-import com.youhr.application.data.entity.User;
+import com.youhr.application.data.objekt.User;
 import com.youhr.application.data.service.UserService;
 import com.youhr.application.forms.PasswordForm;
 import com.youhr.application.forms.RechteForm;

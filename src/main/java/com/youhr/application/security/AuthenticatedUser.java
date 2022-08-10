@@ -1,6 +1,6 @@
 package com.youhr.application.security;
 
-import com.youhr.application.data.entity.User;
+import com.youhr.application.data.objekt.User;
 import com.youhr.application.data.repository.UserRepository;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinServletRequest;

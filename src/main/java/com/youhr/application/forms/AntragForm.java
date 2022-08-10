@@ -1,10 +1,10 @@
 package com.youhr.application.forms;
 
-import com.youhr.application.data.entity.Antrag;
+import com.youhr.application.data.objekt.Antrag;
 import com.youhr.application.data.generator.DataGenerator;
 import com.youhr.application.data.service.AntragService;
 import com.youhr.application.security.AuthenticatedUser;
-import com.youhr.application.views.dashboard.DashboardView;
+import com.youhr.application.views.DashboardView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.Text;

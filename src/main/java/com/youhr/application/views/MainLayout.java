@@ -1,15 +1,7 @@
 package com.youhr.application.views;
 
-import com.youhr.application.data.entity.User;
+import com.youhr.application.data.objekt.User;
 import com.youhr.application.security.AuthenticatedUser;
-import com.youhr.application.views.about.AboutView;
-import com.youhr.application.views.antrag.AntragVerwaltungView;
-import com.youhr.application.views.antrag.AntragView;
-import com.youhr.application.views.dashboard.DashboardView;
-import com.youhr.application.views.gruppen.GruppenView;
-import com.youhr.application.views.meinedaten.MeineDatenView;
-import com.youhr.application.views.mitarbeiterliste.MitarbeiterlisteView;
-import com.youhr.application.views.rechteverwaltung.RechteverwaltungView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.applayout.AppLayout;

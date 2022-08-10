@@ -1,6 +1,6 @@
 package com.youhr.application.data.repository;
 
-import com.youhr.application.data.entity.Mitarbeiter;
+import com.youhr.application.data.objekt.Mitarbeiter;
 
 import java.util.List;
 import java.util.UUID;

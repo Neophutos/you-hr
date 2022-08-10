@@ -1,6 +1,6 @@
 package com.youhr.application.security;
 
-import com.youhr.application.data.entity.User;
+import com.youhr.application.data.objekt.User;
 import com.youhr.application.data.repository.UserRepository;
 import java.util.List;
 import java.util.stream.Collectors;

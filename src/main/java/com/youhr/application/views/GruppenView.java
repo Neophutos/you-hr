@@ -1,7 +1,7 @@
-package com.youhr.application.views.gruppen;
+package com.youhr.application.views;
 
-import com.youhr.application.data.entity.Abteilung;
-import com.youhr.application.data.entity.Team;
+import com.youhr.application.data.objekt.Abteilung;
+import com.youhr.application.data.objekt.Team;
 import com.youhr.application.data.service.GruppenService;
 import com.youhr.application.forms.AbteilungForm;
 import com.youhr.application.forms.TeamForm;

@@ -1,4 +1,4 @@
-package com.youhr.application.data.entity;
+package com.youhr.application.data.objekt;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,7 +15,7 @@ import org.hibernate.annotations.Type;
  * @since 2022-07-29
  */
 @MappedSuperclass
-public abstract class AbstractEntity {
+public abstract class AbstractID {
 
     @Id
     @GeneratedValue
@@ -38,10 +38,10 @@ public abstract class AbstractEntity {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof AbstractEntity)) {
+        if (!(obj instanceof AbstractID)) {
             return false;
         }
-        AbstractEntity other = (AbstractEntity) obj;
+        AbstractID other = (AbstractID) obj;
 
         if (id != null) {
             return id.equals(other.id);

@@ -1,11 +1,12 @@
-package com.youhr.application.data.entity;
+package com.youhr.application.data.objekt;
+
 
 import javax.persistence.*;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * @desc Das Objekt Team stellt die Aufteilung des Unternehmens in deren Projekte bzw. Arbeitsgruppen dar. Teams können aus Mitarbeiern aus versch. Bereichen sein, dies ist aber nicht zwingend erforderlich.
+ * @desc Das Objekt Abteilung stellt die Aufteilung des Unternehmens in deren Bereiche dar.
  *
  * @attributes bezeichnung
  *
@@ -16,11 +17,11 @@ import java.util.List;
  * @since 2022-07-06
  */
 @Entity
-public class Team extends AbstractEntity{
+public class Abteilung extends AbstractID {
 
     private String bezeichnung;
 
-    @OneToMany(mappedBy = "team")
+    @OneToMany(mappedBy = "abteilung")
     private List<Mitarbeiter> mitarbeiter = new LinkedList<>();
 
     public String getBezeichnung() {
@@ -38,4 +39,5 @@ public class Team extends AbstractEntity{
     public void setMitarbeiter(List<Mitarbeiter> mitarbeiter) {
         this.mitarbeiter = mitarbeiter;
     }
+
 }

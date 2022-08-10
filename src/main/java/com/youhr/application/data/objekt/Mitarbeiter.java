@@ -1,4 +1,4 @@
-package com.youhr.application.data.entity;
+package com.youhr.application.data.objekt;
 
 import com.youhr.application.security.Role;
 import com.youhr.application.data.generator.UserGenerator;
@@ -20,7 +20,7 @@ import java.util.Set;
  * @since 2022-07-06
  */
 @Entity
-public class Mitarbeiter extends AbstractEntity {
+public class Mitarbeiter extends AbstractID {
 
     private String vorname = "";
     private String nachname = "";

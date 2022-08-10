@@ -1,4 +1,4 @@
-package com.youhr.application.data.entity;
+package com.youhr.application.data.objekt;
 
 import com.youhr.application.security.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -18,7 +18,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "application_user")
-public class User extends AbstractEntity {
+public class User extends AbstractID {
 
     private String username;
     private String name;

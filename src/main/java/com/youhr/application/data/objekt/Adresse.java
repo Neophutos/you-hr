@@ -1,4 +1,4 @@
-package com.youhr.application.data.entity;
+package com.youhr.application.data.objekt;
 
 import javax.persistence.*;
 
@@ -14,7 +14,7 @@ import javax.persistence.*;
  * @since 2022-07-06
  */
 @Entity
-public class Adresse extends AbstractEntity{
+public class Adresse extends AbstractID {
 
     private int plz = 0;
 

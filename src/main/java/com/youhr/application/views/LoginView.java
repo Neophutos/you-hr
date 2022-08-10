@@ -1,4 +1,4 @@
-package com.youhr.application.views.login;
+package com.youhr.application.views;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Text;

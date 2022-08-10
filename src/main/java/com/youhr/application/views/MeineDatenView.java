@@ -1,7 +1,7 @@
-package com.youhr.application.views.meinedaten;
+package com.youhr.application.views;
 
-import com.youhr.application.data.entity.Mitarbeiter;
-import com.youhr.application.data.entity.User;
+import com.youhr.application.data.objekt.Mitarbeiter;
+import com.youhr.application.data.objekt.User;
 import com.youhr.application.data.generator.DataGenerator;
 import com.youhr.application.data.service.MitarbeiterService;
 import com.youhr.application.data.service.UserService;

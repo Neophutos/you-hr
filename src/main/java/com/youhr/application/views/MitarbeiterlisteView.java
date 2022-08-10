@@ -1,7 +1,7 @@
-package com.youhr.application.views.mitarbeiterliste;
+package com.youhr.application.views;
 
-import com.youhr.application.data.entity.Adresse;
-import com.youhr.application.data.entity.Mitarbeiter;
+import com.youhr.application.data.objekt.Adresse;
+import com.youhr.application.data.objekt.Mitarbeiter;
 import com.youhr.application.data.service.MitarbeiterService;
 import com.youhr.application.forms.MitarbeiterForm;
 import com.youhr.application.views.MainLayout;
