@@ -1,6 +1,6 @@
 package com.youhr.application.data.service;
 
-import com.youhr.application.data.objekt.Antrag;
+import com.youhr.application.data.entity.Antrag;
 
 import java.util.List;
 import java.util.Optional;

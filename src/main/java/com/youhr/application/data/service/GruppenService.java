@@ -2,8 +2,8 @@ package com.youhr.application.data.service;
 
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
-import com.youhr.application.data.objekt.Abteilung;
-import com.youhr.application.data.objekt.Team;
+import com.youhr.application.data.entity.Abteilung;
+import com.youhr.application.data.entity.Team;
 import com.youhr.application.data.repository.AbteilungRepository;
 import com.youhr.application.data.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;

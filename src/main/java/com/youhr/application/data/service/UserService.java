@@ -1,6 +1,6 @@
 package com.youhr.application.data.service;
 
-import com.youhr.application.data.objekt.User;
+import com.youhr.application.data.entity.User;
 
 import java.util.List;
 import java.util.Optional;

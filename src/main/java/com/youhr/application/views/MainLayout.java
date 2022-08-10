@@ -1,6 +1,6 @@
 package com.youhr.application.views;
 
-import com.youhr.application.data.objekt.User;
+import com.youhr.application.data.entity.User;
 import com.youhr.application.security.AuthenticatedUser;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Text;

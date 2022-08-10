@@ -1,4 +1,4 @@
-package com.youhr.application.data.objekt;
+package com.youhr.application.data.entity;
 
 import com.youhr.application.security.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;

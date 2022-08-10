@@ -1,7 +1,7 @@
 package com.youhr.application.data.generator;
 
 import com.youhr.application.security.Role;
-import com.youhr.application.data.objekt.User;
+import com.youhr.application.data.entity.User;
 import com.youhr.application.data.service.UserService;
 import com.vaadin.flow.component.notification.Notification;
 import org.springframework.security.crypto.password.PasswordEncoder;

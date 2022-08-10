@@ -1,10 +1,9 @@
 package com.youhr.application.views;
 
-import com.youhr.application.data.objekt.User;
+import com.youhr.application.data.entity.User;
 import com.youhr.application.data.service.UserService;
 import com.youhr.application.forms.PasswordForm;
 import com.youhr.application.forms.RechteForm;
-import com.youhr.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;

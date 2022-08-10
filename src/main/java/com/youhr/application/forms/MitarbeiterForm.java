@@ -1,8 +1,8 @@
 package com.youhr.application.forms;
 
-import com.youhr.application.data.objekt.Abteilung;
-import com.youhr.application.data.objekt.Mitarbeiter;
-import com.youhr.application.data.objekt.Team;
+import com.youhr.application.data.entity.Abteilung;
+import com.youhr.application.data.entity.Mitarbeiter;
+import com.youhr.application.data.entity.Team;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;

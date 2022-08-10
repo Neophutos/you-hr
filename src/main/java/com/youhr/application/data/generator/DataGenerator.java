@@ -1,7 +1,7 @@
 package com.youhr.application.data.generator;
 
 import com.youhr.application.security.Role;
-import com.youhr.application.data.objekt.User;
+import com.youhr.application.data.entity.User;
 import com.youhr.application.data.repository.MitarbeiterRepository;
 import com.youhr.application.data.repository.UserRepository;
 import com.vaadin.flow.spring.annotation.SpringComponent;

@@ -1,11 +1,10 @@
 package com.youhr.application.views;
 
-import com.youhr.application.data.objekt.Abteilung;
-import com.youhr.application.data.objekt.Team;
+import com.youhr.application.data.entity.Abteilung;
+import com.youhr.application.data.entity.Team;
 import com.youhr.application.data.service.GruppenService;
 import com.youhr.application.forms.AbteilungForm;
 import com.youhr.application.forms.TeamForm;
-import com.youhr.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;

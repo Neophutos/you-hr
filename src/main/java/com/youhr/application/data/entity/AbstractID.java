@@ -1,4 +1,4 @@
-package com.youhr.application.data.objekt;
+package com.youhr.application.data.entity;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;

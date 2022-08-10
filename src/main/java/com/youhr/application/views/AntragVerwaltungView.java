@@ -1,6 +1,6 @@
 package com.youhr.application.views;
 
-import com.youhr.application.data.objekt.Antrag;
+import com.youhr.application.data.entity.Antrag;
 import com.youhr.application.data.service.AntragService;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;

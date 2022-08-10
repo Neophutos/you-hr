@@ -1,11 +1,10 @@
 package com.youhr.application.views;
 
-import com.youhr.application.data.objekt.Mitarbeiter;
+import com.youhr.application.data.entity.Mitarbeiter;
 import com.youhr.application.data.generator.DataGenerator;
 import com.youhr.application.data.service.AntragService;
 import com.youhr.application.data.service.MitarbeiterService;
 import com.youhr.application.security.AuthenticatedUser;
-import com.youhr.application.views.MainLayout;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;

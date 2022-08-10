@@ -1,6 +1,6 @@
 package com.youhr.application.data.repository;
 
-import com.youhr.application.data.objekt.Adresse;
+import com.youhr.application.data.entity.Adresse;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

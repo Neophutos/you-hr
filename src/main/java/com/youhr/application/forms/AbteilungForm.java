@@ -1,7 +1,7 @@
 package com.youhr.application.forms;
 
 import com.vaadin.flow.component.notification.NotificationVariant;
-import com.youhr.application.data.objekt.Abteilung;
+import com.youhr.application.data.entity.Abteilung;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;

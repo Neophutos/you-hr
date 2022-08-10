@@ -1,6 +1,6 @@
 package com.youhr.application.data.repository;
 
-import com.youhr.application.data.objekt.Team;
+import com.youhr.application.data.entity.Team;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

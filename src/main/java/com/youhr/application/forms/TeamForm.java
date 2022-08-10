@@ -1,6 +1,6 @@
 package com.youhr.application.forms;
 
-import com.youhr.application.data.objekt.Team;
+import com.youhr.application.data.entity.Team;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
