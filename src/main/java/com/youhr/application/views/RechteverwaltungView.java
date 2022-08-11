@@ -69,9 +69,11 @@ public class RechteverwaltungView extends Div {
 
         VerticalLayout editDialogLayout = createEditDialogLayout();
         editDialog.add(editDialogLayout);
+        editDialog.add("Nutzerdaten ändern");
 
         VerticalLayout editPasswortDialogLayout = createEditPasswortDialogLayout();
         editPasswortDialog.add(editPasswortDialogLayout);
+        editPasswortDialog.add("Passwort ändern");
 
         addClassNames("rechteverwaltung-view");
     }

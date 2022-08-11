@@ -35,12 +35,10 @@ public class PasswordForm extends FormLayout {
 
     private static final PasswordEncoder passwordEncoder = DataGenerator.getPasswordEncoder();
 
-    H5 title = new H5("Passwort ändern");
-
     PasswordField passwort = new PasswordField("Neues Passwort");
     PasswordField checkPasswort = new PasswordField("Passwort bestätigen");
 
-    Checkbox save = new Checkbox("Hiermit bestätige ich, dass ich den betroffenen Mitarbeiter über das neue Passwort informieren werde");
+    Checkbox save = new Checkbox("Hiermit bestätige ich, dass ich das Passwort als vertraulich behandle und nicht an Dritte weitergebe");
 
     Button speichern = new Button("Speichern");
     Button schliessen = new Button("Schließen");
@@ -66,7 +64,7 @@ public class PasswordForm extends FormLayout {
         passwort.setMaxWidth("350px");
         checkPasswort.setMaxWidth("350px");
         setMaxWidth("400px");
-        add(title, passwort, checkPasswort, save, createButtonLayout());
+        add(passwort, checkPasswort, save, createButtonLayout());
     }
 
     /**

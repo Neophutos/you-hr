@@ -32,8 +32,6 @@ import com.vaadin.flow.shared.Registration;
 public class RechteForm extends FormLayout {
     private final Binder<User> userBinder = new BeanValidationBinder<>(User.class);
 
-    H5 title = new H5("Berechtigungen bearbeiten");
-
     TextField username = new TextField("Username");
     CheckboxGroup<Role> rechteCheck = new CheckboxGroup<>("Berechtigungen");
 
@@ -74,7 +72,7 @@ public class RechteForm extends FormLayout {
 
         setMaxWidth("400px");
 
-        add(title, username, rechteCheck, createButtonLayout());
+        add(username, rechteCheck, createButtonLayout());
     }
 
     /**

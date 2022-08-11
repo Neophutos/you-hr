@@ -78,6 +78,7 @@ public class MeineDatenView extends Div {
         add(getToolbar());
         VerticalLayout editDialogLayout = createEditDialogLayout();
         editPasswortDialog.add(editDialogLayout);
+        editPasswortDialog.setHeaderTitle("Passwort ändern");
 
         Stream.of(vorname, nachname, geburtsdatum, email, telefonnr, abteilung, position, adresse).forEach(field -> {
             field.setReadOnly(true);
@@ -144,8 +145,11 @@ public class MeineDatenView extends Div {
     private HorizontalLayout getToolbar() {
 
         Button changePasswort = new Button("Passwort ändern");
-
         changePasswort.addClickListener(e -> editPasswort(authenticatedUser.get().get()));
+
+        Button addAntrag = new Button("Antrag stellen");
+        addAntrag.addClickListener(e -> addAntrag.getUI().ifPresent(ui -> ui.navigate(
+                AntragView.class)));
 
         HorizontalLayout toolbar = new HorizontalLayout(changePasswort);
         toolbar.addClassName("toolbar");
