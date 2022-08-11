@@ -13,6 +13,7 @@ import javax.persistence.*;
  * @mappedattributes id, mitarbeiter
  *
  * @category Objekt
+ * @author Ben Köppe, Tim Freund
  * @version 1.0
  * @since 2022-07-06
  */

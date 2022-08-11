@@ -9,6 +9,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.security.SecureRandom;
 import java.util.Set;
 
+/**
+ * @desc Die Klasse UserGenerator erstellt das zum Mitarbeiter verbundene Nutzerkonto.
+ * @desc Dabei ist sie außerdem für das Hashing von erstellten bzw. veränderten Passwörten verantwortlich.
+ *
+ * @category Generator
+ * @author Tim Freund
+ * @version 1.0
+ * @since 2022-08-05
+ */
 public class UserGenerator {
 
     private static PasswordEncoder passwordEncoder = DataGenerator.getPasswordEncoder();

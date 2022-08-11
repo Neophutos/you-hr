@@ -6,11 +6,12 @@ import javax.persistence.MappedSuperclass;
 import org.hibernate.annotations.Type;
 
 /**
- * @desc Das abstrakte Objekt AbstractEntity stellt primär die ID's für alle child-Objekte zur Verfügung.
+ * @desc Das abstrakte Objekt AbstractID stellt primär die ID's für alle child-Objekte zur Verfügung.
  *
  * @attributes id
  *
  * @category Objekt
+ * @author Ben Köppe, Tim Freund
  * @version 1.0
  * @since 2022-07-29
  */

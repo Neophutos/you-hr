@@ -16,6 +16,7 @@ import java.util.Set;
  * @mappedattributes id, abteilung, team, adresse, user, rechteverwaltung
  *
  * @category Objekt
+ * @author Ben Köppe, Tim Freund, Chris Zobel, Riccardo Prochnow
  * @version 1.0
  * @since 2022-07-06
  */

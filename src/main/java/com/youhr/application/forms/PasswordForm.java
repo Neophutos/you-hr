@@ -22,6 +22,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Objects;
 
+/**
+ * @desc Das Passwort-Formular ist für die Änderung eines Passworts zuständig. Es besteht aus einem Initialisierungs-, Überprüfungsfeld und eine Bestätigungs-Checkbox.
+ *
+ * @category Form
+ * @author Ben Köppe, Tim Freund
+ * @version 1.0
+ * @since 2022-08-08
+ */
 public class PasswordForm extends FormLayout {
     private final Binder<User> userBinder = new BeanValidationBinder<>(User.class);
 
@@ -39,6 +47,10 @@ public class PasswordForm extends FormLayout {
 
     private User selectedUser;
 
+    /**
+     * @desc Lesen der Userdaten zum Ausfüllen des Formulars bei Bearbeitung
+     * @param selectedUser
+     */
     public void setSelectedUser(User selectedUser){
         if(selectedUser != null){
             this.selectedUser = selectedUser;
@@ -46,6 +58,9 @@ public class PasswordForm extends FormLayout {
         userBinder.readBean(selectedUser);
     }
 
+    /**
+     * @desc Formular (Text + Eingabefelder + Buttons) wird initialisiert.
+     */
     public PasswordForm(){
         addClassName("Passwort-Formular");
         passwort.setMaxWidth("350px");
@@ -54,6 +69,9 @@ public class PasswordForm extends FormLayout {
         add(title, passwort, checkPasswort, save, createButtonLayout());
     }
 
+    /**
+     * @desc Konfiguration der Ausrichtung der Buttons und deren Event bei Betätigung (Klick).
+     */
     private Component createButtonLayout() {
         speichern.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         schliessen.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
@@ -70,8 +88,8 @@ public class PasswordForm extends FormLayout {
     }
 
     /**
-     * @desc Diese Methode speichert bei Aufruf die Änderungen bzw. Erstellung des Mitarbeiters.
-     * @error Bei misslungener Speicherung (ValidationException) wird der Fehler in der Konsole ausgegeben.
+     * @desc Diese Methode speichert bei Aufruf die Änderungen bzw. Erstellung des Users.
+     * @error Bei misslungener Speicherung (falsches Passwort oder nicht bestätigt) wird der Nutzer darüber informiert.
      */
     private void checkAndSave() {
         if(Objects.equals(passwort.getValue(), checkPasswort.getValue())) {
@@ -102,7 +120,7 @@ public class PasswordForm extends FormLayout {
     }
 
     /**
-     * @desc Event zur Speicherung der Daten eines Mitarbeiters.
+     * @desc Event zur Speicherung der Daten eines Users.
      */
     public static class SaveEvent extends PasswordFormEvent {
         SaveEvent(PasswordForm source, User user) {

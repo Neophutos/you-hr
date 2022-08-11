@@ -12,6 +12,7 @@ import java.util.List;
  * @mappedattributes id, mitarbeiter
  *
  * @category Objekt
+ * @author Ben Köppe
  * @version 1.0
  * @since 2022-07-06
  */

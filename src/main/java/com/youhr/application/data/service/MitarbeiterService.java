@@ -17,6 +17,7 @@ import java.util.Optional;
  * @desc MitarbeiterService stellt den Dienst zur Erstellung, Veränderung und Löschung von Mitarbeitern im System dar.
  *
  * @category Service
+ * @author Ben Köppe, Tim Freund, Riccardo Prochnow
  * @version 1.0
  * @since 2022-08-02
  */

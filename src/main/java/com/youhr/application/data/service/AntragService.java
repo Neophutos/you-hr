@@ -16,8 +16,9 @@ import org.springframework.stereotype.Service;
  * @desc AntragService stellt den Dienst zur Erstellung, Veränderung und Löschung von Anträgen im System dar.
  *
  * @category Service
+ * @author Ben Köppe, Tim Freund
  * @version 1.0
- * @since 2022-06-28
+ * @since 2022-07-03
  */
 @Service
 public class AntragService {

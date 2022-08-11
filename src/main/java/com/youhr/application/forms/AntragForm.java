@@ -30,6 +30,7 @@ import java.time.LocalDate;
  * @desc Das Formular Antrag erstellt eine Eingabemaske für die Erstellung eines Objekts Antrag.
  *
  * @category Form
+ * @author Ben Köppe
  * @version 1.0
  * @since 2022-06-30
  */

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
  * @desc UserService stellt den Dienst zur Erstellung, Veränderung und Löschung von Nutzern im System dar.
  *
  * @category Service
+ * @author Tim Freund
  * @version 1.0
  * @since 2022-08-05
  */

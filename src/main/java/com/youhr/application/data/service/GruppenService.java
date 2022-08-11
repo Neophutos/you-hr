@@ -20,8 +20,9 @@ import java.util.UUID;
  * @desc GruppenService stellt den Dienst zur Erstellung, Veränderung und Löschung von Abteilungen und Teams im System dar.
  *
  * @category Service
+ * @author Ben Köppe, Tim Freund
  * @version 1.0
- * @since 2022-06-28
+ * @since 2022-07-15
  */
 @Service
 public class GruppenService {

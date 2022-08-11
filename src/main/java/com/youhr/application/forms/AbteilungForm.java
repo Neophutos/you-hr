@@ -24,6 +24,7 @@ import java.util.Locale;
  * @desc Das Formular Abteilung erstellt eine Eingabemaske für die Erstellung eines Objekts Abteilung.
  *
  * @category Form
+ * @author Ben Köppe, Tim Freund
  * @version 1.0
  * @since 2022-07-08
  */

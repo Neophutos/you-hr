@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @desc Das Formular Team erstellt eine Eingabemaske für die Erstellung eines Objekts Team.
  *
  * @category Form
+ * @author Ben Köppe, Tim Freund
  * @version 1.0
  * @since 2022-07-08
  */
