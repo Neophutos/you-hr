@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @desc SecurityConfiguration stellt die Sicherheits-Konfiguration für HTTP-Protokolle bereit.
  *
  * @category Security
+ * @author Ben Köppe, Tim Freund, Riccardo Prochnow
  * @version 1.0
  * @since 2022-06-30
  */

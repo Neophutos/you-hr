@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
  * @desc AuthenticatedUser stellt die Authentifizierung eines Nutzers während der Nutzung des Systems sicher.
  *
  * @category Security
+ * @author Ben Köppe, Tim Freund
  * @version 1.0
  * @since 2022-08-05
  */

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
  * @desc UserDetailsServiceImpl ist für die Überprüfung und Authentifikation eines Login-Versuchs verantwortlich.
  *
  * @category Security
+ * @author Ben Köppe, Tim Freund, Riccardo Prochnow
  * @version 1.0
  * @since 2022-06-30
  */
@@ -30,6 +31,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
+    /**
+     * @desc loadUserByUsername fragt die Datenbank nach Verfügbarkeit des eingegebenen Nutzers nach.
+     * @param username
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
@@ -41,6 +46,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
     }
 
+    /**
+     * @desc getAuthorities überprüft die vergebenen Rollen des eingeloggten Nutzers, um unberechtigten Zugriff auf verbotene Klassen zu verhindern.
+     * @param user
+     */
     private static List<GrantedAuthority> getAuthorities(User user) {
         return user.getRoles().stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .collect(Collectors.toList());
