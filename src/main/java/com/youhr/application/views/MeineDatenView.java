@@ -146,7 +146,6 @@ public class MeineDatenView extends Div {
      * @desc Initialisierung der Leiste über der Tabelle (Passwort ändern & Antrag stellen)
      */
     private HorizontalLayout getToolbar() {
-
         Button changePasswort = new Button("Passwort ändern");
         changePasswort.addClickListener(e -> editPasswort(authenticatedUser.get().get()));
 
@@ -154,7 +153,7 @@ public class MeineDatenView extends Div {
         addAntrag.addClickListener(e -> addAntrag.getUI().ifPresent(ui -> ui.navigate(
                 AntragView.class)));
 
-        HorizontalLayout toolbar = new HorizontalLayout(changePasswort);
+        HorizontalLayout toolbar = new HorizontalLayout(changePasswort, addAntrag);
         toolbar.addClassName("toolbar");
         toolbar.setMargin(true);
         return toolbar;
