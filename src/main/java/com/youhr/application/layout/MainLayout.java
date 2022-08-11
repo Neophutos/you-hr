@@ -23,23 +23,17 @@ import com.youhr.application.views.*;
 import java.util.Optional;
 
 /**
- * The main view is a top-level placeholder for other views.
- */
-
-/**
  * @desc Der View MainLayout implementiert eine Ansicht für alle angemeldete Mitarbeiter von der sie aus auf andere Views kommen können.
  * Hauptbestandteil stellt hierbei die Implementierung der Menüliste auf der linken Seite des Bildschirmes dar.
  *
  *
  * @category View
+ * @author Chris Zobel, Riccardo Prochnow, Natalie Stache, Ben Köppe, Tim Freund
  * @version 1.0
  * @since 2022-06-30
  */
 public class MainLayout extends AppLayout {
 
-    /**
-     * A simple navigation item component, based on ListItem element.
-     */
     public static class MenuItemInfo extends ListItem {
 
         private final Class<? extends Component> view;
@@ -62,8 +56,7 @@ public class MainLayout extends AppLayout {
         }
 
         /**
-         * Simple wrapper to create icons using LineAwesome iconset. See
-         * https://icons8.com/line-awesome
+         * @desc Wrapper-Klasse, um Icons mit dem LineAwesome Icon-Set zu erstellen
          */
         @NpmPackage(value = "line-awesome", version = "1.3.0")
         public static class LineAwesomeIcon extends Span {
@@ -91,6 +84,9 @@ public class MainLayout extends AppLayout {
         addToDrawer(createDrawerContent());
     }
 
+    /**
+     * @desc Initialisierung des Headers auf der WebApp (Schließen der seitlichen Menüleiste, Name des derzeitigen Fensters)
+     */
     private Component createHeaderContent() {
         DrawerToggle toggle = new DrawerToggle();
         toggle.addClassNames("view-toggle");
@@ -106,10 +102,8 @@ public class MainLayout extends AppLayout {
     }
 
     /**
-     *
      * @desc Initialisieren des Logos und der Überschrift der Menüliste
      */
-
     private Component createDrawerContent() {
         HorizontalLayout top = new HorizontalLayout();
         Image logo = new Image("/icons/YouLogo_Large.png","YOU-Logo");
@@ -128,7 +122,6 @@ public class MainLayout extends AppLayout {
     }
 
     /**
-     *
      * @desc Initialisieren der Menüliste
      */
     private Nav createNavigation() {
@@ -150,10 +143,8 @@ public class MainLayout extends AppLayout {
     }
 
     /**
-     *
      * @desc Initialisieren der Interaktionselemente aus der Menüliste
      */
-
     private MenuItemInfo[] createMenuItems() {
         return new MenuItemInfo[]{ //
 
@@ -175,7 +166,6 @@ public class MainLayout extends AppLayout {
     }
 
     /**
-     *
      * @desc Initialisieren des Feldes, in dem eingeloggter Benutzer und Profilbild angezeigt werden
      */
     private Footer createFooter() {
@@ -211,17 +201,26 @@ public class MainLayout extends AppLayout {
         return layout;
     }
 
+    /**
+     * @desc Aktualisierung des Textes im Header mithilfe der Methode getCurrentPageTitle()
+     */
     @Override
     protected void afterNavigation() {
         super.afterNavigation();
         viewTitle.setText(getCurrentPageTitle());
     }
 
+    /**
+     * @desc Methode, um den Titel des derzeitigen Fensters auszugeben
+     */
     private String getCurrentPageTitle() {
         PageTitle title = getContent().getClass().getAnnotation(PageTitle.class);
         return title == null ? "" : title.value();
     }
 
+    /**
+     * @desc Wrapper-Klasse, um Icons mit dem VaadinIcon-Set zu erstellen
+     */
     private Component createIcon(VaadinIcon vaadinIcon) {
         Icon icon = vaadinIcon.create();
         icon.getStyle()
