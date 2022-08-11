@@ -211,9 +211,8 @@ public class MitarbeiterlisteView extends Div {
     private void configureGrid() {
         grid.addClassNames("mitarbeiter-grid");
         grid.setSizeFull();
-        grid.setColumns("vorname", "nachname", "email");
+        grid.setColumns("id", "vorname", "nachname", "email");
         grid.addColumn(mitarbeiter -> mitarbeiter.getAbteilung().getBezeichnung()).setHeader("Abteilung");
-
         grid.setItemDetailsRenderer(createMitarbeiterDetailsRenderer());
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
     }

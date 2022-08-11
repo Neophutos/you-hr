@@ -156,7 +156,7 @@ public class MainLayout extends AppLayout {
 
                 new MenuItemInfo("Rechteverwaltung", "la la-cog", RechteverwaltungView.class), //
 
-                new MenuItemInfo("Einstellungen", "la la-save", GruppenView.class), //
+                new MenuItemInfo("Gruppen", "la la-users-cog", GruppenView.class), //
 
                 new MenuItemInfo("Antrag/Problem erstellen", "la la-paste", AntragView.class), //
 
