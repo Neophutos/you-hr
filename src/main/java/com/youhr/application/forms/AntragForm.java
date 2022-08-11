@@ -73,10 +73,6 @@ public class AntragForm extends FormLayout {
         beschreibung.addValueChangeListener(e -> {e.getSource().setHelperText(e.getValue().length() + "/" + charLimit);});
 
         add(
-                new H5("In diesem Formular können Sie Anträge zu folgenden Anliegen stellen:"),
-                new H6("-> Änderung der persönlichen Daten"),
-                new H6("-> Änderung der Lesen- und Bearbeitungsrechte (für Personaler vorbehalten)"),
-                new H6("-> Meldung eines systemrelevanten Problems"),
                 antragsart,
                 beschreibung,
                 createButtonLayout()

@@ -1,5 +1,8 @@
 package com.youhr.application.views;
 
+import com.vaadin.flow.component.accordion.Accordion;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.youhr.application.data.service.AntragService;
 import com.youhr.application.forms.AntragForm;
 import com.youhr.application.layout.MainLayout;
@@ -52,8 +55,8 @@ public class AntragView extends Div {
     /**
      * @desc Konfiguration der Ausrichtung und Form des Formulars AntragForm.
      */
-    private Component getContent() {
-        HorizontalLayout content = new HorizontalLayout(form);
+    private VerticalLayout getContent() {
+        VerticalLayout content = new VerticalLayout(getInfoAccordion(), form);
         content.addClassName("content");
         content.setSizeFull();
         content.setMargin(true);
@@ -66,5 +69,22 @@ public class AntragView extends Div {
     private void configureForm() {
         form = new AntragForm(antragService);
         form.setWidth("25em");
+    }
+
+    private Accordion getInfoAccordion(){
+        Accordion infoAccordion = new Accordion();
+
+        Span desc = new Span("In diesem Formular können Sie Anträge zu folgenden Anliegen stellen:");
+        Span type1 = new Span("→ Änderung der persönlichen Daten");
+        Span type2 = new Span("→ Änderung der Berechtigungen im System (muss von Beauftragten bestätigt worden sein)");
+        Span type3 = new Span("→ Meldung systemrelevanter Probleme");
+
+        VerticalLayout infoAccordionLayout = new VerticalLayout(desc, type1, type2, type3);
+        infoAccordionLayout.setSpacing(false);
+        infoAccordionLayout.setPadding(false);
+
+        infoAccordion.add("Wozu dient dieses Formular?", infoAccordionLayout);
+
+        return infoAccordion;
     }
 }
