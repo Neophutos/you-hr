@@ -24,8 +24,9 @@ import com.vaadin.flow.router.Route;
  * @see LoginForm
  *
  * @category View
- * @version 0.8
- * @since 2022-06-14
+ * @author Riccardo Prochnow, Ben Köppe
+ * @version 1.0
+ * @since 2022-07-20
  */
 @Route("login")
 @PageTitle("Login")
@@ -58,6 +59,9 @@ public class LoginView extends FlexLayout implements BeforeEnterObserver {
         add(zentriertesLayout);
     }
 
+    /**
+     * @desc builLoginInformation dient als Hilfe zur richtigen Bedienung des Logins.
+     */
     private Component buildLoginInformation(){
         VerticalLayout loginInformation = new VerticalLayout();
 

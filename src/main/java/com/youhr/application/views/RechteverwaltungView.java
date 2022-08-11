@@ -23,6 +23,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.youhr.application.layout.MainLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.security.RolesAllowed;
@@ -32,6 +33,7 @@ import javax.annotation.security.RolesAllowed;
  * entsprechenden Rechte.
  *
  * @category View
+ * @author Tim Freund, Ben Köppe, Chris Zobel
  * @version 1.0
  * @since 2022-06-30
  */
@@ -57,9 +59,14 @@ public class RechteverwaltungView extends Div {
 
     User user;
 
+    /**
+     * @desc Initialisierung des grafischen Interfaces und des Menüs bei Rechtsklick auf die Tabelle
+     * @param userService
+     */
     @Autowired
     public RechteverwaltungView(UserService userService) {
         this.userService = userService;
+        addClassName("rechteverwaltung-view");
         setSizeFull();
         configureGrid();
         configureForm();
@@ -69,13 +76,11 @@ public class RechteverwaltungView extends Div {
 
         VerticalLayout editDialogLayout = createEditDialogLayout();
         editDialog.add(editDialogLayout);
-        editDialog.add("Nutzerdaten ändern");
+        editDialog.setHeaderTitle("Nutzerdaten ändern");
 
         VerticalLayout editPasswortDialogLayout = createEditPasswortDialogLayout();
         editPasswortDialog.add(editPasswortDialogLayout);
-        editPasswortDialog.add("Passwort ändern");
-
-        addClassNames("rechteverwaltung-view");
+        editPasswortDialog.setHeaderTitle("Passwort ändern");
     }
 
     /**
@@ -116,7 +121,7 @@ public class RechteverwaltungView extends Div {
     }
 
     /**
-     * @desc Grafische Konfiguration der Tabelle für Mitarbeiterdarstellung.
+     * @desc Grafische Konfiguration der Tabelle für Userdarstellung.
      */
     private HorizontalLayout getContent() {
         HorizontalLayout content = new HorizontalLayout(grid);
@@ -126,7 +131,7 @@ public class RechteverwaltungView extends Div {
     }
 
     /**
-     * @desc Initialisierung des Formulars mit dem entsprechenden Service zur Kommunikation mit der Datenbank.
+     * @desc Initialisierung der Formulare mit dem entsprechenden Service zur Kommunikation mit der Datenbank.
      * @desc Zuordnung der entsprechenden Listener bei Button-Ausführung
      */
     private void configureForm() {
@@ -150,7 +155,7 @@ public class RechteverwaltungView extends Div {
     }
 
     /**
-     * @desc Einrichtung der Tabelle -> Setzen der Spalten und hinzufügen der Detailansicht
+     * @desc Einrichtung der Tabelle -> Setzen der Spalten
      */
     private void configureGrid() {
         grid.addClassName("rechteverwaltung-grid");
@@ -161,7 +166,7 @@ public class RechteverwaltungView extends Div {
     }
 
     /**
-     * @desc Speicher-Event für User -> Aufruf der Methode generateUser()
+     * @desc Speicher-Event für User
      * @param event
      */
     private void saveUser(RechteForm.SaveEvent event) {
@@ -171,7 +176,7 @@ public class RechteverwaltungView extends Div {
     }
 
     /**
-     * @desc Speicher-Event für User -> Aufruf der Methode generateUser()
+     * @desc Speicher-Event für User
      * @param event
      */
     private void savePasswort(PasswordForm.SaveEvent event) {
@@ -181,7 +186,7 @@ public class RechteverwaltungView extends Div {
     }
 
     /**
-     * @desc Öffnen des Mitarbeiterformulars zur Bearbeitungs (oder Erstellung) eines Mitarbeiters
+     * @desc Öffnen des Rechteformulars zur Bearbeitungs eines Users
      * @see RechteForm
      * @param user
      */
@@ -195,8 +200,8 @@ public class RechteverwaltungView extends Div {
     }
 
     /**
-     * @desc Öffnen des Mitarbeiterformulars zur Bearbeitungs (oder Erstellung) eines Mitarbeiters
-     * @see RechteForm
+     * @desc Öffnen des Passwordformulars zur Bearbeitung des Nutzerpassworts
+     * @see PasswordForm
      * @param user
      */
     private void editPasswort(User user){
@@ -241,7 +246,7 @@ public class RechteverwaltungView extends Div {
     }
 
     /**
-     * @desc Erstellung der Button-Logik bei Bestätigung des Löschens eines Mitarbeiters
+     * @desc Erstellung der Button-Logik bei Bestätigung des Löschens eines Users
      */
     private Button createConfirmButton(Dialog confirmDialog, User user) {
         Button saveButton = new Button("Abschließen", e -> {
@@ -254,6 +259,9 @@ public class RechteverwaltungView extends Div {
         return saveButton;
     }
 
+    /**
+     * @desc Update der Tabelle -> Nutzung bei durchgeführten Änderungen in der Tabelle
+     */
     private void updateList() { grid.setItems(userService.findAll());
     }
 }

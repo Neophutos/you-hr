@@ -2,7 +2,7 @@ package com.youhr.application.views;
 
 import com.youhr.application.data.service.AntragService;
 import com.youhr.application.forms.AntragForm;
-import com.youhr.application.views.MainLayout;
+import com.youhr.application.layout.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.html.Div;
@@ -21,6 +21,7 @@ import javax.annotation.security.RolesAllowed;
  * @see AntragForm
  *
  * @category View
+ * @Author Chris Zobel, Natalie Stache
  * @version 1.0
  * @since 2022-06-30
  */

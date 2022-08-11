@@ -5,6 +5,7 @@ import com.youhr.application.data.entity.User;
 import com.youhr.application.data.generator.DataGenerator;
 import com.youhr.application.data.service.MitarbeiterService;
 import com.youhr.application.data.service.UserService;
+import com.youhr.application.layout.MainLayout;
 import com.youhr.application.security.AuthenticatedUser;
 import com.youhr.application.forms.PasswordForm;
 import com.youhr.application.forms.RechteForm;
@@ -33,6 +34,7 @@ import java.util.stream.Stream;
  * @desc Der View MeineDaten stellt die Informationen des aktiven Nutzers in einem Interface dar. Diese können nur angesehen, nicht bearbeitet werden.
  *
  * @category View
+ * @author Riccardo Prochnow, Chris Zobel, Ben Köppe, Tim Freund
  * @version 1.0
  * @since 2022-07-01
  */
@@ -68,6 +70,7 @@ public class MeineDatenView extends Div {
     /**
      * @desc Diese Methode initialisiert das grafische Interface und fügt diese zum View hinzu.
      * @param mitarbeiterService
+     * @param userService
      */
     public MeineDatenView(MitarbeiterService mitarbeiterService, UserService userService) {
         this.mitarbeiterService = mitarbeiterService;
@@ -89,7 +92,7 @@ public class MeineDatenView extends Div {
     }
 
     /**
-     * @desc Erstellung des Erstellungs- und Bearbeitungslayouts.
+     * @desc Erstellung des Bearbeitungslayouts.
      */
     private VerticalLayout createEditDialogLayout() {
         VerticalLayout editDialogLayout = new VerticalLayout(passwordForm);
@@ -107,7 +110,7 @@ public class MeineDatenView extends Div {
     }
 
     /**
-     * @desc Öffnen des Mitarbeiterformulars zur Bearbeitungs (oder Erstellung) eines Mitarbeiters
+     * @desc Öffnen des Passwortformulars zur Bearbeitung des eigenen Passworts
      * @see RechteForm
      * @param user
      */
@@ -121,7 +124,7 @@ public class MeineDatenView extends Div {
     }
 
     /**
-     * @desc Speicher-Event für User -> Aufruf der Methode generateUser()
+     * @desc Speicher-Event für User
      * @param event
      */
     private void savePasswort(PasswordForm.SaveEvent event) {
@@ -140,7 +143,7 @@ public class MeineDatenView extends Div {
     }
 
     /**
-     * @desc Initialisierung der Leiste über der Tabelle (Suchleiste und Erstellungs-Button)
+     * @desc Initialisierung der Leiste über der Tabelle (Passwort ändern & Antrag stellen)
      */
     private HorizontalLayout getToolbar() {
 

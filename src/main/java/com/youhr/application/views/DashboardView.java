@@ -4,6 +4,7 @@ import com.youhr.application.data.entity.Mitarbeiter;
 import com.youhr.application.data.generator.DataGenerator;
 import com.youhr.application.data.service.AntragService;
 import com.youhr.application.data.service.MitarbeiterService;
+import com.youhr.application.layout.MainLayout;
 import com.youhr.application.security.AuthenticatedUser;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.html.*;
@@ -18,6 +19,7 @@ import javax.annotation.security.RolesAllowed;
  * @desc Der View Dashboard stellt die Willkommensseite des Programms dar. Der Nutzer wird mit eigenem Namen gegrüßt und ein paar Fakten zum Personalwesen werden dargestellt (für die User-Experience).
  *
  * @category View
+ * @author Chris Zobel, Ben Köppe
  * @version 0.7
  * @since 2022-07-05
  */

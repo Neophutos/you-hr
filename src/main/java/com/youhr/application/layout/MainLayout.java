@@ -1,4 +1,4 @@
-package com.youhr.application.views;
+package com.youhr.application.layout;
 
 import com.youhr.application.data.entity.User;
 import com.youhr.application.security.AuthenticatedUser;
@@ -18,6 +18,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
+import com.youhr.application.views.*;
 
 import java.util.Optional;
 

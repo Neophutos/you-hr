@@ -18,6 +18,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.youhr.application.layout.MainLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.security.RolesAllowed;
@@ -28,8 +29,9 @@ import java.time.format.FormatStyle;
  * @desc Der View Antragsverwaltung implementiert eine Tabellenansicht für alle vorhandenen Anträge.
  *
  * @category View
+ * @author Ben Köppe, Tim Freund, Chris Zobel
  * @version 1.0
- * @since 2022-06-30
+ * @since 2022-07-30
  */
 @PageTitle("Anträge")
 @Route(value = "antraege", layout = MainLayout.class)

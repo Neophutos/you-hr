@@ -1,6 +1,6 @@
 package com.youhr.application.views;
 
-import com.youhr.application.views.MainLayout;
+import com.youhr.application.layout.MainLayout;
 import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.accordion.AccordionPanel;
 import com.vaadin.flow.component.button.Button;
@@ -18,6 +18,7 @@ import javax.annotation.security.RolesAllowed;
  * @desc Der View About stellt in mehreren Abschnitten Grundinformationen zum Programm dar. Diese Klasse ist ausschließlich textbasiert und fordert weder Ein-, noch Ausgaben.
  *
  * @category View
+ * @author Natalie Stache, Ben Köppe
  * @version 1.0
  * @since 2022-07-04
  */
