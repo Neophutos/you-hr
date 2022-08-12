@@ -106,7 +106,7 @@
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>exampledata</artifactId>
-            <version>5.0.1</version>
+            <version>6.0.0</version>
         </dependency>
 
         <dependency>
@@ -148,7 +148,7 @@
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
-            <version>5.2.0</version>
+            <version>5.2.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -205,7 +205,7 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <productionMode>true</productionMode>
+                            <productionMode>false</productionMode>
                         </configuration>
                     </plugin>
                 </plugins>
