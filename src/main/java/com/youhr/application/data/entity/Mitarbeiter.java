@@ -5,6 +5,8 @@ import com.youhr.application.data.generator.UserGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -23,12 +25,23 @@ import java.util.Set;
 @Entity
 public class Mitarbeiter extends AbstractID {
 
+    @NotEmpty
     private String vorname = "";
+
+    @NotEmpty
     private String nachname = "";
-    private LocalDate geburtsdatum; //darf nicht @NotEmpty gesetzt werden
+
+    @NotNull
+    private LocalDate geburtsdatum;
+
     @Email
+    @NotNull
     private String email = "";
+
+    @NotEmpty
     private String telefonnr = "";
+
+    @NotEmpty
     private String position = "";
 
     @ManyToOne(cascade = CascadeType.MERGE)

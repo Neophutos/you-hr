@@ -1,6 +1,8 @@
 package com.youhr.application.data.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 /**
  * @desc Das Objekt Adresse stellt eine vollständige Anschrift (in Deutschland) dar.
@@ -17,14 +19,19 @@ import javax.persistence.*;
 @Entity
 public class Adresse extends AbstractID {
 
+    @NotNull
     private int plz = 0;
 
-    private String strassenname;
+    @NotEmpty
+    private String strassenname = "";
 
+    @NotNull
     private int hausnummer;
 
-    private String stadt;
+    @NotEmpty
+    private String stadt = "";
 
+    @NotEmpty
     private String bundesland;
 
     @OneToOne(mappedBy = "adresse")
