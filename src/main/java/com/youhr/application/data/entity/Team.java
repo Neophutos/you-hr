@@ -1,6 +1,7 @@
 package com.youhr.application.data.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import java.util.List;
 @Entity
 public class Team extends AbstractID {
 
+    @NotBlank
     private String bezeichnung;
 
     @OneToMany(mappedBy = "team")

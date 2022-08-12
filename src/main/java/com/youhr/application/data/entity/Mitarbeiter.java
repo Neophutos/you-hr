@@ -35,7 +35,7 @@ public class Mitarbeiter extends AbstractID {
     private LocalDate geburtsdatum;
 
     @Email
-    @NotNull
+    @NotEmpty
     private String email = "";
 
     @NotEmpty

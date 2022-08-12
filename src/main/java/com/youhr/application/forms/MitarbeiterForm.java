@@ -24,6 +24,7 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.shared.Registration;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.TransactionSystemException;
 
 import java.util.List;
 import java.util.Locale;
@@ -116,10 +117,8 @@ public class MitarbeiterForm extends FormLayout {
         email.getElement().setAttribute("name","email");
 
         this.abteilungen.setAllowCustomValue(false);
-        this.abteilungen.setRequired(true);
         this.abteilungen.setPlaceholder("Abteilung wählen");
         this.teams.setAllowCustomValue(false);
-        this.teams.setRequired(true);
         this.teams.setPlaceholder("Team wählen");
 
         geburtsdatum.setLocale(finnishLocale);
@@ -182,9 +181,10 @@ public class MitarbeiterForm extends FormLayout {
             selectedMitarbeiter.setTeam(teams.getValue());
             mitarbeiterBinder.writeBean(selectedMitarbeiter);
             fireEvent(new SaveEvent(this, selectedMitarbeiter));
+
             Notification.show(selectedMitarbeiter.getNachname() + ", " + selectedMitarbeiter.getVorname() + " wurde bearbeitet/erstellt").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-        } catch (ValidationException e) {
-            Notification.show("Etwas ist während der Bearbeitung schiefgelaufen").addThemeVariants(NotificationVariant.LUMO_ERROR);
+        } catch (TransactionSystemException | ValidationException e) {
+            Notification.show("Ein Fehler ist aufgetreten! Haben Sie eine Abteilung und ein Team ausgewählt?").addThemeVariants(NotificationVariant.LUMO_ERROR);
         }
     }
 
