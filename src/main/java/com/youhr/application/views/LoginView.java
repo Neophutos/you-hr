@@ -55,9 +55,9 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         login.setI18n(i18n);
 
         HorizontalLayout top = new HorizontalLayout();
-        Image logo = new Image("/icons/YouLogo_Large.png","YOU-Logo");
+        Image logo = new Image("icons/icon.png","YOU-Logo");
         logo.setMaxWidth("80px");
-        Text title = new Text("YOU - Modern HR");
+        Text title = new Text("YOU-HR");
         top.setAlignItems(FlexComponent.Alignment.CENTER);
         top.add(logo, title);
 
