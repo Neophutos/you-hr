@@ -46,10 +46,12 @@ public class Mitarbeiter extends AbstractID {
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "abteilung_id", referencedColumnName = "id")
+    @NotNull
     private Abteilung abteilung;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "team_id", referencedColumnName = "id")
+    @NotNull
     private Team team;
 
     @OneToOne(cascade = CascadeType.ALL)
