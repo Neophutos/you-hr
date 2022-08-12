@@ -146,10 +146,13 @@ public class RechteverwaltungView extends Div {
 
     private void configureContextMenu(){
         GridContextMenu<User> menu = grid.addContextMenu();
+
         GridMenuItem<User> bearbeiten = menu.addItem("Bearbeiten", event -> editUser(grid.asSingleSelect().getValue()));
         bearbeiten.addComponentAsFirst(createIcon(VaadinIcon.EDIT));
+
         GridMenuItem<User> changePasswort = menu.addItem("Passwort ändern", event -> editPasswort(grid.asSingleSelect().getValue()));
         changePasswort.addComponentAsFirst(createIcon(VaadinIcon.PASSWORD));
+
         GridMenuItem<User> loeschen = menu.addItem("Löschen", event -> removeUser(grid.asSingleSelect().getValue()));
         loeschen.addComponentAsFirst(createIcon(VaadinIcon.ERASER));
     }
