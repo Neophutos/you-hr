@@ -1,12 +1,6 @@
 package com.youhr.application.views;
 
-import com.youhr.application.data.entity.User;
-import com.youhr.application.data.service.UserService;
-import com.youhr.application.forms.PasswordForm;
-import com.youhr.application.forms.RechteForm;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
@@ -23,6 +17,10 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.youhr.application.data.entity.User;
+import com.youhr.application.data.service.UserService;
+import com.youhr.application.forms.PasswordForm;
+import com.youhr.application.forms.RechteForm;
 import com.youhr.application.layout.MainLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -48,16 +46,10 @@ public class RechteverwaltungView extends Div {
 
     Dialog editDialog = new Dialog();
     Dialog editPasswortDialog = new Dialog();
-    Dialog deletionDialog = new Dialog();
-
-    Button cancelButton;
-    Button confirmButton;
 
     RechteForm rechteForm;
     PasswordForm passwordForm;
     private final UserService userService;
-
-    User user;
 
     /**
      * @desc Initialisierung des grafischen Interfaces und des Menüs bei Rechtsklick auf die Tabelle
@@ -152,9 +144,6 @@ public class RechteverwaltungView extends Div {
 
         GridMenuItem<User> changePasswort = menu.addItem("Passwort ändern", event -> editPasswort(grid.asSingleSelect().getValue()));
         changePasswort.addComponentAsFirst(createIcon(VaadinIcon.PASSWORD));
-
-        GridMenuItem<User> loeschen = menu.addItem("Löschen", event -> removeUser(grid.asSingleSelect().getValue()));
-        loeschen.addComponentAsFirst(createIcon(VaadinIcon.ERASER));
     }
 
     /**
@@ -214,52 +203,6 @@ public class RechteverwaltungView extends Div {
             passwordForm.setSelectedUser(user);
             editPasswortDialog.open();
         }
-    }
-
-    /**
-     * @desc Initialisierung der Oberfläche für Löschen eines Users
-     * @param user
-     */
-    private void removeUser(User user) {
-        if (user == null) {
-            Notification.show("Es wurde kein User ausgewählt!").addThemeVariants(NotificationVariant.LUMO_ERROR);
-        } else {
-            deletionDialog = new Dialog();
-
-            deletionDialog.setHeaderTitle("User " + user.getUsername() + " wirklich löschen?");
-
-            cancelButton = createCancelButton(deletionDialog);
-            deletionDialog.getFooter().add(cancelButton);
-            confirmButton = createConfirmButton(deletionDialog, user);
-            deletionDialog.getFooter().add(confirmButton);
-
-            deletionDialog.open();
-        }
-    }
-
-    /**
-     * @desc Erstellen der Button-Logik bei Abbruch im Löschvorgang
-     */
-    private Button createCancelButton(Dialog confirmDialog) {
-        return new Button("Abbrechen", e -> {
-            confirmDialog.close();
-            Notification.show("Vorgang wurde abgebrochen");
-            updateList();
-        });
-    }
-
-    /**
-     * @desc Erstellung der Button-Logik bei Bestätigung des Löschens eines Users
-     */
-    private Button createConfirmButton(Dialog confirmDialog, User user) {
-        Button saveButton = new Button("Abschließen", e -> {
-            userService.delete(user);
-            Notification.show("User " + user.getUsername() + " wurde erfolgreich gelöscht!").addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-            confirmDialog.close();
-            updateList();
-        });
-        saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        return saveButton;
     }
 
     /**
