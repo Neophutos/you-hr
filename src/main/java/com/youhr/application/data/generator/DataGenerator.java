@@ -1,12 +1,21 @@
 package com.youhr.application.data.generator;
 
+import com.vaadin.exampledata.DataType;
+import com.vaadin.exampledata.ExampleDataGenerator;
+import com.youhr.application.data.entity.Abteilung;
+import com.youhr.application.data.entity.Mitarbeiter;
+import com.youhr.application.data.entity.Team;
+import com.youhr.application.data.repository.AbteilungRepository;
+import com.youhr.application.data.repository.TeamRepository;
 import com.youhr.application.security.Role;
 import com.youhr.application.data.entity.User;
 import com.youhr.application.data.repository.MitarbeiterRepository;
 import com.youhr.application.data.repository.UserRepository;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -22,8 +31,7 @@ public class DataGenerator {
     private static UserRepository userRepository;
 
     @Bean
-    public CommandLineRunner loadData(PasswordEncoder passwordEncoder, UserRepository userRepository,
-            MitarbeiterRepository mitarbeiterRepository) {
+    public CommandLineRunner loadData(AbteilungRepository abteilungRepository, TeamRepository teamRepository, PasswordEncoder passwordEncoder, UserRepository userRepository) {
 
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
@@ -39,7 +47,7 @@ public class DataGenerator {
 
             logger.info("Generating demo data");
 
-            logger.info("... generating 2 User entities...");
+            logger.info("... generating 3 User (Mitarbeiter, Personaler, Admin) entities...");
             User user = new User();
             user.setName("Test-User");
             user.setUsername("user");
@@ -62,22 +70,18 @@ public class DataGenerator {
             admin.setUsername("admin");
             admin.setHashedPassword(passwordEncoder.encode("admin"));
             admin.setProfilePictureUrl("https://cdn-icons.flaticon.com/png/512/6024/premium/6024190.png?token=exp=1659010722~hmac=30e6cdc61ba60b839187d66d894235f0");
-            admin.setRoles(Set.of(Role.MITARBEITER, Role.PERSONALER, Role.ADMIN));
+            admin.setRoles(Set.of(Role.MITARBEITER, Role.ADMIN));
             userRepository.save(admin);
-            logger.info("... generating 100 Mitarbeiter entities...");
-//            ExampleDataGenerator<Mitarbeiter> mitarbeiterRepositoryGenerator = new ExampleDataGenerator<>(
-//                    Mitarbeiter.class, LocalDateTime.of(2022, 5, 30, 0, 0, 0));
-//            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setVorname, DataType.FIRST_NAME);
-//            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setNachname, DataType.LAST_NAME);
-//            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setEmail, DataType.EMAIL);
-//            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setTelefonnr, DataType.PHONE_NUMBER);
-//            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setPosition, DataType.OCCUPATION);
-//            mitarbeiterRepositoryGenerator.setData(Mitarbeiter::setAbteilung, );
-//            mitarbeiterRepository.saveAll(mitarbeiterRepositoryGenerator.create(100, seed));
 
-            logger.info("... generating 100 Rechteverwaltung entities...");
+            Abteilung emptyA = new Abteilung();
+            emptyA.setBezeichnung("-");
+            abteilungRepository.save(emptyA);
 
-            logger.info("Generated demo data");
+            Team emptyT = new Team();
+            emptyT.setBezeichnung("-");
+            teamRepository.save(emptyT);
+
+            logger.info("Generated accounts and non-Abteilungen and -Teams!");
         };
     }
 
