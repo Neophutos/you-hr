@@ -117,8 +117,10 @@ public class MitarbeiterForm extends FormLayout {
         email.getElement().setAttribute("name","email");
 
         this.abteilungen.setAllowCustomValue(false);
+        this.abteilungen.setRequired(true);
         this.abteilungen.setPlaceholder("Abteilung wählen");
         this.teams.setAllowCustomValue(false);
+        this.teams.setRequired(true);
         this.teams.setPlaceholder("Team wählen");
 
         geburtsdatum.setLocale(finnishLocale);
