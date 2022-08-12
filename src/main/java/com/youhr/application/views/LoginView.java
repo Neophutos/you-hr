@@ -8,6 +8,7 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.login.LoginForm;
+import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
@@ -30,9 +31,10 @@ import com.vaadin.flow.router.Route;
  */
 @Route("login")
 @PageTitle("Login")
-public class LoginView extends FlexLayout implements BeforeEnterObserver {
+public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     private final LoginForm login = new LoginForm();
+    private final LoginI18n i18n = LoginI18n.createDefault();
 
     /**
      * @desc Initialisierung des grafischen Interfaces
@@ -42,41 +44,39 @@ public class LoginView extends FlexLayout implements BeforeEnterObserver {
     }
 
     public void buildUI(){
+        addClassName("login-view");
         setSizeFull();
+        configureGerman();
+        setAlignItems(Alignment.CENTER);
+        setJustifyContentMode(JustifyContentMode.CENTER);
 
         login.setAction("login");
-        login.addForgotPasswordListener(event -> Notification.show("Hinweis: Wenden Sie sich an ihren Personalbeauftragten"));
+        login.addForgotPasswordListener(event -> Notification.show("Hinweis: Wenden Sie sich an den Systemadmin"));
+        login.setI18n(i18n);
 
-        FlexLayout zentriertesLayout = new FlexLayout();
-        zentriertesLayout.setSizeFull();
-        zentriertesLayout.setJustifyContentMode(JustifyContentMode.CENTER);
-        zentriertesLayout.setAlignItems(Alignment.CENTER);
-        zentriertesLayout.add(login);
+        HorizontalLayout top = new HorizontalLayout();
+        Image logo = new Image("/icons/YouLogo_Large.png","YOU-Logo");
+        logo.setMaxWidth("80px");
+        Text title = new Text("YOU - Modern HR");
+        top.setAlignItems(FlexComponent.Alignment.CENTER);
+        top.add(logo, title);
 
-        Component loginInformation = buildLoginInformation();
-
-        add(loginInformation);
-        add(zentriertesLayout);
+        add(new H1(top), login);
     }
 
-    /**
-     * @desc builLoginInformation dient als Hilfe zur richtigen Bedienung des Logins.
-     */
-    private Component buildLoginInformation(){
-        VerticalLayout loginInformation = new VerticalLayout();
+    public void configureGerman(){
+        LoginI18n.Form i18nForm = i18n.getForm();
+        i18nForm.setTitle("\uD83D\uDD10 Login");
+        i18nForm.setUsername("Nutzername");
+        i18nForm.setPassword("Passwort");
+        i18nForm.setSubmit("Einloggen");
+        i18nForm.setForgotPassword("Passwort vergessen?");
+        i18n.setForm(i18nForm);
 
-        H2 loginInfoHeader = new H2("Willkommen bei YOU-HR!");
-        loginInfoHeader.setWidth("80%");
-        Span loginInfoText = new Span(
-                "Loggen Sie sich als \"admin\", \"personaler\" oder \"mitarbeiter\" " +
-                        "ein, um Zugang zum System zu haben. \n" +
-                        "Wenn Sie bereits einen neuen Mitarbeiter-Account erstellt haben, " +
-                        "nutzen Sie das im Erstellungsprozess erhaltene Passwort!"
-        );
-        loginInfoText.setWidth("80%");
-        loginInformation.add(loginInfoHeader, loginInfoText);
-
-        return loginInformation;
+        LoginI18n.ErrorMessage i18nErrorMessage = i18n.getErrorMessage();
+        i18nErrorMessage.setTitle("Falscher Nutzername oder Passwort!");
+        i18nErrorMessage.setMessage("Überprüfen Sie, ob der Benutzername und das Passwort korrekt sind und versuchen Sie es erneut.");
+        i18n.setErrorMessage(i18nErrorMessage);
     }
 
     /**
