@@ -6,7 +6,7 @@
     <groupId>com.youhr.application</groupId>
     <artifactId>you-hr</artifactId>
     <name>YOU-HR</name>
-    <version>0.9-BETA</version>
+    <version>1.0-Release</version>
     <packaging>jar</packaging>
 
     <properties>
