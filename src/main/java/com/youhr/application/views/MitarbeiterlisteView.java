@@ -48,7 +48,7 @@ import java.util.stream.Stream;
  * @version 1.0
  * @since 2022-07-08
  */
-@PageTitle("Mitarbeiterliste")
+@PageTitle("Mitarbeiterliste | YOU-HR")
 @Route(value = "mitarbeiterliste", layout = MainLayout.class)
 @RolesAllowed({"PERSONALER"})
 @JsModule("./modules/copytoclipboard.js")

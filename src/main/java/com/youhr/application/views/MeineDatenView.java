@@ -38,7 +38,7 @@ import java.util.stream.Stream;
  * @version 1.0
  * @since 2022-07-01
  */
-@PageTitle("Meine Daten")
+@PageTitle("Meine Daten | YOU-HR")
 @Route(value = "meine_daten", layout = MainLayout.class)
 @RolesAllowed({"MITARBEITER","PERSONALER","ADMIN"})
 public class MeineDatenView extends Div {

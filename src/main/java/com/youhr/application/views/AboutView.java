@@ -22,7 +22,7 @@ import javax.annotation.security.RolesAllowed;
  * @version 1.0
  * @since 2022-07-04
  */
-@PageTitle("Über YOU")
+@PageTitle("Über YOU | YOU-HR")
 @Route(value = "about", layout = MainLayout.class)
 @RolesAllowed({"MITARBEITER","PERSONALER","ADMIN"})
 public class AboutView extends VerticalLayout {

@@ -36,7 +36,7 @@ import javax.annotation.security.RolesAllowed;
  * @since 2022-06-30
  */
 
-@PageTitle("Rechteverwaltung")
+@PageTitle("Rechteverwaltung | YOU-HR")
 @Route(value = "rechteverwaltung/:rechteverwaltungID?/:action?(edit)", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
 @Uses(Icon.class)

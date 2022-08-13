@@ -23,7 +23,7 @@ import javax.annotation.security.RolesAllowed;
  * @version 0.7
  * @since 2022-07-05
  */
-@PageTitle("Dashboard")
+@PageTitle("Dashboard | YOU-HR")
 @Route(value = "dashboard", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
 @RolesAllowed({"MITARBEITER","PERSONALER","ADMIN"})

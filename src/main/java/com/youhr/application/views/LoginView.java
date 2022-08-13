@@ -30,7 +30,7 @@ import com.vaadin.flow.router.Route;
  * @since 2022-07-20
  */
 @Route("login")
-@PageTitle("Login")
+@PageTitle("Login | YOU-HR")
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     private final LoginForm login = new LoginForm();

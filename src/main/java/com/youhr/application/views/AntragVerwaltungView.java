@@ -33,7 +33,7 @@ import java.time.format.FormatStyle;
  * @version 1.0
  * @since 2022-07-30
  */
-@PageTitle("Anträge")
+@PageTitle("Anträge | YOU-HR")
 @Route(value = "antraege", layout = MainLayout.class)
 @RolesAllowed({"PERSONALER", "ADMIN"})
 public class AntragVerwaltungView extends Div {

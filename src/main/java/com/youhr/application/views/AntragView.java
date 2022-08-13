@@ -28,7 +28,7 @@ import javax.annotation.security.RolesAllowed;
  * @version 1.0
  * @since 2022-06-30
  */
-@PageTitle("Antrag/Problem einreichen")
+@PageTitle("Antragsstellung | YOU-HR")
 @Route(value = "antragsstellung", layout = MainLayout.class)
 @RolesAllowed({"MITARBEITER","PERSONALER","ADMIN"})
 @Uses(Icon.class)

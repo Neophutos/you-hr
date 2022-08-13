@@ -35,7 +35,7 @@ import javax.annotation.security.RolesAllowed;
  * @version 1.0
  * @since 2022-08-03
  */
-@PageTitle("Gruppen")
+@PageTitle("Gruppen | YOU-HR")
 @Route(value = "gruppen", layout = MainLayout.class)
 @RolesAllowed({"ADMIN","PERSONALER"})
 public class GruppenView extends VerticalLayout {
