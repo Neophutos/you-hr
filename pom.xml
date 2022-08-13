@@ -10,7 +10,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>14</java.version>
         <vaadin.version>23.1.0</vaadin.version>
         <selenium.version>4.1.2</selenium.version>
     </properties>
@@ -38,7 +38,6 @@
                 https://maven.vaadin.com/vaadin-prereleases/
             </url>
         </repository>
-        <!-- Repository used by many Vaadin add-ons -->
         <repository>
             <id>Vaadin Directory</id>
             <url>https://maven.vaadin.com/vaadin-addons</url>
@@ -49,7 +48,6 @@
     </repositories>
 
     <pluginRepositories>
-        <!-- The order of definitions matters. Explicitly defining central here to make sure it has the highest priority. -->
         <pluginRepository>
             <id>central</id>
             <url>https://repo.maven.apache.org/maven2</url>
@@ -80,7 +78,6 @@
     <dependencies>
         <dependency>
             <groupId>com.vaadin</groupId>
-            <!-- Replace artifactId with vaadin-core to use only free components -->
             <artifactId>vaadin</artifactId>
         </dependency>
         <dependency>
@@ -133,7 +130,6 @@
             <artifactId>vaadin-testbench</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- Include JUnit 4 support for TestBench and others -->
         <dependency>
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
@@ -159,18 +155,11 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <!-- Clean build and startup time for Vaadin apps sometimes may exceed
-                     the default Spring Boot's 30sec timeout.  -->
                 <configuration>
                     <wait>500</wait>
                     <maxAttempts>240</maxAttempts>
                 </configuration>
             </plugin>
-            <!--
-                Take care of synchronizing java dependencies and imports in
-                package.json and main.js files.
-                It also creates webpack.config.js if not exists yet.
-            -->
             <plugin>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-maven-plugin</artifactId>
@@ -187,8 +176,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>16</source>
-                    <target>16</target>
+                    <source>14</source>
+                    <target>14</target>
                 </configuration>
             </plugin>
         </plugins>
