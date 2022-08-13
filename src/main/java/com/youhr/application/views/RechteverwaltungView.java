@@ -22,7 +22,6 @@ import com.youhr.application.data.service.UserService;
 import com.youhr.application.forms.PasswordForm;
 import com.youhr.application.forms.RechteForm;
 import com.youhr.application.layout.MainLayout;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.security.RolesAllowed;
 
@@ -55,7 +54,6 @@ public class RechteverwaltungView extends Div {
      * @desc Initialisierung des grafischen Interfaces und des Menüs bei Rechtsklick auf die Tabelle
      * @param userService
      */
-    @Autowired
     public RechteverwaltungView(UserService userService) {
         this.userService = userService;
         addClassName("rechteverwaltung-view");

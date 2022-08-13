@@ -20,7 +20,7 @@ import java.util.Set;
  * @category Objekt
  * @author Ben Köppe, Tim Freund, Chris Zobel, Riccardo Prochnow
  * @version 1.0
- * @since 2022-07-06
+ * @since 2022-08-10
  */
 @Entity
 public class Mitarbeiter extends AbstractID {

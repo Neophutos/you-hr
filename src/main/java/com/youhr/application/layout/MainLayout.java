@@ -115,9 +115,9 @@ public class MainLayout extends AppLayout {
 
         appName.addClassNames("app-name");
 
-        com.vaadin.flow.component.html.Section section = new com.vaadin.flow.component.html.Section(appName,
-                createNavigation(), createFooter());
+        com.vaadin.flow.component.html.Section section = new com.vaadin.flow.component.html.Section(appName, createNavigation(), createFooter());
         section.addClassNames("drawer-section");
+
         return section;
     }
 
@@ -129,7 +129,6 @@ public class MainLayout extends AppLayout {
         nav.addClassNames("menu-item-container");
         nav.getElement().setAttribute("aria-labelledby", "views");
 
-        // Wrap the links in a list; improves accessibility
         UnorderedList list = new UnorderedList();
         list.addClassNames("navigation-list");
         nav.add(list);
@@ -139,6 +138,7 @@ public class MainLayout extends AppLayout {
                 list.add(menuItem);
             }
         }
+
         return nav;
     }
 
@@ -146,22 +146,20 @@ public class MainLayout extends AppLayout {
      * @desc Initialisieren der Interaktionselemente aus der Menüliste
      */
     private MenuItemInfo[] createMenuItems() {
-        return new MenuItemInfo[]{ //
+        return new MenuItemInfo[]{
+                new MenuItemInfo("Dashboard", "la la-home", DashboardView.class),
 
-                new MenuItemInfo("Dashboard", "la la-home", DashboardView.class), //
+                new MenuItemInfo("Mitarbeiterliste", "la la-address-book", MitarbeiterlisteView.class),
 
-                new MenuItemInfo("Mitarbeiterliste", "la la-address-book", MitarbeiterlisteView.class), //
+                new MenuItemInfo("Anträge", "la la-inbox", AntragVerwaltungView.class),
 
-                new MenuItemInfo("Anträge", "la la-inbox", AntragVerwaltungView.class), //
+                new MenuItemInfo("Rechteverwaltung", "la la-cog", RechteverwaltungView.class),
 
-                new MenuItemInfo("Rechteverwaltung", "la la-cog", RechteverwaltungView.class), //
+                new MenuItemInfo("Gruppen", "la la-users-cog", GruppenView.class),
 
-                new MenuItemInfo("Gruppen", "la la-users-cog", GruppenView.class), //
-
-                new MenuItemInfo("Antrag/Problem erstellen", "la la-paste", AntragView.class), //
+                new MenuItemInfo("Antrag/Problem erstellen", "la la-paste", AntragView.class),
 
                 new MenuItemInfo("Über YOU", "la la-info-circle", AboutView.class),
-
         };
     }
 
@@ -181,13 +179,12 @@ public class MainLayout extends AppLayout {
 
             ContextMenu userMenu = new ContextMenu(avatar);
             userMenu.setOpenOnClick(true);
+
             userMenu.addItem("Meine Daten", e -> {
-                getUI().ifPresent(ui -> ui.navigate(
-                        MeineDatenView.class));
-            }).addComponentAsFirst(createIcon(VaadinIcon.BOOK));
+                getUI().ifPresent(ui -> ui.navigate(MeineDatenView.class));}).addComponentAsFirst(createIcon(VaadinIcon.BOOK));
+
             userMenu.addItem("Logout", e -> {
-                authenticatedUser.logout();
-            }).addComponentAsFirst(createIcon(VaadinIcon.SIGN_OUT));
+                authenticatedUser.logout();}).addComponentAsFirst(createIcon(VaadinIcon.SIGN_OUT));
 
             Span name = new Span(user.getName());
             name.addClassNames("font-medium", "text-s", "text-secondary");

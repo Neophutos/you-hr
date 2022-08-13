@@ -31,8 +31,6 @@ import java.util.Locale;
 public class AbteilungForm extends FormLayout {
     private final Binder<Abteilung> abteilungBinder = new BeanValidationBinder<>(Abteilung.class);
 
-    Locale finnishLocale = new Locale("fi", "FI");
-
     private final TextField bezeichnung = new TextField("Bezeichnung");
     
     Button speichern = new Button("Speichern");
@@ -66,10 +64,7 @@ public class AbteilungForm extends FormLayout {
 
         setMaxWidth("600px");
 
-        add(
-                bezeichnung,
-                createButtonLayout()
-        );
+        add(bezeichnung, createButtonLayout());
     }
 
     /**

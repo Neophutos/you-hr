@@ -24,6 +24,15 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ * @desc Der DataGenerator erstellt bei erstmaligem Start des Programms generische Rollen und ein leeres Team und eine leere Abteilung.
+ * @desc Unter generischen Rollen sind Mitarbeiter, Personaler und Admin mit vorgegebenen Rollen zu verstehen.
+ *
+ * @category Generator
+ * @author Tim Freund, Ben Köppe, Riccardo Prochnow
+ * @version 1.0
+ * @since 2022-08-05
+ */
 @SpringComponent
 public class DataGenerator {
 
@@ -33,27 +42,25 @@ public class DataGenerator {
     @Bean
     public CommandLineRunner loadData(AbteilungRepository abteilungRepository, TeamRepository teamRepository, PasswordEncoder passwordEncoder, UserRepository userRepository) {
 
-        this.passwordEncoder = passwordEncoder;
-        this.userRepository = userRepository;
+        DataGenerator.passwordEncoder = passwordEncoder;
+        DataGenerator.userRepository = userRepository;
 
 
         return args -> {
             Logger logger = LoggerFactory.getLogger(getClass());
             if (userRepository.count() != 0L) {
-                logger.info("Using existing database");
+                logger.info("Nutzung der bestehenden Datenbank");
                 return;
             }
-            int seed = 123;
 
-            logger.info("Generating demo data");
+            logger.info("Generiere Start-Up-Daten");
 
-            logger.info("... generating 3 User (Mitarbeiter, Personaler, Admin) entities...");
+            logger.info("... generiere 3 Nutzer (Mitarbeiter, Personaler, Admin)...");
             User user = new User();
-            user.setName("Test-User");
-            user.setUsername("user");
-            user.setHashedPassword(passwordEncoder.encode("user"));
-            user.setProfilePictureUrl(
-                    "https://cdn-icons-png.flaticon.com/512/2405/2405283.png");
+            user.setName("Mitarbeiter");
+            user.setUsername("mitarbeiter");
+            user.setHashedPassword(passwordEncoder.encode("mitarbeiter"));
+            user.setProfilePictureUrl("https://cdn-icons-png.flaticon.com/512/2405/2405283.png");
             user.setRoles(Collections.singleton(Role.MITARBEITER));
             userRepository.save(user);
 
@@ -81,7 +88,7 @@ public class DataGenerator {
             emptyT.setBezeichnung("-");
             teamRepository.save(emptyT);
 
-            logger.info("Generated accounts and non-Abteilungen and -Teams!");
+            logger.info("Generation von Nutzern, Team und Abteilung war erfolgreich!");
         };
     }
 

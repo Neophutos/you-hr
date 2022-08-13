@@ -7,6 +7,7 @@ import com.vaadin.flow.component.notification.Notification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.security.SecureRandom;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -20,10 +21,8 @@ import java.util.Set;
  */
 public class UserGenerator {
 
-    private static PasswordEncoder passwordEncoder = DataGenerator.getPasswordEncoder();
-    private static UserService userService = new UserService(DataGenerator.getUserRepository());
-
-    private final Notification notification = new Notification();
+    private static final PasswordEncoder passwordEncoder = DataGenerator.getPasswordEncoder();
+    private static final UserService userService = new UserService(DataGenerator.getUserRepository());
 
     public static User generate(String vorname, String nachname, User user) {
         user.setName(String.format("%s %s", vorname, nachname));
@@ -38,7 +37,7 @@ public class UserGenerator {
                 .getUserRepository()
                 .findAll()
                 .stream()
-                .filter(u -> u.getUsername() == user.getUsername())
+                .filter(u -> Objects.equals(u.getUsername(), user.getUsername()))
                 .count();
 
         if (results != 0) {

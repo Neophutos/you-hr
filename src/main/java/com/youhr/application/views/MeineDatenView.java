@@ -1,14 +1,5 @@
 package com.youhr.application.views;
 
-import com.youhr.application.data.entity.Mitarbeiter;
-import com.youhr.application.data.entity.User;
-import com.youhr.application.data.generator.DataGenerator;
-import com.youhr.application.data.service.MitarbeiterService;
-import com.youhr.application.data.service.UserService;
-import com.youhr.application.layout.MainLayout;
-import com.youhr.application.security.AuthenticatedUser;
-import com.youhr.application.forms.PasswordForm;
-import com.youhr.application.forms.RechteForm;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -20,10 +11,16 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.BeanValidationBinder;
-import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.youhr.application.data.entity.Mitarbeiter;
+import com.youhr.application.data.entity.User;
+import com.youhr.application.data.generator.DataGenerator;
+import com.youhr.application.data.service.UserService;
+import com.youhr.application.forms.PasswordForm;
+import com.youhr.application.forms.RechteForm;
+import com.youhr.application.layout.MainLayout;
+import com.youhr.application.security.AuthenticatedUser;
 
 import javax.annotation.security.RolesAllowed;
 import java.time.format.DateTimeFormatter;
@@ -44,9 +41,6 @@ import java.util.stream.Stream;
 public class MeineDatenView extends Div {
 
     private final AuthenticatedUser authenticatedUser = new AuthenticatedUser(DataGenerator.getUserRepository());
-    private final MitarbeiterService mitarbeiterService;
-
-    private final Binder<Mitarbeiter> mitarbeiterBinder = new BeanValidationBinder<>(Mitarbeiter.class);
 
     private final Dialog editPasswortDialog = new Dialog();
 
@@ -69,11 +63,9 @@ public class MeineDatenView extends Div {
 
     /**
      * @desc Diese Methode initialisiert das grafische Interface und fügt diese zum View hinzu.
-     * @param mitarbeiterService
      * @param userService
      */
-    public MeineDatenView(MitarbeiterService mitarbeiterService, UserService userService) {
-        this.mitarbeiterService = mitarbeiterService;
+    public MeineDatenView(UserService userService) {
         this.userService = userService;
 
         setMitarbeiterFromUser();

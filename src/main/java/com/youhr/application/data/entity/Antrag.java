@@ -19,17 +19,17 @@ import java.time.LocalDate;
 @Entity
 public class Antrag extends AbstractID {
 
-    private LocalDate datum; //darf nicht @NotEmpty gesetzt werden
+    private LocalDate datum;
 
     private String antragstellername = "";
+
     @NotEmpty
     private String antragsart = "";
+
     @NotEmpty
     private String beschreibung = "";
 
-    public Antrag() {
-
-    }
+    public Antrag() {}
 
     public LocalDate getDatum() {
         return datum;

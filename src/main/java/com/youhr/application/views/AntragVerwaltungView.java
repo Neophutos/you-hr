@@ -1,6 +1,10 @@
 package com.youhr.application.views;
 
+import com.vaadin.flow.component.grid.contextmenu.GridMenuItem;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.youhr.application.data.entity.Antrag;
+import com.youhr.application.data.entity.Mitarbeiter;
 import com.youhr.application.data.service.AntragService;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -61,7 +65,21 @@ public class AntragVerwaltungView extends Div {
         updateList();
 
         GridContextMenu<Antrag> menu = grid.addContextMenu();
-        menu.addItem("Abschließen", event -> solveAntrag(grid.asSingleSelect().getValue()));
+        GridMenuItem<Antrag> complete = menu.addItem("Abschließen", event -> solveAntrag(grid.asSingleSelect().getValue()));
+        complete.addComponentAsFirst(createIcon(VaadinIcon.CLIPBOARD_CHECK));
+    }
+
+    /**
+     * @desc Grafische Konfiguration der Icons im Rechtsklick-Menü
+     * @param vaadinIcon
+     */
+    private Component createIcon(VaadinIcon vaadinIcon) {
+        Icon icon = vaadinIcon.create();
+        icon.getStyle()
+                .set("color", "var(--lumo-secondary-text-color)")
+                .set("margin-inline-end", "var(--lumo-space-s")
+                .set("padding", "var(--lumo-space-xs");
+        return icon;
     }
 
     /**

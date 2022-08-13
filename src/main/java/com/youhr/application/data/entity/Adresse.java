@@ -37,9 +37,7 @@ public class Adresse extends AbstractID {
     @OneToOne(mappedBy = "adresse")
     private Mitarbeiter mitarbeiter;
 
-    public Adresse() {
-
-    }
+    public Adresse() {}
 
     public Adresse(int plz, String strassenname, int hausnummer, String stadt, String bundesland) {
         this.plz = plz;

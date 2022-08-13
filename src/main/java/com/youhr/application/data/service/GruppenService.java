@@ -40,10 +40,10 @@ public class GruppenService {
 
     public Optional<Team> getTeam(UUID id) { return teamRepository.findById(id);}
 
-    public Abteilung updateAbteilung(Abteilung entity) { return abteilungRepository.save(entity);}
+    public void updateAbteilung(Abteilung entity) { abteilungRepository.save(entity);}
 
-    public Team updateTeam(Team entity) {
-        return teamRepository.save(entity);
+    public void updateTeam(Team entity) {
+        teamRepository.save(entity);
     }
 
     public void deleteAbteilung(Abteilung entity) {

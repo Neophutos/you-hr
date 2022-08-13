@@ -1,20 +1,12 @@
 package com.youhr.application.forms;
 
-import com.youhr.application.data.entity.Antrag;
-import com.youhr.application.data.generator.DataGenerator;
-import com.youhr.application.data.service.AntragService;
-import com.youhr.application.security.AuthenticatedUser;
-import com.youhr.application.views.DashboardView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Key;
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.H5;
-import com.vaadin.flow.component.html.H6;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -22,6 +14,11 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.youhr.application.data.entity.Antrag;
+import com.youhr.application.data.generator.DataGenerator;
+import com.youhr.application.data.service.AntragService;
+import com.youhr.application.security.AuthenticatedUser;
+import com.youhr.application.views.DashboardView;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
@@ -36,21 +33,15 @@ import java.time.LocalDate;
  */
 public class AntragForm extends FormLayout {
 
-    private BeanValidationBinder<Antrag> antragBinder = new BeanValidationBinder<>(Antrag.class);
-    private AuthenticatedUser authenticatedUser = new AuthenticatedUser(DataGenerator.getUserRepository());
-
-    Text text = new Text("Wählen Sie die Art des Antrags aus!");
-    private ComboBox<String> antragsart = new ComboBox<>("Antragsart");
-    private TextArea beschreibung = new TextArea("Problembeschreibung");
+    private final BeanValidationBinder<Antrag> antragBinder = new BeanValidationBinder<>(Antrag.class);
+    private final AuthenticatedUser authenticatedUser = new AuthenticatedUser(DataGenerator.getUserRepository());
 
     Button absenden = new Button("Abschicken");
     Button schliessen = new Button("Schließen");
 
     int charLimit = 250;
 
-    private AntragService antragService;
-
-    private Antrag antrag;
+    private final AntragService antragService;
 
     /**
      * @desc Binden der Eingabefelder an die Attribute des Objekts. Außerdem wird das Formular (Text + Eingabefelder + Buttons) initialisiert.
@@ -63,20 +54,17 @@ public class AntragForm extends FormLayout {
 
         antragBinder.bindInstanceFields(this);
 
-        antragsart.setItems("Daten-Änderung", "Rechte-Änderung", "Problem-Meldung", "Anderes Anliegen");
+        ComboBox<String> antragsart = new ComboBox<>("Antragsart");
         antragsart.setItems("Daten-Änderung", "Rechte-Änderung", "Problem-Meldung", "Anderes Anliegen");
 
+        TextArea beschreibung = new TextArea("Problembeschreibung");
         beschreibung.setPlaceholder("Beschreiben Sie hier Ihr Anliegen möglichst präzise und genau.");
         beschreibung.setMinHeight("200px");
         beschreibung.setMaxLength(charLimit);
         beschreibung.setValueChangeMode(ValueChangeMode.EAGER);
         beschreibung.addValueChangeListener(e -> {e.getSource().setHelperText(e.getValue().length() + "/" + charLimit);});
 
-        add(
-                antragsart,
-                beschreibung,
-                createButtonLayout()
-        );
+        add(antragsart, beschreibung, createButtonLayout());
     }
 
     /**
@@ -103,11 +91,11 @@ public class AntragForm extends FormLayout {
      */
     private void checkundSend() {
         try {
-            this.antrag = new Antrag();
+            Antrag antrag = new Antrag();
 
-            this.antrag.setDatum(LocalDate.now());
+            antrag.setDatum(LocalDate.now());
 
-            this.antrag.setAntragstellername(authenticatedUser.get().get().getName());
+            antrag.setAntragstellername(authenticatedUser.get().get().getName());
 
             antragBinder.writeBean(antrag);
 

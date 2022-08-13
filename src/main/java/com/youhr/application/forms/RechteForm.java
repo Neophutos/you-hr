@@ -1,7 +1,5 @@
 package com.youhr.application.forms;
 
-import com.youhr.application.security.Role;
-import com.youhr.application.data.entity.User;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -11,7 +9,6 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.checkbox.CheckboxGroupVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -20,6 +17,8 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.shared.Registration;
+import com.youhr.application.data.entity.User;
+import com.youhr.application.security.Role;
 
 /**
  * @desc Das Rechte-Formular ist für die Änderung der Berechtigungen und des Usernames eines Nutzers im System verantwortlich

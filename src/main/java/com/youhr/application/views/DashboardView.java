@@ -30,12 +30,6 @@ import javax.annotation.security.RolesAllowed;
 @RouteAlias(value = "", layout = MainLayout.class)
 public class DashboardView extends VerticalLayout {
 
-    private AuthenticatedUser authenticatedUser = new AuthenticatedUser(DataGenerator.getUserRepository());
-    private Text name;
-    private Mitarbeiter mitarbeiter;
-    private MitarbeiterService mitarbeiterService;
-    private AntragService antragService;
-
     /**
      * @desc Initialisierung des grafischen Interfaces. Dabei werden auf Datenbank-Informationen über die Objekte Mitarbeiter und Antrag zugegriffen.
      * @param mitarbeiterService
@@ -43,8 +37,10 @@ public class DashboardView extends VerticalLayout {
      */
     public DashboardView(MitarbeiterService mitarbeiterService, AntragService antragService) {
 
+        AuthenticatedUser authenticatedUser = new AuthenticatedUser(DataGenerator.getUserRepository());
+        Text name;
         if(authenticatedUser.get().get().getMitarbeiter() != null){
-            this.mitarbeiter = authenticatedUser.get().get().getMitarbeiter();
+            Mitarbeiter mitarbeiter = authenticatedUser.get().get().getMitarbeiter();
             name = new Text("Willkommen zurück " + mitarbeiter.getVorname() + " " + mitarbeiter.getNachname() + "! \uD83D\uDC4B");
         } else {
             name = new Text("Willkommen zurück bei YOU! \uD83D\uDC4B");
@@ -52,6 +48,7 @@ public class DashboardView extends VerticalLayout {
 
         Image logo = new Image("/icons/YouLogo_Large.png","YOU-Logo");
         logo.setMaxWidth("100px");
+
         H3 welcome = new H3(name);
 
         Paragraph anzahlMitarbeiter = new Paragraph("\uD83D\uDC68\u200D\uD83D\uDCBC Es befinden sich derzeit " + mitarbeiterService.countMitarbeiter() + " Mitarbeiter im Unternehmen");

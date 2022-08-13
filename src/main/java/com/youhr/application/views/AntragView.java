@@ -1,19 +1,16 @@
 package com.youhr.application.views;
 
 import com.vaadin.flow.component.accordion.Accordion;
+import com.vaadin.flow.component.dependency.Uses;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
 import com.youhr.application.data.service.AntragService;
 import com.youhr.application.forms.AntragForm;
 import com.youhr.application.layout.MainLayout;
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.dependency.Uses;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.security.RolesAllowed;
 
@@ -26,7 +23,7 @@ import javax.annotation.security.RolesAllowed;
  * @category View
  * @Author Chris Zobel, Natalie Stache
  * @version 1.0
- * @since 2022-06-30
+ * @since 2022-07-30
  */
 @PageTitle("Antragsstellung | YOU-HR")
 @Route(value = "antragsstellung", layout = MainLayout.class)
@@ -34,7 +31,7 @@ import javax.annotation.security.RolesAllowed;
 @Uses(Icon.class)
 public class AntragView extends Div {
 
-    private AntragService antragService;
+    private final AntragService antragService;
 
     AntragForm form;
 
@@ -42,7 +39,6 @@ public class AntragView extends Div {
      * @desc Initialisierung des grafischen Interfaces
      * @param antragService
      */
-    @Autowired
     public AntragView(AntragService antragService) {
         this.antragService = antragService;
         addClassName("antrag-view");

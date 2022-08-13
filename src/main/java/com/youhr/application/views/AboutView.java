@@ -27,22 +27,8 @@ import javax.annotation.security.RolesAllowed;
 @RolesAllowed({"MITARBEITER","PERSONALER","ADMIN"})
 public class AboutView extends VerticalLayout {
 
-    private final Accordion beschreibung = new Accordion();
-
-    private final Span was = new Span("YOU ist ein Prototyp für ein Personalverwaltungssystem, das grundlegende Funktionen für die Nutzung im Personalwesen bereitstellt.");
-
-    private final Span wie = new Span("Das System basiert auf der Sprache Java. Mithilfe der Frameworks Spring, Vaadin und JPA wurden sowohl Database-Anbindungen, als auch das Web-UI erstellt.");
-
-    private final Span team = new Span("Erstellt vom Team TheOptimisticHR:");
-    private final Span ben = new Span("- Ben Köppe (Developer)");
-    private final Span tim = new Span("- Tim Freund");
-    private final Span riccardo = new Span("- Riccardo Prochnow");
-    private final Span chris = new Span("- Chris Zobel");
-    private final Span natalie = new Span("- Natalie Stache");
-
     Image gitlogo = new Image("/images/github.png", "GitHub Logo");
 
-    private final Span sourcecode = new Span("Unseren Quellcode finden Sie unter folgendem Link:");
     private final Button github = new Button(gitlogo);
 
     /**
@@ -51,13 +37,26 @@ public class AboutView extends VerticalLayout {
     public AboutView() {
         setMargin(true);
 
+        Accordion beschreibung = new Accordion();
+
+        Span was = new Span("YOU ist ein Prototyp für ein Personalverwaltungssystem, das grundlegende Funktionen für die Nutzung im Personalwesen bereitstellt.");
         AccordionPanel aboutLayout = beschreibung.add("\uD83E\uDD14 Was ist YOU?", was);
         aboutLayout.addThemeVariants(DetailsVariant.REVERSE);
 
+        Span wie = new Span("Das System basiert auf der Sprache Java. Mithilfe der Frameworks Spring, Vaadin und JPA wurden sowohl Database-Anbindungen, als auch das Web-UI erstellt.");
         AccordionPanel howLayout = beschreibung.add("\uD83D\uDDC3 Wie funktioniert das System?", wie);
         howLayout.addThemeVariants(DetailsVariant.REVERSE);
 
+        Span team = new Span("Erstellt vom Team TheOptimisticHR:");
+
+        Span ben = new Span("- Ben Köppe (Developer)");
+        Span riccardo = new Span("- Riccardo Prochnow");
+        Span tim = new Span("- Tim Freund");
+        Span chris = new Span("- Chris Zobel");
+        Span natalie = new Span("- Natalie Stache");
+
         VerticalLayout TeamInformationLayout = new VerticalLayout(team, ben, tim, riccardo, chris, natalie);
+
         TeamInformationLayout.setSpacing(false);
         TeamInformationLayout.setPadding(false);
 
@@ -69,6 +68,7 @@ public class AboutView extends VerticalLayout {
         github.addThemeVariants(ButtonVariant.LUMO_ICON);
         gitlogo.setMaxWidth("30px");
 
+        Span sourcecode = new Span("Unseren Quellcode finden Sie unter folgendem Link:");
         VerticalLayout CodeInformationLayout = new VerticalLayout(sourcecode, github);
         CodeInformationLayout.setSpacing(false);
         CodeInformationLayout.setPadding(false);

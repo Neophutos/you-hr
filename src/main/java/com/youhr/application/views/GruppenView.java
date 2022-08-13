@@ -1,11 +1,5 @@
 package com.youhr.application.views;
 
-import com.youhr.application.data.entity.Abteilung;
-import com.youhr.application.data.entity.Team;
-import com.youhr.application.data.service.GruppenService;
-import com.youhr.application.forms.AbteilungForm;
-import com.youhr.application.forms.MitarbeiterForm;
-import com.youhr.application.forms.TeamForm;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -22,8 +16,12 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.youhr.application.data.entity.Abteilung;
+import com.youhr.application.data.entity.Team;
+import com.youhr.application.data.service.GruppenService;
+import com.youhr.application.forms.AbteilungForm;
+import com.youhr.application.forms.TeamForm;
 import com.youhr.application.layout.MainLayout;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import javax.annotation.security.RolesAllowed;
@@ -64,7 +62,6 @@ public class GruppenView extends VerticalLayout {
      * @desc Initialisierung des grafischen Interfaces und des Menüs bei Rechtsklick auf die Tabelle
      * @param gruppenService
      */
-    @Autowired
     public GruppenView(GruppenService gruppenService) {
         this.gruppenService = gruppenService;
 

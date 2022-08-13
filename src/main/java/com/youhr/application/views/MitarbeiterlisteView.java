@@ -1,9 +1,5 @@
 package com.youhr.application.views;
 
-import com.youhr.application.data.entity.Adresse;
-import com.youhr.application.data.entity.Mitarbeiter;
-import com.youhr.application.data.service.MitarbeiterService;
-import com.youhr.application.forms.MitarbeiterForm;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -29,8 +25,11 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.youhr.application.data.entity.Adresse;
+import com.youhr.application.data.entity.Mitarbeiter;
+import com.youhr.application.data.service.MitarbeiterService;
+import com.youhr.application.forms.MitarbeiterForm;
 import com.youhr.application.layout.MainLayout;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.security.RolesAllowed;
 import java.time.format.DateTimeFormatter;
@@ -71,7 +70,6 @@ public class MitarbeiterlisteView extends Div {
      * @desc Initialisierung des grafischen Interfaces und des Menüs bei Rechtsklick auf die Tabelle
      * @param mitarbeiterService
      */
-    @Autowired
     public MitarbeiterlisteView(MitarbeiterService mitarbeiterService) {
         this.mitarbeiterService = mitarbeiterService;
         addClassName("mitarbeiterliste-view");
@@ -85,11 +83,14 @@ public class MitarbeiterlisteView extends Div {
         editDialog.add(editDialogLayout);
 
         GridContextMenu<Mitarbeiter> menu = grid.addContextMenu();
+
         GridMenuItem<Mitarbeiter> mail = menu.addItem("E-Mail", event -> getMail(grid.asSingleSelect().getValue()));
         mail.addComponentAsFirst(createIcon(VaadinIcon.ENVELOPES_O));
         menu.add(new Hr());
+
         GridMenuItem<Mitarbeiter> bearbeiten = menu.addItem("Bearbeiten", event -> editMitarbeiter(grid.asSingleSelect().getValue()));
         bearbeiten.addComponentAsFirst(createIcon(VaadinIcon.EDIT));
+
         GridMenuItem<Mitarbeiter> loeschen = menu.addItem("Löschen", event -> removeMitarbeiter(grid.asSingleSelect().getValue()));
         loeschen.addComponentAsFirst(createIcon(VaadinIcon.ERASER));
 

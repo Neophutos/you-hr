@@ -1,18 +1,14 @@
 package com.youhr.application.data.service;
 
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.notification.NotificationVariant;
 import com.youhr.application.data.entity.Abteilung;
 import com.youhr.application.data.entity.Mitarbeiter;
 import com.youhr.application.data.entity.Team;
 import com.youhr.application.data.repository.AbteilungRepository;
 import com.youhr.application.data.repository.MitarbeiterRepository;
 import com.youhr.application.data.repository.TeamRepository;
-import com.youhr.application.data.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionSystemException;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,10 +40,7 @@ public class MitarbeiterService {
 
     public void update(Mitarbeiter entity) { mitarbeiterRepository.save(entity); }
 
-    public void delete(Mitarbeiter mitarbeiter) {
-        mitarbeiterRepository.delete(mitarbeiter);
-
-    }
+    public void delete(Mitarbeiter mitarbeiter) { mitarbeiterRepository.delete(mitarbeiter); }
 
     public Page<Mitarbeiter> list(Pageable pageable) {
         return mitarbeiterRepository.findAll(pageable);
