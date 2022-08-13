@@ -42,7 +42,6 @@ import java.time.format.FormatStyle;
 @RolesAllowed({"PERSONALER", "ADMIN"})
 public class AntragVerwaltungView extends Div {
     Grid<Antrag> grid = new Grid<>(Antrag.class, false);
-    TextField filterText = new TextField();
     Dialog confirmDialog;
 
     Button cancelButton;
@@ -96,7 +95,7 @@ public class AntragVerwaltungView extends Div {
      * @desc Konfiguration und Initialisierung der Interaktionselemente über der Tabelle
      */
     private HorizontalLayout getToolbar() {
-        Button addAntrag = new Button("Antrag erstellen");
+        Button addAntrag = new Button("Antrag erstellen", new Icon(VaadinIcon.CLIPBOARD_USER));
         Paragraph antragszahl = new Paragraph("Anzahl Anträge: " + antragService.countProblems());
         addAntrag.addClickListener(e -> addAntrag.getUI().ifPresent(ui -> ui.navigate(
                 AntragView.class)));

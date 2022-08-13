@@ -171,7 +171,7 @@ public class MitarbeiterlisteView extends Div {
         filterText.addValueChangeListener(e -> updateList());
         filterText.setWidth("300px");
 
-        Button addMitarbeiter = new Button("Hinzufügen");
+        Button addMitarbeiter = new Button("Mitarbeiter erstellen", new Icon(VaadinIcon.USER_CARD));
 
         addMitarbeiter.addClickListener(e -> addMitarbeiter());
 

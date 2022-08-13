@@ -5,6 +5,8 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H5;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -138,10 +140,10 @@ public class MeineDatenView extends Div {
      * @desc Initialisierung der Leiste über der Tabelle (Passwort ändern & Antrag stellen)
      */
     private HorizontalLayout getToolbar() {
-        Button changePasswort = new Button("Passwort ändern");
+        Button changePasswort = new Button("Passwort ändern", new Icon(VaadinIcon.PASSWORD));
         changePasswort.addClickListener(e -> editPasswort(authenticatedUser.get().get()));
 
-        Button addAntrag = new Button("Antrag stellen");
+        Button addAntrag = new Button("Antrag stellen", new Icon(VaadinIcon.CLIPBOARD_USER));
         addAntrag.addClickListener(e -> addAntrag.getUI().ifPresent(ui -> ui.navigate(
                 AntragView.class)));
 
