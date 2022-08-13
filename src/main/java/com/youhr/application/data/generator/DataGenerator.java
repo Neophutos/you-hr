@@ -25,13 +25,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
- * @desc Der DataGenerator erstellt bei erstmaligem Start des Programms generische Rollen und ein leeres Team und eine leere Abteilung.
+ * @desc Der DataGenerator erstellt bei erstmaligem Start des Programms generische Rollen, Abteilungen und Teams.
  * @desc Unter generischen Rollen sind Mitarbeiter, Personaler und Admin mit vorgegebenen Rollen zu verstehen.
  *
  * @category Generator
  * @author Tim Freund, Ben Köppe, Riccardo Prochnow
  * @version 1.0
- * @since 2022-08-05
+ * @since 2022-08-13
  */
 @SpringComponent
 public class DataGenerator {
@@ -83,9 +83,29 @@ public class DataGenerator {
             Abteilung emptyA = new Abteilung();
             emptyA.setBezeichnung("-");
             abteilungRepository.save(emptyA);
+            emptyA.setBezeichnung("Geschäftsleitung");
+            abteilungRepository.save(emptyA);
+            emptyA.setBezeichnung("EDV / IT");
+            abteilungRepository.save(emptyA);
+            emptyA.setBezeichnung("Vertrieb");
+            abteilungRepository.save(emptyA);
+            emptyA.setBezeichnung("Personalwesen");
+            abteilungRepository.save(emptyA);
+            emptyA.setBezeichnung("Marketing / Werbung");
+            abteilungRepository.save(emptyA);
 
             Team emptyT = new Team();
             emptyT.setBezeichnung("-");
+            teamRepository.save(emptyT);
+            emptyT.setBezeichnung("Innendienst");
+            teamRepository.save(emptyT);
+            emptyT.setBezeichnung("Außendienst");
+            teamRepository.save(emptyT);
+            emptyT.setBezeichnung("Controlling");
+            teamRepository.save(emptyT);
+            emptyT.setBezeichnung("Personalentwicklung");
+            teamRepository.save(emptyT);
+            emptyT.setBezeichnung("IT-Support");
             teamRepository.save(emptyT);
 
             logger.info("Generation von Nutzern, Team und Abteilung war erfolgreich!");
