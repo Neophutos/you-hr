@@ -34,12 +34,14 @@ public class DataGenerator {
 
     private static PasswordEncoder passwordEncoder;
     private static UserRepository userRepository;
+    private static StatusRepository statusRepository;
 
     @Bean
     public CommandLineRunner loadData(AbteilungRepository abteilungRepository, TeamRepository teamRepository, StatusRepository statusRepository, PasswordEncoder passwordEncoder, UserRepository userRepository) {
 
         DataGenerator.passwordEncoder = passwordEncoder;
         DataGenerator.userRepository = userRepository;
+        DataGenerator.statusRepository = statusRepository;
 
 
         return args -> {
@@ -120,4 +122,9 @@ public class DataGenerator {
     public static UserRepository getUserRepository() {
         return userRepository;
     }
+
+    public static StatusRepository getStatusRepository() {
+        return statusRepository;
+    }
+
 }

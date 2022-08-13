@@ -25,11 +25,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * @desc Das Formular Antrag erstellt eine Eingabemaske für die Erstellung eines Objekts Antrag.
- *
- * @category Form
  * @author Ben Köppe
  * @version 1.0
+ * @desc Das Formular Antrag erstellt eine Eingabemaske für die Erstellung eines Objekts Antrag.
+ * @category Form
  * @since 2022-06-30
  */
 public class AntragForm extends FormLayout {
@@ -50,8 +49,8 @@ public class AntragForm extends FormLayout {
     private Antrag antrag;
 
     /**
-     * @desc Binden der Eingabefelder an die Attribute des Objekts. Außerdem wird das Formular (Text + Eingabefelder + Buttons) initialisiert.
      * @param antragService
+     * @desc Binden der Eingabefelder an die Attribute des Objekts. Außerdem wird das Formular (Text + Eingabefelder + Buttons) initialisiert.
      */
     public AntragForm(AntragService antragService, List<Status> statuses) {
         this.antragService = antragService;
@@ -66,7 +65,9 @@ public class AntragForm extends FormLayout {
         beschreibung.setMinHeight("200px");
         beschreibung.setMaxLength(charLimit);
         beschreibung.setValueChangeMode(ValueChangeMode.EAGER);
-        beschreibung.addValueChangeListener(e -> {e.getSource().setHelperText(e.getValue().length() + "/" + charLimit);});
+        beschreibung.addValueChangeListener(e -> {
+            e.getSource().setHelperText(e.getValue().length() + "/" + charLimit);
+        });
 
         add(
                 antragsart,
@@ -100,6 +101,13 @@ public class AntragForm extends FormLayout {
     private void checkundSend() {
         try {
             this.antrag = new Antrag();
+
+            this.antrag.setStatus(DataGenerator.getStatusRepository()
+                    .findAll()
+                    .stream()
+                    .filter(s -> s.getName().equalsIgnoreCase("Offen"))
+                    .findFirst()
+                    .orElse(null));
 
             this.antrag.setDatum(LocalDate.now());
 

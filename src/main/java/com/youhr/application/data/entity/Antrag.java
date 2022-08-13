@@ -1,6 +1,11 @@
 package com.youhr.application.data.entity;
 
-import javax.persistence.*;
+import com.youhr.application.data.generator.DataGenerator;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -30,11 +35,15 @@ public class Antrag extends AbstractID {
     @NotEmpty
     private String beschreibung = "";
 
+
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "status_id", referencedColumnName = "id")
     @NotNull
-    @ManyToOne
     private Status status;
 
-    public Antrag() {}
+    public Antrag() {
+
+    }
 
     public LocalDate getDatum() {
         return datum;

@@ -18,6 +18,7 @@ import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.shared.Registration;
 import com.youhr.application.data.entity.Antrag;
 import com.youhr.application.data.entity.Status;
+import com.youhr.application.data.generator.DataGenerator;
 import org.springframework.transaction.TransactionSystemException;
 
 public class StatusForm extends FormLayout {
@@ -44,6 +45,7 @@ public class StatusForm extends FormLayout {
         statuses.setMaxWidth("350px");
         setMaxWidth("400px");
         add(titel, statuses, createButtonLayout());
+        statuses.setItems(DataGenerator.getStatusRepository().findAll());
     }
 
     /**
