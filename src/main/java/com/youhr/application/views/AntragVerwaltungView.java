@@ -161,16 +161,20 @@ public class AntragVerwaltungView extends Div {
         if(antrag == null) {
             Notification.show("Es wurde kein Problem ausgewählt!").addThemeVariants(NotificationVariant.LUMO_ERROR);
         } else {
-            confirmDialog = new Dialog();
+            if(antrag.getStatus().getName().equals("Abgeschlossen")) {
+                confirmDialog = new Dialog();
 
-            confirmDialog.setHeaderTitle("Antrag abschließen?");
+                confirmDialog.setHeaderTitle("Antrag abschließen?");
 
-            cancelButton = createCancelButton(confirmDialog);
-            confirmButton = createConfirmButton(confirmDialog, antrag);
-            confirmDialog.getFooter().add(cancelButton);
-            confirmDialog.getFooter().add(confirmButton);
+                cancelButton = createCancelButton(confirmDialog);
+                confirmButton = createConfirmButton(confirmDialog, antrag);
+                confirmDialog.getFooter().add(cancelButton);
+                confirmDialog.getFooter().add(confirmButton);
 
-            confirmDialog.open();
+                confirmDialog.open();
+            } else {
+                Notification.show("Das Problem wurde noch nicht abgeschlossen!").addThemeVariants(NotificationVariant.LUMO_ERROR);
+            }
         }
     }
 
