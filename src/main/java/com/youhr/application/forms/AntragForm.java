@@ -33,15 +33,20 @@ import java.time.LocalDate;
  */
 public class AntragForm extends FormLayout {
 
-    private final BeanValidationBinder<Antrag> antragBinder = new BeanValidationBinder<>(Antrag.class);
-    private final AuthenticatedUser authenticatedUser = new AuthenticatedUser(DataGenerator.getUserRepository());
+    private BeanValidationBinder<Antrag> antragBinder = new BeanValidationBinder<>(Antrag.class);
+    private AuthenticatedUser authenticatedUser = new AuthenticatedUser(DataGenerator.getUserRepository());
+
+    private ComboBox<String> antragsart = new ComboBox<>("Antragsart");
+    private TextArea beschreibung = new TextArea("Problembeschreibung");
 
     Button absenden = new Button("Abschicken");
     Button schliessen = new Button("Schließen");
 
     int charLimit = 250;
 
-    private final AntragService antragService;
+    private AntragService antragService;
+
+    private Antrag antrag;
 
     /**
      * @desc Binden der Eingabefelder an die Attribute des Objekts. Außerdem wird das Formular (Text + Eingabefelder + Buttons) initialisiert.
@@ -54,17 +59,20 @@ public class AntragForm extends FormLayout {
 
         antragBinder.bindInstanceFields(this);
 
-        ComboBox<String> antragsart = new ComboBox<>("Antragsart");
         antragsart.setItems("Daten-Änderung", "Rechte-Änderung", "Problem-Meldung", "Anderes Anliegen");
+        antragsart.setRequired(true);
 
-        TextArea beschreibung = new TextArea("Problembeschreibung");
         beschreibung.setPlaceholder("Beschreiben Sie hier Ihr Anliegen möglichst präzise und genau.");
         beschreibung.setMinHeight("200px");
         beschreibung.setMaxLength(charLimit);
         beschreibung.setValueChangeMode(ValueChangeMode.EAGER);
         beschreibung.addValueChangeListener(e -> {e.getSource().setHelperText(e.getValue().length() + "/" + charLimit);});
 
-        add(antragsart, beschreibung, createButtonLayout());
+        add(
+                antragsart,
+                beschreibung,
+                createButtonLayout()
+        );
     }
 
     /**
@@ -91,11 +99,11 @@ public class AntragForm extends FormLayout {
      */
     private void checkundSend() {
         try {
-            Antrag antrag = new Antrag();
+            this.antrag = new Antrag();
 
-            antrag.setDatum(LocalDate.now());
+            this.antrag.setDatum(LocalDate.now());
 
-            antrag.setAntragstellername(authenticatedUser.get().get().getName());
+            this.antrag.setAntragstellername(authenticatedUser.get().get().getName());
 
             antragBinder.writeBean(antrag);
 

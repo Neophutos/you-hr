@@ -42,8 +42,24 @@ public class MitarbeiterForm extends FormLayout {
 
     Locale finnishLocale = new Locale("fi", "FI");
 
+    private final H5 personal = new H5("Persönliche Informationen");
+    private final H5 anschrift = new H5("Anschrift");
+
+    private final TextField vorname = new TextField("Vorname");
+    private final TextField nachname = new TextField("Nachname");
+    private final EmailField email = new EmailField("E-Mail");
+    private final DatePicker geburtsdatum = new DatePicker("Geburtstag");
+    private final DatePicker.DatePickerI18n germanI18n = new DatePicker.DatePickerI18n();
+    private final TextField telefonnr = new TextField("Telefonnummer (Mobil)");
+    private final TextField position = new TextField("Position");
     private final ComboBox<Abteilung> abteilungen = new ComboBox<>("Abteilung");
     private final ComboBox<Team> teams = new ComboBox<>("Team");
+
+    private final TextField strassenname = new TextField("Strasse");
+    private final IntegerField hausnummer = new IntegerField("Hausnummer");
+    private final IntegerField plz = new IntegerField("Postleitzahl");
+    private final TextField stadt = new TextField("Stadt");
+    private final ComboBox<String> bundesland = new ComboBox<>("Bundesland");
 
     Button speichern = new Button("Speichern");
     Button schliessen = new Button("Schließen");
@@ -71,6 +87,7 @@ public class MitarbeiterForm extends FormLayout {
      * @param abteilungen -> Vorhandene Abteilungen werden aus Datenbank gelesen
      * @param teams -> Vorhandene Teams werden aus Datenbank gelesen
      */
+    @Autowired
     public MitarbeiterForm(List<Abteilung> abteilungen, List<Team> teams) {
         addClassName("Mitarbeiter-Formular");
 
@@ -80,24 +97,13 @@ public class MitarbeiterForm extends FormLayout {
         this.teams.setItems(teams);
         this.teams.setItemLabelGenerator(Team::getBezeichnung);
 
-        TextField strassenname = new TextField("Strasse");
         mitarbeiterBinder.forField(strassenname).bind("adresse.strassenname");
-
-        IntegerField hausnummer = new IntegerField("Hausnummer");
         mitarbeiterBinder.forField(hausnummer).bind("adresse.hausnummer");
-
-        ComboBox<String> bundesland = new ComboBox<>("Bundesland");
         mitarbeiterBinder.forField(bundesland).bind("adresse.bundesland");
-        bundesland.setItems("Baden-Württemberg", "Bayern", "Berlin", "Brandenburg", "Bremen", "Hamburg", "Hessen", "Mecklenburg-Vorpommern", "Niedersachsen", "Nordrhein-Westfalen", "Rheinland-Pfalz", "Saarland", "Sachsen", "Sachsen-Anhalt", "Schleswig-Holstein", "Thüringen");
-
-        TextField stadt = new TextField("Stadt");
         mitarbeiterBinder.forField(stadt).bind("adresse.stadt");
-
-        IntegerField plz = new IntegerField("Postleitzahl");
         mitarbeiterBinder.forField(plz).bind("adresse.plz");
 
 
-        DatePicker.DatePickerI18n germanI18n = new DatePicker.DatePickerI18n();
         germanI18n.setMonthNames(List.of("Januar", "Februar", "März", "April", "Mai",
                 "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"));
         germanI18n.setWeekdays(List.of("Sonntag", "Montag", "Dienstag", "Mittwoch",
@@ -106,12 +112,8 @@ public class MitarbeiterForm extends FormLayout {
         germanI18n.setWeek("Woche");
         germanI18n.setToday("Heute");
         germanI18n.setCancel("Abbrechen");
-
-        DatePicker geburtsdatum = new DatePicker("Geburtstag");
         geburtsdatum.setI18n(germanI18n);
-        geburtsdatum.setLocale(finnishLocale);
 
-        EmailField email = new EmailField("E-Mail");
         email.getElement().setAttribute("name","email");
 
         this.abteilungen.setAllowCustomValue(false);
@@ -121,21 +123,17 @@ public class MitarbeiterForm extends FormLayout {
         this.teams.setRequired(true);
         this.teams.setPlaceholder("Team wählen");
 
-        TextField telefonnr = new TextField("Telefonnummer (Mobil)");
+        geburtsdatum.setLocale(finnishLocale);
+
         telefonnr.setHelperText("Bsp.: +49 472 18324421");
 
-        H5 personal = new H5("Persönliche Informationen");
-        setColspan(personal, 2);
+        bundesland.setItems("Baden-Württemberg", "Bayern", "Berlin", "Brandenburg", "Bremen", "Hamburg", "Hessen", "Mecklenburg-Vorpommern", "Niedersachsen", "Nordrhein-Westfalen", "Rheinland-Pfalz", "Saarland", "Sachsen", "Sachsen-Anhalt", "Schleswig-Holstein", "Thüringen");
 
-        H5 anschrift = new H5("Anschrift");
+        setColspan(personal, 2);
         setColspan(anschrift, 2);
 
         setMaxWidth("600px");
         setResponsiveSteps(new ResponsiveStep("0",2));
-
-        TextField vorname = new TextField("Vorname");
-        TextField nachname = new TextField("Nachname");
-        TextField position = new TextField("Position");
 
         add(
                 personal,
