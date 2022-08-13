@@ -2,6 +2,7 @@ package com.youhr.application.data.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 /**
@@ -28,6 +29,10 @@ public class Antrag extends AbstractID {
 
     @NotEmpty
     private String beschreibung = "";
+
+    @NotNull
+    @ManyToOne
+    private Status status;
 
     public Antrag() {}
 
@@ -62,5 +67,9 @@ public class Antrag extends AbstractID {
     public void setAntragstellername(String antragstellername) {
         this.antragstellername = antragstellername;
     }
+
+    public Status getStatus() { return status; }
+
+    public void setStatus(Status status) { this.status = status; }
 
 }

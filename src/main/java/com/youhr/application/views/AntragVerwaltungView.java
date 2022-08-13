@@ -3,8 +3,12 @@ package com.youhr.application.views;
 import com.vaadin.flow.component.grid.contextmenu.GridMenuItem;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.youhr.application.data.entity.Abteilung;
 import com.youhr.application.data.entity.Antrag;
 import com.youhr.application.data.entity.Mitarbeiter;
+import com.youhr.application.data.entity.Status;
 import com.youhr.application.data.service.AntragService;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -22,6 +26,8 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.youhr.application.forms.AbteilungForm;
+import com.youhr.application.forms.StatusForm;
 import com.youhr.application.layout.MainLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -44,10 +50,14 @@ public class AntragVerwaltungView extends Div {
     Grid<Antrag> grid = new Grid<>(Antrag.class, false);
     Dialog confirmDialog;
 
+    Dialog editStatusDialog = new Dialog();
+
+    StatusForm statusForm;
+
     Button cancelButton;
     Button confirmButton;
 
-    AntragService antragService;
+    private final AntragService antragService;
 
     /**
      * @desc Initialisierung des grafischen Interfaces und des Rechtsklick-Menüs
@@ -59,11 +69,19 @@ public class AntragVerwaltungView extends Div {
         addClassName("antragsverwaltungs-view");
 
         setSizeFull();
+        configureForm();
         configureGrid();
         add(getToolbar(), getContent());
         updateList();
 
+        VerticalLayout editStatusDialogLayout = createEditStatusDialogLayout();
+        editStatusDialog.add(editStatusDialogLayout);
+
         GridContextMenu<Antrag> menu = grid.addContextMenu();
+
+        GridMenuItem<Antrag> changeStatus = menu.addItem("Status ändern", event -> editStatus(grid.asSingleSelect().getValue()));
+        changeStatus.addComponentAsFirst(createIcon(VaadinIcon.CLOCK));
+
         GridMenuItem<Antrag> complete = menu.addItem("Abschließen", event -> solveAntrag(grid.asSingleSelect().getValue()));
         complete.addComponentAsFirst(createIcon(VaadinIcon.CLIPBOARD_CHECK));
     }
@@ -190,10 +208,53 @@ public class AntragVerwaltungView extends Div {
         grid.setSizeFull();
         grid.addColumn("id");
         grid.addColumn(problem -> problem.getDatum().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))).setHeader("Erstellungsdatum");
+        grid.addColumn("status");
         grid.addColumn("antragsart");
         grid.addColumn("antragstellername").setHeader("Antragsteller");
         grid.setItemDetailsRenderer(createAntragDetailsRenderer());
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
+    }
+
+    private void configureForm(){
+        statusForm = new StatusForm();
+        statusForm.addListener(StatusForm.SaveEvent.class, this::saveAntrag);
+        statusForm.addListener(StatusForm.CloseEvent.class, e -> editStatusDialog.close());
+    }
+
+    /**
+     * @desc Erstellung des Erstellungs- und Bearbeitungslayouts für Abteilungen.
+     */
+    private VerticalLayout createEditStatusDialogLayout(){
+        VerticalLayout editDialogLayout = new VerticalLayout(statusForm);
+        editDialogLayout.setPadding(false);
+        editDialogLayout.setSpacing(false);
+        editDialogLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
+
+        return editDialogLayout;
+    }
+
+    /**
+     * @desc Öffnen des Abteilungformulars zur Bearbeitungs (oder Erstellung) einer Abteilung
+     * @see StatusForm
+     * @param antrag
+     */
+    public void editStatus(Antrag antrag){
+        if(antrag == null) {
+            Notification.show("Es wurde keine Abteilung ausgewählt!").addThemeVariants(NotificationVariant.LUMO_ERROR);
+        } else {
+            statusForm.setSelectedAntrag(antrag);
+            editStatusDialog.open();
+        }
+    }
+
+    /**
+     * @desc Speicher-Event für Abteilungen
+     * @param event
+     */
+    private void saveAntrag(StatusForm.SaveEvent event){
+        antragService.update(event.getAntrag());
+        updateList();
+        editStatusDialog.close();
     }
 
     /**

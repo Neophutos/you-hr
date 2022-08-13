@@ -15,13 +15,14 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.youhr.application.data.entity.Antrag;
+import com.youhr.application.data.entity.Status;
 import com.youhr.application.data.generator.DataGenerator;
 import com.youhr.application.data.service.AntragService;
 import com.youhr.application.security.AuthenticatedUser;
 import com.youhr.application.views.DashboardView;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @desc Das Formular Antrag erstellt eine Eingabemaske für die Erstellung eines Objekts Antrag.
@@ -52,8 +53,7 @@ public class AntragForm extends FormLayout {
      * @desc Binden der Eingabefelder an die Attribute des Objekts. Außerdem wird das Formular (Text + Eingabefelder + Buttons) initialisiert.
      * @param antragService
      */
-    @Autowired
-    public AntragForm(AntragService antragService) {
+    public AntragForm(AntragService antragService, List<Status> statuses) {
         this.antragService = antragService;
         addClassName("Antrag-Formular");
 
@@ -104,6 +104,8 @@ public class AntragForm extends FormLayout {
             this.antrag.setDatum(LocalDate.now());
 
             this.antrag.setAntragstellername(authenticatedUser.get().get().getName());
+
+            //this.antrag.setStatus();
 
             antragBinder.writeBean(antrag);
 

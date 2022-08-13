@@ -63,7 +63,7 @@ public class AntragView extends Div {
      * @desc Initialisierung des Formulars mit dem entsprechenden Service zur Kommunikation mit der Datenbank.
      */
     private void configureForm() {
-        form = new AntragForm(antragService);
+        form = new AntragForm(antragService, antragService.findAllStatuses());
         form.setWidth("25em");
     }
 

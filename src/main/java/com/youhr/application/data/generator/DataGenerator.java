@@ -2,21 +2,17 @@ package com.youhr.application.data.generator;
 
 import com.vaadin.exampledata.DataType;
 import com.vaadin.exampledata.ExampleDataGenerator;
-import com.youhr.application.data.entity.Abteilung;
-import com.youhr.application.data.entity.Mitarbeiter;
-import com.youhr.application.data.entity.Team;
-import com.youhr.application.data.repository.AbteilungRepository;
-import com.youhr.application.data.repository.TeamRepository;
+import com.youhr.application.data.entity.*;
+import com.youhr.application.data.repository.*;
 import com.youhr.application.security.Role;
-import com.youhr.application.data.entity.User;
-import com.youhr.application.data.repository.MitarbeiterRepository;
-import com.youhr.application.data.repository.UserRepository;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +36,7 @@ public class DataGenerator {
     private static UserRepository userRepository;
 
     @Bean
-    public CommandLineRunner loadData(AbteilungRepository abteilungRepository, TeamRepository teamRepository, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+    public CommandLineRunner loadData(AbteilungRepository abteilungRepository, TeamRepository teamRepository, StatusRepository statusRepository, PasswordEncoder passwordEncoder, UserRepository userRepository) {
 
         DataGenerator.passwordEncoder = passwordEncoder;
         DataGenerator.userRepository = userRepository;
@@ -54,6 +50,11 @@ public class DataGenerator {
             }
 
             logger.info("Generiere Start-Up-Daten");
+
+            logger.info("... generiere Stati für Anträge...");
+            List<Status> statuses = statusRepository
+                    .saveAll(Stream.of("Offen", "In Bearbeitung", "Zurückgestellt", "Abgeschlossen")
+                            .map(Status::new).collect(Collectors.toList()));
 
             logger.info("... generiere 3 Nutzer (Mitarbeiter, Personaler, Admin)...");
             User user = new User();
