@@ -63,7 +63,7 @@ public class DataGenerator {
             user.setName("Mitarbeiter");
             user.setUsername("mitarbeiter");
             user.setHashedPassword(passwordEncoder.encode("mitarbeiter"));
-            user.setProfilePictureUrl("https://cdn-icons-png.flaticon.com/512/2405/2405283.png");
+            user.setProfilePictureUrl("https://img.icons8.com/external-flaticons-lineal-color-flat-icons/344/external-employee-job-search-flaticons-lineal-color-flat-icons-2.png");
             user.setRoles(Collections.singleton(Role.MITARBEITER));
             userRepository.save(user);
 
@@ -71,7 +71,7 @@ public class DataGenerator {
             personaler.setName("Personaler");
             personaler.setUsername("personaler");
             personaler.setHashedPassword(passwordEncoder.encode("personaler"));
-            personaler.setProfilePictureUrl("https://cdn-icons.flaticon.com/png/512/1886/premium/1886937.png?token=exp=1659079826~hmac=ec6e9ea6d5a7512c443aa19ef0b9c5f7");
+            personaler.setProfilePictureUrl("https://img.icons8.com/external-flaticons-flat-flat-icons/344/external-hr-manager-professions-flaticons-flat-flat-icons.png");
             personaler.setRoles(Set.of(Role.MITARBEITER, Role.PERSONALER));
             userRepository.save(personaler);
 
@@ -79,37 +79,57 @@ public class DataGenerator {
             admin.setName("Admin");
             admin.setUsername("admin");
             admin.setHashedPassword(passwordEncoder.encode("admin"));
-            admin.setProfilePictureUrl("https://cdn-icons.flaticon.com/png/512/6024/premium/6024190.png?token=exp=1659010722~hmac=30e6cdc61ba60b839187d66d894235f0");
+            admin.setProfilePictureUrl("https://img.icons8.com/dusk/344/admin-settings-male.png");
             admin.setRoles(Set.of(Role.MITARBEITER, Role.ADMIN));
             userRepository.save(admin);
 
             Abteilung emptyA = new Abteilung();
             emptyA.setBezeichnung("-");
             abteilungRepository.save(emptyA);
-            emptyA.setBezeichnung("Geschäftsleitung");
-            abteilungRepository.save(emptyA);
-            emptyA.setBezeichnung("EDV / IT");
-            abteilungRepository.save(emptyA);
-            emptyA.setBezeichnung("Vertrieb");
-            abteilungRepository.save(emptyA);
-            emptyA.setBezeichnung("Personalwesen");
-            abteilungRepository.save(emptyA);
-            emptyA.setBezeichnung("Marketing / Werbung");
-            abteilungRepository.save(emptyA);
+
+            Abteilung emptyA2 = new Abteilung();
+            emptyA2.setBezeichnung("Geschäftsleitung");
+            abteilungRepository.save(emptyA2);
+
+            Abteilung emptyA3 = new Abteilung();
+            emptyA3.setBezeichnung("EDV / IT");
+            abteilungRepository.save(emptyA3);
+
+            Abteilung emptyA4 = new Abteilung();
+            emptyA4.setBezeichnung("Vertrieb");
+            abteilungRepository.save(emptyA4);
+
+            Abteilung emptyA5 = new Abteilung();
+            emptyA5.setBezeichnung("Personalwesen");
+            abteilungRepository.save(emptyA5);
+
+            Abteilung emptyA6 = new Abteilung();
+            emptyA6.setBezeichnung("Marketing / Werbung");
+            abteilungRepository.save(emptyA6);
 
             Team emptyT = new Team();
             emptyT.setBezeichnung("-");
             teamRepository.save(emptyT);
-            emptyT.setBezeichnung("Innendienst");
-            teamRepository.save(emptyT);
-            emptyT.setBezeichnung("Außendienst");
-            teamRepository.save(emptyT);
-            emptyT.setBezeichnung("Controlling");
-            teamRepository.save(emptyT);
-            emptyT.setBezeichnung("Personalentwicklung");
-            teamRepository.save(emptyT);
-            emptyT.setBezeichnung("IT-Support");
-            teamRepository.save(emptyT);
+
+            Team emptyT2 = new Team();
+            emptyT2.setBezeichnung("Innendienst");
+            teamRepository.save(emptyT2);
+
+            Team emptyT3 = new Team();
+            emptyT3.setBezeichnung("Außendienst");
+            teamRepository.save(emptyT3);
+
+            Team emptyT4 = new Team();
+            emptyT4.setBezeichnung("Controlling");
+            teamRepository.save(emptyT4);
+
+            Team emptyT5 = new Team();
+            emptyT5.setBezeichnung("Personalentwicklung");
+            teamRepository.save(emptyT5);
+
+            Team emptyT6 = new Team();
+            emptyT6.setBezeichnung("IT-Support");
+            teamRepository.save(emptyT6);
 
             logger.info("Generation von Nutzern, Team und Abteilung war erfolgreich!");
         };
