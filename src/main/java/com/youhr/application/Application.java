@@ -9,7 +9,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 /**
- * Der Startpunkt für die Initialisierung und Ausführung der Spring-Boot- und Vaadin-Applikation.
+ * @desc Der Startpunkt für die Initialisierung und Ausführung der Spring-Boot- und Vaadin-Applikation.
+ *
+ * @category Application
+ * @author Ben Köppe
+ * @version 1.0
+ * @since 2022-07-10
  */
 @SpringBootApplication
 @Theme(value = "theoptimistichr")

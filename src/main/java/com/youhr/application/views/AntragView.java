@@ -67,6 +67,9 @@ public class AntragView extends Div {
         form.setWidth("25em");
     }
 
+    /**
+     * @desc Erstellung eines Akkordions, das den Nutzer über die richtige Verwendung des Antragformulars aufklärt.
+     */
     private Accordion getInfoAccordion(){
         Accordion infoAccordion = new Accordion();
 

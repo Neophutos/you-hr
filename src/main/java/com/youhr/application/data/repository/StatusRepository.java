@@ -5,6 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
+/**
+ * @desc Repository für das Objekt Status
+ */
 public interface StatusRepository extends JpaRepository<Status, UUID> {
 
 }

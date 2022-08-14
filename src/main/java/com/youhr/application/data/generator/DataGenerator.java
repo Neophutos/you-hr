@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
- * @desc Der DataGenerator erstellt bei erstmaligem Start des Programms generische Rollen, Abteilungen und Teams.
+ * @desc Der DataGenerator erstellt bei erstmaligem Start des Programms generische Rollen, Abteilungen, Teams und Stati für Anträge.
  * @desc Unter generischen Rollen sind Mitarbeiter, Personaler und Admin mit vorgegebenen Rollen zu verstehen.
  *
  * @category Generator

@@ -21,6 +21,15 @@ import com.youhr.application.data.entity.Status;
 import com.youhr.application.data.generator.DataGenerator;
 import org.springframework.transaction.TransactionSystemException;
 
+
+/**
+ * @desc Das Status-Formular ist für die Änderung eines Status eines Formulars in der Benutzeroberfläche zuständig.
+ *
+ * @category Form
+ * @author Ben Köppe, Tim Freund, Chris Zobel
+ * @version 1.0
+ * @since 2022-08-10
+ */
 public class StatusForm extends FormLayout {
     private final Binder<Antrag> antragBinder = new BeanValidationBinder<>(Antrag.class);
 
@@ -33,6 +42,10 @@ public class StatusForm extends FormLayout {
 
     private Antrag selectedAntrag;
 
+    /**
+     * @desc Lesen der Antragsdaten zum Ausfüllen des Formulars (bzw. Status) bei Bearbeitung
+     * @param selectedAntrag
+     */
     public void setSelectedAntrag(Antrag selectedAntrag){
         if(selectedAntrag != null){
             this.selectedAntrag = selectedAntrag;
@@ -40,6 +53,9 @@ public class StatusForm extends FormLayout {
         antragBinder.readBean(selectedAntrag);
     }
 
+    /**
+     * @desc Das Formular (Text + Eingabefelder + Buttons) wird initialisiert.
+     */
     public StatusForm(){
         addClassName("Status-Formular");
         statuses.setMaxWidth("350px");
@@ -67,8 +83,7 @@ public class StatusForm extends FormLayout {
     }
 
     /**
-     * @desc Diese Methode speichert bei Aufruf die Änderungen bzw. Erstellung des Users.
-     * @error Bei misslungener Speicherung (falsches Passwort oder nicht bestätigt) wird der Nutzer darüber informiert.
+     * @desc Diese Methode speichert bei Aufruf die Änderungen des Antragsstatus.
      */
     private void checkAndSave() {
         try {
@@ -99,7 +114,7 @@ public class StatusForm extends FormLayout {
     }
 
     /**
-     * @desc Event zur Speicherung der Daten eines Mitarbeiters.
+     * @desc Event zur Speicherung des Antragsstatus.
      */
     public static class SaveEvent extends StatusFormEvent {
         SaveEvent(StatusForm source, Antrag antrag) {
