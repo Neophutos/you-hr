@@ -2,11 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <!-- Project from https://start.vaadin.com/project/80a8cf7b-638b-4c32-9793-15c6ef1143eb -->
     <groupId>com.youhr.application</groupId>
     <artifactId>you-hr</artifactId>
-    <name>YOU-HR</name>
-    <version>1.0-Release</version>
+    <name>Web-App CRM for University</name>
+    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -38,6 +37,7 @@
                 https://maven.vaadin.com/vaadin-prereleases/
             </url>
         </repository>
+        <!-- Repository used by many Vaadin add-ons -->
         <repository>
             <id>Vaadin Directory</id>
             <url>https://maven.vaadin.com/vaadin-addons</url>
@@ -48,6 +48,7 @@
     </repositories>
 
     <pluginRepositories>
+        <!-- The order of definitions matters. Explicitly defining central here to make sure it has the highest priority. -->
         <pluginRepository>
             <id>central</id>
             <url>https://repo.maven.apache.org/maven2</url>
@@ -95,15 +96,14 @@
     </dependency>
 
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>exampledata</artifactId>
             <version>6.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
         </dependency>
 
         <dependency>
@@ -202,11 +202,18 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <productionMode>false</productionMode>
+                            <productionMode>true</productionMode>
+                            <pnpmEnable>false</pnpmEnable>
                         </configuration>
                     </plugin>
                 </plugins>
             </build>
+            <dependencies>
+                <dependency>
+                    <groupId>org.postgresql</groupId>
+                    <artifactId>postgresql</artifactId>
+                </dependency>
+            </dependencies>
         </profile>
 
         <profile>
